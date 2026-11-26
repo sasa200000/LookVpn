@@ -667,10 +667,6 @@ class AppState extends ChangeNotifier {
     );
     lightDance.value = dance;
     LookLightDance.instance.apply(dance);
-    if (device.antiFilter && antiFilterSteps.isEmpty) {
-      antiFilterSteps = AntiFilterLadder.fresh(availableModes);
-      antiFilterRoute = AntiFilterLadder.best(antiFilterSteps);
-    }
   }
 
   /// Defaults everywhere except the private parts and the configured clean IPs and endpoints.
@@ -729,10 +725,23 @@ class AppState extends ChangeNotifier {
   // region anti-filter
 
   /// The ladder's live state: one step per usable rung, with results so far.
-  List<AntiFilterStep> antiFilterSteps = const [];
+  ///
+  /// Built on first read rather than during init, because [AntiFilterLadder.usable] asks
+  /// which connection types are available, and that reads the profile — which would cache it
+  /// before the stored accounts are loaded.
+  List<AntiFilterStep>? _antiFilterSteps;
+
+  List<AntiFilterStep> get antiFilterSteps =>
+      _antiFilterSteps ?? AntiFilterLadder.fresh(availableModes);
+
+  AntiFilterRoute? _antiFilterRoute;
 
   /// The rung being used, or the one that will be tried next.
-  AntiFilterRoute? antiFilterRoute;
+  AntiFilterRoute? get antiFilterRoute {
+    if (_antiFilterRoute != null) return _antiFilterRoute;
+    final best = AntiFilterLadder.best(antiFilterSteps);
+    return best;
+  }
 
   /// How many connections in a row have failed on the current rung.
   int antiFilterFailures = 0;
@@ -759,8 +768,8 @@ class AppState extends ChangeNotifier {
     if (value) {
       resetAntiFilter();
     } else {
-      antiFilterSteps = const [];
-      antiFilterRoute = null;
+      _antiFilterSteps = const [];
+      _antiFilterRoute = null;
       antiFilterFailures = 0;
       notifyListeners();
     }
@@ -771,8 +780,8 @@ class AppState extends ChangeNotifier {
 
   /// Clears every rung back to untried, so a fresh run starts at the top of the ladder.
   void resetAntiFilter() {
-    antiFilterSteps = AntiFilterLadder.fresh(availableModes);
-    antiFilterRoute = antiFilterSteps.firstOrNull?.route;
+    _antiFilterSteps = AntiFilterLadder.fresh(availableModes);
+    _antiFilterRoute = _antiFilterSteps!.firstOrNull?.route;
     antiFilterFailures = 0;
     _stallWatchdog.reset();
     notifyListeners();
@@ -789,7 +798,7 @@ class AppState extends ChangeNotifier {
   /// state the settings screens disagree with.
   Future<void> _applyAntiFilterRoute(AntiFilterRoute route) async {
     antiFilterSwitching = true;
-    antiFilterRoute = route;
+    _antiFilterRoute = route;
     antiFilterFailures = 0;
     notifyListeners();
     try {
@@ -831,7 +840,7 @@ class AppState extends ChangeNotifier {
       return;
     }
     antiFilterFailures++;
-    antiFilterSteps = [
+    _antiFilterSteps = [
       for (final step in antiFilterSteps)
         step.route == current
             ? step.withResult(AntiFilterResult.failed, detail: detail)
@@ -861,7 +870,7 @@ class AppState extends ChangeNotifier {
     if (current == null) return;
     antiFilterFailures = 0;
     _stallWatchdog.reset();
-    antiFilterSteps = [
+    _antiFilterSteps = [
       for (final step in antiFilterSteps)
         step.route == current
             ? step.withResult(AntiFilterResult.worked)
@@ -874,7 +883,7 @@ class AppState extends ChangeNotifier {
   void _checkAntiFilterStall(int totalBytes, Duration elapsed) {
     if (!antiFilterEnabled || !isConnected || antiFilterSwitching) return;
     if (_stallWatchdog.sample(totalBytes: totalBytes, elapsed: elapsed)) {
-      antiFilterSteps = [
+      _antiFilterSteps = [
         for (final step in antiFilterSteps)
           step.route == antiFilterRoute
               ? step.withResult(
