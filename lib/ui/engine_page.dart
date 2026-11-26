@@ -4,7 +4,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import '../state/app_state.dart';
 import 'expressive.dart';
 import 'mihomo_page.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 
 /// One address for choosing the network core. The main connection card and
 /// power button use this selection, so switching is a real connection switch.
@@ -35,8 +35,8 @@ class _EngineSettingsPageState extends State<EngineSettingsPage> {
         final xray = state.engine == 'xray';
         return Scaffold(
           appBar: ExpressiveSubpageHeader(
-            title: MiliLocale.t('هسته اتصال', 'Connection engine'),
-            subtitle: MiliLocale.t(
+            title: LookLocale.t('هسته اتصال', 'Connection engine'),
+            subtitle: LookLocale.t(
               'انتخاب Xray یا Mihomo برای اتصال اصلی',
               'Choose Xray or Mihomo for the main connection',
             ),
@@ -57,7 +57,7 @@ class _EngineSettingsPageState extends State<EngineSettingsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              MiliLocale.t('هسته فعال', 'Active engine'),
+                              LookLocale.t('هسته فعال', 'Active engine'),
                               style: TextStyle(
                                 fontSize: 10,
                                 color: scheme.onSurfaceVariant,
@@ -75,8 +75,8 @@ class _EngineSettingsPageState extends State<EngineSettingsPage> {
                       ),
                       BentoTag(
                         state.isConnected
-                            ? MiliLocale.t('متصل', 'Connected')
-                            : MiliLocale.t('آماده', 'Ready'),
+                            ? LookLocale.t('متصل', 'Connected')
+                            : LookLocale.t('آماده', 'Ready'),
                         filled: state.isConnected,
                         icon: Symbols.circle_rounded,
                       ),
@@ -88,9 +88,9 @@ class _EngineSettingsPageState extends State<EngineSettingsPage> {
                   selected: xray,
                   icon: Symbols.hub_rounded,
                   title: 'Xray',
-                  subtitle: MiliLocale.t(
-                    'موتور اصلی MiliConfig: Worker، WARP، MASQUE، Serverless، Psiphon، Tor و زنجیره پروکسی',
-                    'MiliConfig main core: Worker, WARP, MASQUE, Serverless, Psiphon, Tor and chain proxies',
+                  subtitle: LookLocale.t(
+                    'موتور اصلی LookVPN: Worker، WARP، MASQUE، Serverless، Psiphon، Tor و زنجیره پروکسی',
+                    'LookVPN main core: Worker, WARP, MASQUE, Serverless, Psiphon, Tor and chain proxies',
                   ),
                   tags: const ['VLESS', 'XHTTP', 'WARP', 'MASQUE', 'Tor'],
                   onTap: _switching ? null : () => _pick(state, 'xray'),
@@ -100,7 +100,7 @@ class _EngineSettingsPageState extends State<EngineSettingsPage> {
                   selected: !xray,
                   icon: Symbols.language_rounded,
                   title: 'Mihomo',
-                  subtitle: MiliLocale.t(
+                  subtitle: LookLocale.t(
                     'موتور Clash.Meta برای اشتراک‌های شخصی؛ مناسب پروکسی‌های Clash و لینک‌های base64',
                     'Clash.Meta core for personal subscriptions; works with Clash proxies and base64 links',
                   ),
@@ -124,7 +124,7 @@ class _EngineSettingsPageState extends State<EngineSettingsPage> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                MiliLocale.t(
+                                LookLocale.t(
                                   'اشتراک‌های Mihomo',
                                   'Mihomo subscriptions',
                                 ),
@@ -143,11 +143,11 @@ class _EngineSettingsPageState extends State<EngineSettingsPage> {
                         const SizedBox(height: 8),
                         Text(
                           state.mihomoSubscriptions.isEmpty
-                              ? MiliLocale.t(
+                              ? LookLocale.t(
                                   'برای اتصال با Mihomo حداقل یک اشتراک اضافه کنید.',
                                   'Add at least one subscription to connect with Mihomo.',
                                 )
-                              : MiliLocale.t(
+                              : LookLocale.t(
                                   'برای مدیریت لینک‌ها و جزئیات اتصال وارد صفحه Mihomo شوید.',
                                   'Open the Mihomo page to manage links and connection details.',
                                 ),
@@ -168,7 +168,7 @@ class _EngineSettingsPageState extends State<EngineSettingsPage> {
                             ),
                             icon: const Icon(Symbols.tune_rounded, size: 18),
                             label: Text(
-                              MiliLocale.t(
+                              LookLocale.t(
                                 'مدیریت اشتراک‌های Mihomo',
                                 'Manage Mihomo subscriptions',
                               ),
@@ -180,7 +180,7 @@ class _EngineSettingsPageState extends State<EngineSettingsPage> {
                   ),
                 const SizedBox(height: 12),
                 Text(
-                  MiliLocale.t(
+                  LookLocale.t(
                     'هنگام تغییر هسته، اتصال فعلی قطع می‌شود. هر دو هسته از همان دکمه اتصال و همان کارت وضعیت استفاده می‌کنند.',
                     'Switching cores stops the current connection. Both cores share the same power button and status card.',
                   ),

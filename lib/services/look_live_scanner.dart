@@ -1,0 +1,83 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'look_ip_pool.dart';
+
+/// One live TCP latency probe result from LookVPN's built-in fast scanner.
+class LookScanResult {
+  final String ip;
+  final String country;
+  final int port;
+  final int pingMs;
+
+  const LookScanResult({
+    required this.ip,
+    required this.country,
+    required this.port,
+    required this.pingMs,
+  });
+
+  String get endpoint => ip.contains(':') ? '[$ip]:$port' : '$ip:$port';
+}
+
+/// Fast, reliable native Dart TCP latency scanner that directly tests IPs from
+/// LookVPN's IP pool and Cloudflare/Look sources without requiring a deployed Worker.
+class LookLiveScanner {
+  bool _cancelled = false;
+
+  void cancel() => _cancelled = true;
+
+  /// Probes [entries] concurrently on [port] with [timeout], yielding live progress updates.
+  Stream<({int tested, int total, List<LookScanResult> results})> scan({
+    required List<LookIpEntry> entries,
+    int port = 443,
+    int concurrency = 16,
+    Duration timeout = const Duration(milliseconds: 1400),
+    int maxResults = 30,
+  }) async* {
+    _cancelled = false;
+    final total = entries.length;
+    final found = <LookScanResult>[];
+    int tested = 0;
+
+    for (var i = 0; i < total && !_cancelled; i += concurrency) {
+      final batch = entries.skip(i).take(concurrency).toList();
+      final probes = await Future.wait(
+        batch.map((entry) => _probeOne(entry, port, timeout)),
+      );
+      if (_cancelled) break;
+      tested += batch.length;
+      for (final r in probes) {
+        if (r != null) found.add(r);
+      }
+      found.sort((a, b) => a.pingMs.compareTo(b.pingMs));
+      final snapshot = found.take(maxResults).toList(growable: false);
+      yield (tested: tested, total: total, results: snapshot);
+    }
+  }
+
+  Future<LookScanResult?> _probeOne(
+    LookIpEntry entry,
+    int port,
+    Duration timeout,
+  ) async {
+    final sw = Stopwatch()..start();
+    Socket? socket;
+    try {
+      socket = await Socket.connect(entry.ip, port, timeout: timeout);
+      sw.stop();
+      return LookScanResult(
+        ip: entry.ip,
+        country: entry.country,
+        port: port,
+        pingMs: sw.elapsedMilliseconds.clamp(1, 9999),
+      );
+    } catch (_) {
+      return null;
+    } finally {
+      try {
+        socket?.destroy();
+      } catch (_) {}
+    }
+  }
+}

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../models/theme_color.dart';
 
-// MiliConfig design system — Material You Expressive surfaces, calm Bento
+// LookVPN design system — Material You Expressive surfaces, calm Bento
 // composition, dynamic palette and physical spring-like motion.
 
 const kHeroRadius = 28.0;

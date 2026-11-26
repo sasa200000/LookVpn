@@ -124,7 +124,7 @@ typedef HostResolver = Future<List<String>> Function(
   required bool ipv6,
 });
 
-/// Builds Xray configs from the MiliConfig settings, mirroring MiliConfig-Panel's
+/// Builds Xray configs from the LookVPN settings, mirroring LookVPN-Panel's
 /// src/cores/xray (configs.ts, outbounds.ts, dns.ts, routing.ts) but with a
 /// TUN inbound for the Android VPN and VLESS as the only protocol.
 class XrayConfigBuilder {
@@ -435,7 +435,7 @@ class XrayConfigBuilder {
     }
   }
 
-  /// MiliConfig's Upstream Proxy: a TLS TCP relay (host:port) in front of Cloudflare. Not used with fragment.
+  /// LookVPN's Upstream Proxy: a TLS TCP relay (host:port) in front of Cloudflare. Not used with fragment.
   ({String host, int port})? get _upstream {
     final match = RegExp(r'^(?:\[([^\]]+)\]|([^:]+)):(\d{1,5})$')
         .firstMatch(_vless.upstreamProxy ?? '');
@@ -605,7 +605,7 @@ class XrayConfigBuilder {
     final config = await _buildConfig(
       outbounds: [...chain, ...proxies],
       isBalancer: true,
-      // MiliConfig's: the second address when there is one.
+      // LookVPN's: the second address when there is one.
       balancerFallback: proxies.length > 1 ? 'proxy-2' : 'proxy-1',
       outboundAddrs: addresses,
     );
@@ -620,8 +620,8 @@ class XrayConfigBuilder {
     return account;
   }
 
-  /// Port of MiliConfig's getXrWarpConfigs, with the chain proxy (if set) dialed through WARP
-  /// in place of MiliConfig's WoW.
+  /// Port of LookVPN's getXrWarpConfigs, with the chain proxy (if set) dialed through WARP
+  /// in place of LookVPN's WoW.
   Future<XrayBuild> _buildWarp(bool obfuscation) async {
     final account = _warpAccount();
     final endpoints = _warpEndpoints();
@@ -775,7 +775,7 @@ class XrayConfigBuilder {
 
   /// patterniha's config ([domainFrontingV23]) as is, with the app's TUN and mixed inbounds
   /// (sniffing like its mixed-in), log level and traffic stats. Its TLS-decrypting inbounds
-  /// read the CA from miliconfig-cert.crt / miliconfig-cert.key in Xray's certificate location.
+  /// read the CA from lookvpn-cert.crt / lookvpn-cert.key in Xray's certificate location.
   ///
   /// With a Psiphon / Tor exit, the fronting only connects the exit: the config is the regular
   /// one with that exit (your traffic follows the routing settings into it, never decrypted),
@@ -1037,7 +1037,7 @@ class XrayConfigBuilder {
         if (isBalancer)
           'balancers': [_balancer('all-proxies', 'proxy', balancerFallback)],
       },
-      // Burst observatory instead of MiliConfig's observatory: each outbound is pinged once per
+      // Burst observatory instead of LookVPN's observatory: each outbound is pinged once per
       // interval at a random moment (no burst of simultaneous handshakes), and leastPing
       // picks the lowest average of the last [_probeSamples] pings rather than one probe.
       if (isBalancer)
@@ -1253,7 +1253,7 @@ class XrayConfigBuilder {
           finalQuery: true,
         ),
       );
-      // A DoH domain is resolved with the local DNS (MiliConfig's buildDNS).
+      // A DoH domain is resolved with the local DNS (LookVPN's buildDNS).
       final host = _dnsHost(antiSanction);
       if (_isDomain(host)) bypassDomains.add('full:$host');
     }
@@ -1384,7 +1384,7 @@ class XrayConfigBuilder {
     final outTag = isBalancer ? 'all-proxies' : 'proxy';
 
     // Through the connection itself: the remote DNS over VLESS / WARP (also with a Psiphon / Tor
-    // exit, like MiliConfig with a chain proxy, since the connection is up first), and Psiphon / Tor
+    // exit, like LookVPN with a chain proxy, since the connection is up first), and Psiphon / Tor
     // reaching their servers as an exit (Serverless: with fragment).
     if (!_exitType && !_frontedExit && !isServerlessDns) {
       add(
@@ -1479,7 +1479,7 @@ class XrayConfigBuilder {
   }
 
   /// Tags from Chocolate4U/Iran-v2ray-rules (the bundled geosite.dat / geoip.dat), as in
-  /// MiliConfig's sing-box and Clash rules: its own `ir` and `nsfw` lists, and `category-ads-all`
+  /// LookVPN's sing-box and Clash rules: its own `ir` and `nsfw` lists, and `category-ads-all`
   /// already includes Iranian ads. Keyed by the routing preset names in the profile.
   static const _bypassAssets = {
     'iran': _GeoAsset('geosite:ir', geoip: 'geoip:ir', dns: _GeoDns.local),
@@ -1667,7 +1667,7 @@ class XrayConfigBuilder {
   }
 
   /// `cloudflare-ech.com+udp://IP` for an IP (an IPv6 one in brackets), or the DoH URL as
-  /// given in the ECH settings (MiliConfig's buildTlsSettings).
+  /// given in the ECH settings (LookVPN's buildTlsSettings).
   String _echConfigList(EchSettings ech) {
     final ip = InternetAddress.tryParse(ech.dns);
     final server = switch (ip?.type) {
@@ -1678,7 +1678,7 @@ class XrayConfigBuilder {
     return 'cloudflare-ech.com+$server';
   }
 
-  /// Port of MiliConfig's buildWarpOutbound.
+  /// Port of LookVPN's buildWarpOutbound.
   Map<String, dynamic> _warpOutbound(
     WarpAccount account,
     String endpoint, {

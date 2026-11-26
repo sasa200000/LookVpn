@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:mili_vpn/models/settings.dart';
-import 'package:mili_vpn/services/chain_proxy.dart';
-import 'package:mili_vpn/services/domain_fronting_v23.dart';
-import 'package:mili_vpn/services/mitm_ca.dart';
-import 'package:mili_vpn/services/proxy_uri.dart';
-import 'package:mili_vpn/services/public_dns.dart';
-import 'package:mili_vpn/services/warp.dart';
-import 'package:mili_vpn/services/xray_config.dart';
-import 'package:mili_vpn/ui/noises_page.dart';
+import 'package:look_vpn/models/settings.dart';
+import 'package:look_vpn/services/chain_proxy.dart';
+import 'package:look_vpn/services/domain_fronting_v23.dart';
+import 'package:look_vpn/services/mitm_ca.dart';
+import 'package:look_vpn/services/proxy_uri.dart';
+import 'package:look_vpn/services/public_dns.dart';
+import 'package:look_vpn/services/warp.dart';
+import 'package:look_vpn/services/xray_config.dart';
+import 'package:look_vpn/ui/noises_page.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const worker = ActiveWorker(
@@ -640,7 +640,7 @@ void main() {
         (r) => (r['inboundTag'] as List?)?.contains('psiphon-in') ?? false,
       );
       expect(upRule['balancerTag'], 'all-proxies');
-      // Remote DNS: the VLESS remote DNS through the balancer, as MiliConfig does with a chain proxy.
+      // Remote DNS: the VLESS remote DNS through the balancer, as LookVPN does with a chain proxy.
       final remote = (c['dns']['servers'] as List).whereType<Map>().firstWhere(
         (d) => d['tag'] == 'remote-dns',
       );
@@ -1533,7 +1533,7 @@ void main() {
         (c['dns']['hosts'] as Map? ?? const {}).containsKey('dns.test'),
         isFalse,
       );
-      // The local DNS entry lists it (Serverless's FakeDNS entry does too, as in MiliConfig). Serverless's
+      // The local DNS entry lists it (Serverless's FakeDNS entry does too, as in LookVPN). Serverless's
       // local DNS is always the system's resolver.
       final local = servers.where(
         (s) => s['address'] == '8.8.8.8' && s['expectIPs'] == null,
@@ -1681,7 +1681,7 @@ void main() {
         );
         final bestPing = (await builder({}).build(ConnectionMode.worker))
             .config;
-        expect(balancerOf(bestPing)['fallbackTag'], 'proxy-2'); // MiliConfig's
+        expect(balancerOf(bestPing)['fallbackTag'], 'proxy-2'); // LookVPN's
       },
     );
 
@@ -2019,7 +2019,7 @@ void main() {
       }))['echConfigList'],
       'cloudflare-ech.com+https://[2001:4860:4860::8888]/dns-query',
     );
-    // DoH with an IPv4 host, as in MiliConfig: passed as is.
+    // DoH with an IPv4 host, as in LookVPN: passed as is.
     expect(
       (await tls({'dns': 'https://1.1.1.1/dns-query'}))['echConfigList'],
       'cloudflare-ech.com+https://1.1.1.1/dns-query',

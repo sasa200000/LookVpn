@@ -28,6 +28,7 @@ import '../services/updates.dart';
 import '../services/vpn_channel.dart';
 import '../services/warp.dart';
 import '../services/xray_config.dart';
+import '../ui/look_light_dance.dart';
 
 /// The app's state. Settings live in three stores (see models/settings.dart): the profile,
 /// [device] (this phone only) and secrets (the Cloudflare accounts with their tokens, UUIDs
@@ -141,6 +142,12 @@ class AppState extends ChangeNotifier {
   final pageTransition = ValueNotifier<String>('fade');
   final tabTransition = ValueNotifier<String>('slide');
   final meshBackground = ValueNotifier<bool>(true);
+
+  /// The light dance: on/off, shape, palette, colour step, ring speed and colours.
+  /// Kept as one record so the whole feature rebuilds from a single notifier.
+  final lightDance = ValueNotifier<LightDanceConfig>(
+    const LightDanceConfig(),
+  );
 
   VpnStatus status = VpnStatus.disconnected;
   String? error;
@@ -291,11 +298,11 @@ class AppState extends ChangeNotifier {
   void setServerlessMode(ServerlessMode value) =>
       write('device.connection.serverlessMode', value.name);
 
-  /// Domain Fronting's CA files (miliconfig-cert.crt / .key) are on this device.
+  /// Domain Fronting's CA files (lookvpn-cert.crt / .key) are on this device.
   Future<bool> hasMitmCa() => VpnChannel.mitmCaExists();
 
   /// Creates Domain Fronting's CA on first use, then opens Android's CA install. Returns where
-  /// miliconfig-cert.crt was saved (Android 11+), or null.
+  /// lookvpn-cert.crt was saved (Android 11+), or null.
   Future<String?> installMitmCa() async {
     if (!await VpnChannel.mitmCaExists()) {
       await VpnChannel.saveMitmCa(await Isolate.run(MitmCa.generate));
@@ -412,6 +419,38 @@ class AppState extends ChangeNotifier {
 
   void setMeshBackground(bool value) => write('device.ui.mesh', value);
 
+  // region light dance
+
+  /// Turns the whole dance on or off. It also stops the ticker, so a phone with the
+  /// dance off never pays for a frame callback.
+  void setLightDance(bool value) => write('device.dance.enabled', value);
+
+  void setLightDanceStyle(String style) {
+    if (!LightDanceStyle.values.any((s) => s.name == style)) return;
+    write('device.dance.style', style);
+  }
+
+  void setLightDancePalette(String palette) {
+    if (!LightDancePalette.values.any((p) => p.name == palette)) return;
+    write('device.dance.palette', palette);
+  }
+
+  void setLightDanceColorStep(double seconds) =>
+      write('device.dance.colorStep', seconds.clamp(0.4, 4.0));
+
+  void setLightDanceSpeed(double seconds) =>
+      write('device.dance.speed', seconds.clamp(0.6, 6.0));
+
+  void setLightDanceColorCycle(bool value) =>
+      write('device.dance.colorCycle', value);
+
+  void setLightDanceColors(List<Color> colors) => write(
+    'device.dance.colors',
+    colors.map(hexFromColor).toList(),
+  );
+
+  // endregion
+
   /// Restores the visual preferences without touching profiles, accounts or routing.
   void resetAppearance() {
     _setDevice(
@@ -423,6 +462,13 @@ class AppState extends ChangeNotifier {
           .updated('ui.motion', true)
           .updated('ui.pageTransition', 'fade')
           .updated('ui.tabTransition', 'slide')
+          .updated('dance.enabled', true)
+          .updated('dance.style', 'orbit')
+          .updated('dance.palette', 'spectrum')
+          .updated('dance.colorStep', 1.0)
+          .updated('dance.speed', 1.6)
+          .updated('dance.colorCycle', true)
+          .updated('dance.colors', DeviceSettings.defaultLightDanceColors)
           .updated('ui.mesh', true),
       reconnect: false,
     );
@@ -609,6 +655,17 @@ class AppState extends ChangeNotifier {
     pageTransition.value = device.pageTransition;
     tabTransition.value = device.tabTransition;
     meshBackground.value = device.meshBackground;
+    final dance = LightDanceConfig(
+      enabled: device.lightDance,
+      style: device.lightDanceStyle,
+      palette: device.lightDancePalette,
+      colorStepSeconds: device.lightDanceColorStep,
+      speedSeconds: device.lightDanceSpeed,
+      colorCycle: device.lightDanceColorCycle,
+      colors: device.lightDanceColors.map(parseHexColor).nonNulls.toList(),
+    );
+    lightDance.value = dance;
+    LookLightDance.instance.apply(dance);
   }
 
   /// Defaults everywhere except the private parts and the configured clean IPs and endpoints.
@@ -631,7 +688,7 @@ class AppState extends ChangeNotifier {
 
   // region settings file
 
-  static const _settingsFileFormat = 'miliconfig-settings';
+  static const _settingsFileFormat = 'lookvpn-settings';
 
   /// A settings file to share: the profile (VLESS: the selected deployment's) without the
   /// private parts.
@@ -654,7 +711,7 @@ class AppState extends ChangeNotifier {
     if (data is! Map ||
         data['format'] != _settingsFileFormat ||
         data['profile'] is! Map) {
-      throw const FormatException("This isn't a MiliConfig settings file.");
+      throw const FormatException("This isn't a LookVPN settings file.");
     }
     final imported = Profile.fromJson(
       Map<String, dynamic>.from(data['profile'] as Map),
@@ -856,7 +913,7 @@ class AppState extends ChangeNotifier {
     final exitInRemark = exit != null && exitType == null;
     await VpnChannel.start(
       config: build.config,
-      // Shown after the app name in the notification header: "MiliConfig · Fragment · Psiphon".
+      // Shown after the app name in the notification header: "LookVPN · Fragment · Psiphon".
       remark: [
         mode.label,
         if (exitInRemark)

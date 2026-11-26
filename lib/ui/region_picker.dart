@@ -3,11 +3,11 @@ import 'package:material_symbols_icons/symbols.dart';
 
 import '../models/settings.dart';
 import '../services/my_ip.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 
 /// The selected Psiphon/Tor country, or the automatic fastest server.
 String exitRegionLabel(String code) => code.isEmpty
-    ? MiliLocale.t('سریع‌ترین', 'Fastest')
+    ? LookLocale.t('سریع‌ترین', 'Fastest')
     : '${countryFlag(code)} ${exitRegions[code] ?? code}';
 
 /// Opens the shared Psiphon/Tor location sheet. Null means the user closed it without a
@@ -66,14 +66,14 @@ class _RegionSheetState extends State<_RegionSheet> {
                 Icon(Symbols.location_on_rounded, color: scheme.primary),
                 const SizedBox(width: 8),
                 Text(
-                  MiliLocale.t('انتخاب لوکیشن', 'Choose location'),
+                  LookLocale.t('انتخاب لوکیشن', 'Choose location'),
                   style: theme.textTheme.titleLarge,
                 ),
               ],
             ),
             const SizedBox(height: 2),
             Text(
-              MiliLocale.t(
+              LookLocale.t(
                 'برای سایفون و تور؛ سریع‌ترین به‌صورت خودکار یا یک کشور مشخص',
                 'For Psiphon and Tor: fastest automatically, or a specific country',
               ),
@@ -83,7 +83,7 @@ class _RegionSheetState extends State<_RegionSheet> {
             ),
             const SizedBox(height: 12),
             _RegionOption(
-              label: MiliLocale.t('سریع‌ترین (خودکار)', 'Fastest (automatic)'),
+              label: LookLocale.t('سریع‌ترین (خودکار)', 'Fastest (automatic)'),
               leading: '⚡',
               selected: widget.selected.isEmpty,
               onTap: () => Navigator.of(context).pop(''),
@@ -93,7 +93,7 @@ class _RegionSheetState extends State<_RegionSheet> {
               decoration: InputDecoration(
                 isDense: true,
                 prefixIcon: const Icon(Symbols.search_rounded, size: 20),
-                hintText: MiliLocale.t('جستجوی کشور…', 'Search countries…'),
+                hintText: LookLocale.t('جستجوی کشور…', 'Search countries…'),
               ),
               onChanged: (value) => setState(() => _query = value.trim()),
             ),
@@ -101,7 +101,7 @@ class _RegionSheetState extends State<_RegionSheet> {
             Padding(
               padding: const EdgeInsetsDirectional.only(start: 4),
               child: Text(
-                MiliLocale.t('کشورها', 'Countries'),
+                LookLocale.t('کشورها', 'Countries'),
                 style: theme.textTheme.labelMedium?.copyWith(
                   color: scheme.onSurfaceVariant,
                   fontWeight: FontWeight.w700,
@@ -112,7 +112,7 @@ class _RegionSheetState extends State<_RegionSheet> {
               child: countries.isEmpty
                   ? Center(
                       child: Text(
-                        MiliLocale.t('کشوری پیدا نشد', 'No country found'),
+                        LookLocale.t('کشوری پیدا نشد', 'No country found'),
                         style: TextStyle(color: scheme.onSurfaceVariant),
                       ),
                     )

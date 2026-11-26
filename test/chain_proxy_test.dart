@@ -1,6 +1,6 @@
-import 'package:mili_vpn/services/chain_proxy.dart';
-import 'package:mili_vpn/services/proxy_uri.dart';
-import 'package:mili_vpn/services/xray_config.dart';
+import 'package:look_vpn/services/chain_proxy.dart';
+import 'package:look_vpn/services/proxy_uri.dart';
+import 'package:look_vpn/services/xray_config.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const wgConf = '''

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mili_vpn/models/mihomo_profile.dart';
+import 'package:look_vpn/models/mihomo_profile.dart';
 
 void main() {
   test('subscriptions round-trip through the independent prefs payload', () {
@@ -28,9 +28,9 @@ void main() {
     ];
     final yaml = MihomoConfigBuilder.build(items);
     expect(yaml, contains('proxy-providers:'));
-    expect(yaml, contains('mili_0:'));
+    expect(yaml, contains('look_0:'));
     expect(yaml, contains('use:'));
-    expect(yaml, contains('- mili_0'));
+    expect(yaml, contains('- look_0'));
     expect(yaml, contains('name: MILI'));
     expect(yaml, contains('MATCH,MILI'));
   });

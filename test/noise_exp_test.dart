@@ -1,4 +1,4 @@
-import 'package:mili_vpn/ui/noises_page.dart';
+import 'package:look_vpn/ui/noises_page.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -1,0 +1,136 @@
+{
+  "version": "3.16.0",
+  "brand": "LookVPN",
+  "support": "https://t.me/lookvpn",
+  "fragments": [
+    {
+      "id": "mili_balanced",
+      "name": "Look Balanced",
+      "subtitle": "Optimal for most mobile & fixed ISPs",
+      "packets": "tlshello",
+      "lengthMin": 10,
+      "lengthMax": 30,
+      "intervalMin": 10,
+      "intervalMax": 20
+    },
+    {
+      "id": "mili_aggressive",
+      "name": "Look Aggressive DPI Bypass",
+      "subtitle": "Tiny TLS chunks for strict DPI networks",
+      "packets": "tlshello",
+      "lengthMin": 5,
+      "lengthMax": 15,
+      "intervalMin": 5,
+      "intervalMax": 15
+    },
+    {
+      "id": "mili_stealth",
+      "name": "Look Stealth (1-3)",
+      "subtitle": "Ultra-small fragment splitting",
+      "packets": "1-3",
+      "lengthMin": 20,
+      "lengthMax": 50,
+      "intervalMin": 10,
+      "intervalMax": 30
+    },
+    {
+      "id": "mili_fast",
+      "name": "Look High-Speed",
+      "subtitle": "Larger packets for lower latency",
+      "packets": "tlshello",
+      "lengthMin": 50,
+      "lengthMax": 100,
+      "intervalMin": 5,
+      "intervalMax": 10
+    }
+  ],
+  "warpProfiles": [
+    {
+      "id": "obf_lite",
+      "name": "OBF LITE",
+      "subtitle": "Light UDP noise + fast handshake (MTU 1280)",
+      "mtu": 1280,
+      "noiseCountMin": 3,
+      "noiseCountMax": 5,
+      "noiseSizeMin": 30,
+      "noiseSizeMax": 60,
+      "noiseDelayMin": 5,
+      "noiseDelayMax": 15
+    },
+    {
+      "id": "obf_balanced",
+      "name": "OBF BALANCED",
+      "subtitle": "Recommended Amnezia-style UDP obfuscation",
+      "mtu": 1280,
+      "noiseCountMin": 5,
+      "noiseCountMax": 10,
+      "noiseSizeMin": 50,
+      "noiseSizeMax": 100,
+      "noiseDelayMin": 10,
+      "noiseDelayMax": 25
+    },
+    {
+      "id": "obf_aggressive",
+      "name": "OBF AGGRESSIVE",
+      "subtitle": "Heavy junk bursts for restrictive mobile networks",
+      "mtu": 1280,
+      "noiseCountMin": 8,
+      "noiseCountMax": 15,
+      "noiseSizeMin": 80,
+      "noiseSizeMax": 160,
+      "noiseDelayMin": 15,
+      "noiseDelayMax": 40
+    },
+    {
+      "id": "obf_stealth",
+      "name": "OBF STEALTH",
+      "subtitle": "Randomized low-footprint stealth timing",
+      "mtu": 1280,
+      "noiseCountMin": 4,
+      "noiseCountMax": 8,
+      "noiseSizeMin": 20,
+      "noiseSizeMax": 90,
+      "noiseDelayMin": 20,
+      "noiseDelayMax": 50
+    }
+  ],
+  "dnsPresets": [
+    {
+      "name": "Cloudflare DoH",
+      "url": "https://1.1.1.1/dns-query"
+    },
+    {
+      "name": "Cloudflare Security DoH",
+      "url": "https://security.cloudflare-dns.com/dns-query"
+    },
+    {
+      "name": "Google DoH",
+      "url": "https://8.8.8.8/dns-query"
+    },
+    {
+      "name": "Quad9 DoH",
+      "url": "https://9.9.9.9/dns-query"
+    },
+    {
+      "name": "AdGuard DoH",
+      "url": "https://dns.adguard-dns.com/dns-query"
+    },
+    {
+      "name": "Shecan Anti-Sanction",
+      "url": "178.22.122.100"
+    },
+    {
+      "name": "Electro Anti-Sanction",
+      "url": "78.157.42.100"
+    },
+    {
+      "name": "403 Online Anti-Sanction",
+      "url": "10.202.10.202"
+    }
+  ],
+  "echDomains": [
+    "cloudflare-ech.com",
+    "crypto.cloudflare.com",
+    "defo.ie"
+  ]
+}

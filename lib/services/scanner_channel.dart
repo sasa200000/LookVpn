@@ -68,8 +68,8 @@ class ScannerEvent {
 }
 
 class ScannerChannel {
-  static const _methods = MethodChannel('miliconfig/core');
-  static const _events = EventChannel('milivpn/scanner');
+  static const _methods = MethodChannel('lookvpn/core');
+  static const _events = EventChannel('lookvpn/scanner');
 
   static Stream<ScannerEvent> get events =>
       _events.receiveBroadcastStream().map(

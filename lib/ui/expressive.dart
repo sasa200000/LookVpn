@@ -16,12 +16,12 @@ import 'theme.dart';
 const kBentoRadius = 26.0;
 const kBentoGap = 12.0;
 
-/// Height of the transparent MiliConfig header below the system status bar.
-const double kMiliHomeHeaderHeight = 58.0;
+/// Height of the transparent LookVPN header below the system status bar.
+const double kLookHomeHeaderHeight = 58.0;
 
 /// Top inset of the page content of the home shell.
-double miliHomeTopInset(BuildContext context) =>
-    MediaQuery.paddingOf(context).top + kMiliHomeHeaderHeight;
+double lookHomeTopInset(BuildContext context) =>
+    MediaQuery.paddingOf(context).top + kLookHomeHeaderHeight;
 
 class BentoSurface extends StatelessWidget {
   final Widget child;

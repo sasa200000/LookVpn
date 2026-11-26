@@ -91,8 +91,8 @@ const domainFrontingV23 = r'''
           "certificates": [
             {
               "usage": "issue",
-              "certificateFile": "miliconfig-cert.crt",
-              "keyFile": "miliconfig-cert.key"
+              "certificateFile": "lookvpn-cert.crt",
+              "keyFile": "lookvpn-cert.key"
             }
           ]
         }
@@ -117,8 +117,8 @@ const domainFrontingV23 = r'''
           "certificates": [
             {
               "usage": "issue",
-              "certificateFile": "miliconfig-cert.crt",
-              "keyFile": "miliconfig-cert.key"
+              "certificateFile": "lookvpn-cert.crt",
+              "keyFile": "lookvpn-cert.key"
             }
           ]
         }

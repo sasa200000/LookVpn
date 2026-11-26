@@ -1,5 +1,5 @@
-import 'package:mili_vpn/state/app_state.dart';
-import 'package:mili_vpn/ui/noises_page.dart';
+import 'package:look_vpn/state/app_state.dart';
+import 'package:look_vpn/ui/noises_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

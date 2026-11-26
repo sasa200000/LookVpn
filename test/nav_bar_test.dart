@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mili_vpn/ui/bettbox_widgets.dart';
+import 'package:look_vpn/ui/bettbox_widgets.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 void main() {

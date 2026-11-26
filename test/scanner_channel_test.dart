@@ -1,4 +1,4 @@
-import 'package:mili_vpn/services/scanner_channel.dart';
+import 'package:look_vpn/services/scanner_channel.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

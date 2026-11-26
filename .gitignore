@@ -25,6 +25,10 @@
 !/assets/scanner/**
 !/assets/dns/
 !/assets/dns/**
+!/assets/look/
+!/assets/look/**
+!/assets/route_svg/
+!/assets/route_svg/**
 !/scanner/**
 !/networking/**
 

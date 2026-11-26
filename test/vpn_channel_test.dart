@@ -1,4 +1,4 @@
-import 'package:mili_vpn/services/vpn_channel.dart';
+import 'package:look_vpn/services/vpn_channel.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -6,7 +6,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   test('start forwards the connection verification option', () async {
-    const channel = MethodChannel('miliconfig/core');
+    const channel = MethodChannel('lookvpn/core');
     final calls = <MethodCall>[];
     final messenger =
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;

@@ -1,4 +1,4 @@
-// Command psiphon runs a Psiphon tunnel for the MiliConfig app and serves it as a local SOCKS5
+// Command psiphon runs a Psiphon tunnel for the LookVPN app and serves it as a local SOCKS5
 // proxy, TCP and UDP, for Xray's "exit" outbound, and optionally as a local DNS server
 // answered by Psiphon's own resolver (see dns.go). TCP from the SOCKS proxy is port forwarded
 // through the tunnel; UDP goes over Psiphon's udpgw (see udpgw.go), which the stock local SOCKS
@@ -69,7 +69,7 @@ type options struct {
 const coreModule = "github.com/Psiphon-Labs/psiphon-tunnel-core"
 
 func main() {
-	configFile := flag.String("config", "", "Psiphon config file, with this program's MiliConfig* fields")
+	configFile := flag.String("config", "", "Psiphon config file, with this program's LookVPN* fields")
 	version := flag.Bool("version", false, "print the Psiphon core's module version and exit")
 	flag.Parse()
 

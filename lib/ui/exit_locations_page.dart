@@ -14,7 +14,7 @@ import '../services/my_ip.dart';
 import '../state/app_state.dart';
 import 'chain_proxies_page.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 
 /// Exit locations for the deployments this app made (Worker / Pages) and a
 /// directory of Proton VPN's WireGuard locations.
@@ -27,8 +27,8 @@ class ExitLocationsPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: ExpressiveSubpageHeader(
-          title: MiliLocale.t('لوکیشن‌های خروج', 'Exit locations'),
-          subtitle: MiliLocale.t(
+          title: LookLocale.t('لوکیشن‌های خروج', 'Exit locations'),
+          subtitle: LookLocale.t(
             'ورکر، پیجز و لوکیشن‌های پروتون وی‌پی‌ان',
             'Worker, Pages and Proton VPN locations',
           ),
@@ -70,7 +70,7 @@ class ExitLocationsPage extends StatelessWidget {
                         Tab(
                           height: 46,
                           icon: const Icon(Symbols.cloud_rounded, size: 17),
-                          text: MiliLocale.t('ورکر و پیجز', 'Worker & Pages'),
+                          text: LookLocale.t('ورکر و پیجز', 'Worker & Pages'),
                         ),
                         Tab(
                           height: 46,
@@ -154,7 +154,7 @@ class _CloudflareExitTabState extends State<_CloudflareExitTab> {
     Clipboard.setData(ClipboardData(text: host));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(MiliLocale.t('آدرس کپی شد', 'Host copied')),
+        content: Text(LookLocale.t('آدرس کپی شد', 'Host copied')),
       ),
     );
   }
@@ -178,7 +178,7 @@ class _CloudflareExitTabState extends State<_CloudflareExitTab> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          MiliLocale.t(
+          LookLocale.t(
             'خروجی لوکیشن‌ها کپی شد',
             'Location output copied',
           ),
@@ -205,7 +205,7 @@ class _CloudflareExitTabState extends State<_CloudflareExitTab> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      MiliLocale.t(
+                      LookLocale.t(
                         'لبه کلادفلر deployments',
                         'Cloudflare deployment edge',
                       ),
@@ -216,7 +216,7 @@ class _CloudflareExitTabState extends State<_CloudflareExitTab> {
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      MiliLocale.t(
+                      LookLocale.t(
                         'کولو (colo) واقعی که درخواست Worker یا Pages را پاسخ می‌دهد؛ از هدر cf-ray خوانده می‌شود.',
                         'The real colo serving each Worker or Pages request, read from its cf-ray header.',
                       ),
@@ -239,12 +239,12 @@ class _CloudflareExitTabState extends State<_CloudflareExitTab> {
               child: OutlinedButton.icon(
                 onPressed: _loading.isEmpty ? _probeAll : null,
                 icon: const Icon(Symbols.refresh_rounded, size: 17),
-                label: Text(MiliLocale.t('بررسی همه', 'Probe all')),
+                label: Text(LookLocale.t('بررسی همه', 'Probe all')),
               ),
             ),
             const SizedBox(width: 8),
             IconButton.filledTonal(
-              tooltip: MiliLocale.t('کپی خروجی JSON', 'Copy JSON output'),
+              tooltip: LookLocale.t('کپی خروجی JSON', 'Copy JSON output'),
               onPressed: deployments.isEmpty ? null : _export,
               icon: const Icon(Symbols.content_copy_rounded, size: 19),
             ),
@@ -259,7 +259,7 @@ class _CloudflareExitTabState extends State<_CloudflareExitTab> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    MiliLocale.t(
+                    LookLocale.t(
                       'هنوز Worker یا Pages ساخته نشده است. از حساب‌های کلادفلر یک deployment بسازید.',
                       'No Worker or Pages deployment yet. Create one from Cloudflare accounts.',
                     ),
@@ -400,13 +400,13 @@ class _DeploymentLocationCard extends StatelessWidget {
                 ),
               ),
               IconButton(
-                tooltip: MiliLocale.t('کپی آدرس', 'Copy host'),
+                tooltip: LookLocale.t('کپی آدرس', 'Copy host'),
                 visualDensity: VisualDensity.compact,
                 onPressed: onCopy,
                 icon: const Icon(Symbols.content_copy_rounded, size: 17),
               ),
               IconButton(
-                tooltip: MiliLocale.t('بررسی لوکیشن', 'Probe location'),
+                tooltip: LookLocale.t('بررسی لوکیشن', 'Probe location'),
                 visualDensity: VisualDensity.compact,
                 onPressed: loading ? null : onProbe,
                 icon: loading
@@ -422,12 +422,12 @@ class _DeploymentLocationCard extends StatelessWidget {
           const SizedBox(height: 10),
           if (loading)
             Text(
-              MiliLocale.t('در حال خواندن لبه کلادفلر…', 'Reading the Cloudflare edge…'),
+              LookLocale.t('در حال خواندن لبه کلادفلر…', 'Reading the Cloudflare edge…'),
               style: TextStyle(fontSize: 10.5, color: scheme.onSurfaceVariant),
             )
           else if (result == null)
             Text(
-              MiliLocale.t(
+              LookLocale.t(
                 'برای دیدن کولو و تأخیر، بررسی را بزنید.',
                 'Probe to see the colo and latency.',
               ),
@@ -463,7 +463,7 @@ class _DeploymentLocationCard extends StatelessWidget {
                 const SizedBox(width: 5),
                 Expanded(
                   child: Text(
-                    result!.error ?? MiliLocale.t('بررسی نشد', 'Probe failed'),
+                    result!.error ?? LookLocale.t('بررسی نشد', 'Probe failed'),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 10.5, color: scheme.error),
@@ -471,7 +471,7 @@ class _DeploymentLocationCard extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: onProbe,
-                  child: Text(MiliLocale.t('تلاش دوباره', 'Retry')),
+                  child: Text(LookLocale.t('تلاش دوباره', 'Retry')),
                 ),
               ],
             ),
@@ -558,7 +558,7 @@ class _ProtonLocationsTabState extends State<_ProtonLocationsTab> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          MiliLocale.t('مشخصات WireGuard کپی شد', 'WireGuard details copied'),
+          LookLocale.t('مشخصات WireGuard کپی شد', 'WireGuard details copied'),
         ),
       ),
     );
@@ -582,7 +582,7 @@ class _ProtonLocationsTabState extends State<_ProtonLocationsTab> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          MiliLocale.t(
+          LookLocale.t(
             'خروجی ${locations.length} لوکیشن کپی شد',
             'Copied ${locations.length} locations',
           ),
@@ -615,7 +615,7 @@ class _ProtonLocationsTabState extends State<_ProtonLocationsTab> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            MiliLocale.t(
+                            LookLocale.t(
                               'کاتالوگ لوکیشن‌های پروتون',
                               'Proton location directory',
                             ),
@@ -626,7 +626,7 @@ class _ProtonLocationsTabState extends State<_ProtonLocationsTab> {
                           ),
                           const SizedBox(height: 3),
                           Text(
-                            MiliLocale.t(
+                            LookLocale.t(
                               'داده‌ها از کاتالوگ عمومی Gluetun خوانده می‌شوند. API عمومی پروتون از ۲۰۲۵ نیاز به ورود دارد؛ برای اتصال، فایل WireGuard رسمی پروتون را در زنجیره پروکسی وارد کنید.',
                               'Data comes from the public Gluetun catalog. Proton\'s public API has required sign-in since 2025; to connect, import your official Proton WireGuard file under Chain proxies.',
                             ),
@@ -645,7 +645,7 @@ class _ProtonLocationsTabState extends State<_ProtonLocationsTab> {
                             ),
                             icon: const Icon(Symbols.vpn_key_rounded, size: 16),
                             label: Text(
-                              MiliLocale.t(
+                              LookLocale.t(
                                 'وارد کردن کانفیگ پروتون',
                                 'Import Proton config',
                               ),
@@ -669,7 +669,7 @@ class _ProtonLocationsTabState extends State<_ProtonLocationsTab> {
                           Symbols.search_rounded,
                           size: 20,
                         ),
-                        hintText: MiliLocale.t(
+                        hintText: LookLocale.t(
                           'جستجوی کشور، شهر یا سرور…',
                           'Search country, city or server…',
                         ),
@@ -679,7 +679,7 @@ class _ProtonLocationsTabState extends State<_ProtonLocationsTab> {
                   ),
                   const SizedBox(width: 6),
                   IconButton.filledTonal(
-                    tooltip: MiliLocale.t('کپی خروجی', 'Copy output'),
+                    tooltip: LookLocale.t('کپی خروجی', 'Copy output'),
                     onPressed: filtered.isEmpty ? null : () => _export(filtered),
                     icon: const Icon(Symbols.content_copy_rounded, size: 18),
                   ),
@@ -700,7 +700,7 @@ class _ProtonLocationsTabState extends State<_ProtonLocationsTab> {
                       const SizedBox(width: 9),
                       Expanded(
                         child: Text(
-                          MiliLocale.t(
+                          LookLocale.t(
                             'کاتالوگ دریافت نشد: $_error',
                             'Could not load the catalog: $_error',
                           ),
@@ -712,7 +712,7 @@ class _ProtonLocationsTabState extends State<_ProtonLocationsTab> {
                       ),
                       TextButton(
                         onPressed: _load,
-                        child: Text(MiliLocale.t('تلاش دوباره', 'Retry')),
+                        child: Text(LookLocale.t('تلاش دوباره', 'Retry')),
                       ),
                     ],
                   ),
@@ -721,7 +721,7 @@ class _ProtonLocationsTabState extends State<_ProtonLocationsTab> {
                 Padding(
                   padding: const EdgeInsetsDirectional.only(start: 4),
                   child: Text(
-                    MiliLocale.t(
+                    LookLocale.t(
                       '${filtered.length} لوکیشن WireGuard',
                       '${filtered.length} WireGuard locations',
                     ),
@@ -788,7 +788,7 @@ class _ProtonLocationsTabState extends State<_ProtonLocationsTab> {
                     color: scheme.tertiary,
                   ),
                 IconButton(
-                  tooltip: MiliLocale.t('کپی WireGuard', 'Copy WireGuard'),
+                  tooltip: LookLocale.t('کپی WireGuard', 'Copy WireGuard'),
                   visualDensity: VisualDensity.compact,
                   onPressed: () => _copy(location),
                   icon: const Icon(Symbols.content_copy_rounded, size: 16),

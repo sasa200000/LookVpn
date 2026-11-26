@@ -23,7 +23,7 @@ class CfAccount {
 }
 
 /// Minimal Cloudflare REST client for deploying the worker (as a Worker or as a Pages project,
-/// like MiliConfig-Wizard). Every change is a full deployment: the script with its one ENV binding.
+/// like LookVPN-Wizard). Every change is a full deployment: the script with its one ENV binding.
 class CloudflareApi {
   static const _base = 'https://api.cloudflare.com/client/v4';
   static const workerAsset = 'worker/worker.min.js';
@@ -42,7 +42,7 @@ class CloudflareApi {
         utf8.encode(jsonEncode({'v': 1, 'id': uuid, 'pips': proxyIps, 'fb': fallbackUrl})),
       );
 
-  /// Token creation page with the permissions pre-selected (same set as MiliConfig-Wizard).
+  /// Token creation page with the permissions pre-selected (same set as LookVPN-Wizard).
   static String tokenCreationUrl() {
     final permissions = jsonEncode([
       {'key': 'workers_scripts', 'type': 'edit'},
@@ -54,7 +54,7 @@ class CloudflareApi {
       'permissionGroupKeys': permissions,
       'accountId': '*',
       'zoneId': 'all',
-      'name': 'MiliConfig-VPN',
+      'name': 'LookVPN-VPN',
     }).toString();
   }
 
@@ -320,7 +320,7 @@ class CloudflareApi {
 
   // region usage
 
-  /// Workers requests in the last 24 hours (MiliConfig's GraphQL query): account total and,
+  /// Workers requests in the last 24 hours (LookVPN's GraphQL query): account total and,
   /// when [scriptName] is given, that worker alone. Free plan limit: 100,000 per day.
   Future<({int total, int worker})> workerUsage(String accountId, String scriptName) async {
     final end = DateTime.now().toUtc();

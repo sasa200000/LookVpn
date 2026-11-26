@@ -5,7 +5,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import '../services/updates.dart';
 import '../services/vpn_channel.dart';
 import '../state/app_state.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 import 'theme.dart';
 
 Future<void> showUpdateSheet(BuildContext context, AppUpdate update) async {
@@ -71,7 +71,7 @@ class UpdateBanner extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        MiliLocale.t(
+                        LookLocale.t(
                           'بروزرسانی ${update.version} آماده است',
                           'Update ${update.version} is ready',
                         ),
@@ -82,11 +82,11 @@ class UpdateBanner extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(
                         state.downloadingUpdate
-                            ? MiliLocale.t(
+                            ? LookLocale.t(
                                 'در حال دانلود… ${(state.updateProgress * 100).round()}٪',
                                 'Downloading… ${(state.updateProgress * 100).round()}%',
                               )
-                            : MiliLocale.t(
+                            : LookLocale.t(
                                 'بدون خروج از برنامه نصب کنید',
                                 'Install it without leaving the app',
                               ),
@@ -143,7 +143,7 @@ class UpdateSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<String>(
-      valueListenable: MiliLocale.code,
+      valueListenable: LookLocale.code,
       builder: (context, _, __) {
         final state = AppScope.of(context);
         final scheme = Theme.of(context).colorScheme;
@@ -161,7 +161,7 @@ class UpdateSheet extends StatelessWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        MiliLocale.t(
+                        LookLocale.t(
                           'بروزرسانی ${update.version}',
                           'Update ${update.version}',
                         ),
@@ -174,7 +174,7 @@ class UpdateSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  MiliLocale.t(
+                  LookLocale.t(
                     'فایل APK داخل برنامه دانلود و مستقیماً نصب می‌شود. داده‌ها و تنظیمات شما حفظ می‌شوند.',
                     'The APK downloads and installs directly inside the app. Your data and settings are kept.',
                   ),
@@ -230,7 +230,7 @@ class UpdateSheet extends StatelessWidget {
                             : () async {
                                 await VpnChannel.openUrl(update.pageUrl);
                               },
-                        child: Text(MiliLocale.t('صفحه انتشار', 'Release page')),
+                        child: Text(LookLocale.t('صفحه انتشار', 'Release page')),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -240,8 +240,8 @@ class UpdateSheet extends StatelessWidget {
                         icon: const Icon(Symbols.download_rounded, size: 18),
                         label: Text(
                           downloading
-                              ? MiliLocale.t('در حال دانلود', 'Downloading')
-                              : MiliLocale.t('نصب', 'Install'),
+                              ? LookLocale.t('در حال دانلود', 'Downloading')
+                              : LookLocale.t('نصب', 'Install'),
                         ),
                       ),
                     ),

@@ -1,4 +1,4 @@
-import 'package:mili_vpn/ui/prefs.dart';
+import 'package:look_vpn/ui/prefs.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -55,7 +55,7 @@ void main() {
     expect(validateEndpoint('1.2.3.4:70000'), isNotNull);
   });
 
-  test('DNS fields as in MiliConfig panel', () {
+  test('DNS fields as in LookVPN panel', () {
     // Remote DNS: TCP / DoH URLs, not Cloudflare's; no DoT (Xray's DNS has none).
     expect(validateRemoteDns('https://8.8.8.8/dns-query'), isNull); // the default
     expect(validateRemoteDns('tls://dns.google'), isNotNull);

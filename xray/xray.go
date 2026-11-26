@@ -1,4 +1,4 @@
-// Package xray runs Xray-core for the MiliConfig app, bound for Android with gomobile (see
+// Package xray runs Xray-core for the LookVPN app, bound for Android with gomobile (see
 // scripts/build_xray.sh): one Xray instance at a time, started from the app's JSON config,
 // reading from the TUN device the app's VpnService opened. Only what the app uses: start and
 // stop, a delay test through the running instance, the outbound traffic counters, the browser

@@ -38,7 +38,7 @@ Future<CloudflareEdgeResult> probeCloudflareEdge(
   final watch = Stopwatch()..start();
   try {
     final uri = Uri.https(host, '/cdn-cgi/trace', {
-      'mili': DateTime.now().millisecondsSinceEpoch.toString(),
+      'look': DateTime.now().millisecondsSinceEpoch.toString(),
     });
     final response = await httpClient
         .get(

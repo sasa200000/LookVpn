@@ -1,5 +1,5 @@
-import 'package:mili_vpn/state/app_state.dart';
-import 'package:mili_vpn/ui/setup_wizard.dart';
+import 'package:look_vpn/state/app_state.dart';
+import 'package:look_vpn/ui/setup_wizard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -20,7 +20,7 @@ void main() {
   testWidgets('step 1 asks about a Cloudflare account, No shows sign-up steps', (tester) async {
     await pumpWizard(tester);
     expect(find.text('Cloudflare'), findsOneWidget);
-    expect(find.text('Welcome to MiliConfig'), findsOneWidget);
+    expect(find.text('Welcome to LookVPN'), findsOneWidget);
 
     await tester.tap(find.text('No, sign me up'));
     await tester.pumpAndSettle();
@@ -28,7 +28,7 @@ void main() {
 
     await tester.tap(find.text('Back'));
     await tester.pumpAndSettle();
-    expect(find.text('Welcome to MiliConfig'), findsOneWidget);
+    expect(find.text('Welcome to LookVPN'), findsOneWidget);
   });
 
   testWidgets('Yes goes to the token step, Back returns', (tester) async {

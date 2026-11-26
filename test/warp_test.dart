@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mili_vpn/services/warp.dart';
+import 'package:look_vpn/services/warp.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 List<int> _hex(String s) => [for (var i = 0; i < s.length; i += 2) int.parse(s.substring(i, i + 2), radix: 16)];

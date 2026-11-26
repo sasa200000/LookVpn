@@ -8,13 +8,13 @@ import 'package:material_symbols_icons/symbols.dart';
 import '../models/settings.dart';
 import '../state/app_state.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 import 'theme.dart';
 
 const _pad = 24.0;
 
 /// Edits the profile's `udpNoises` (or [section]'s: `masque.`, `serverless.`) as cards, like the
-/// "v2ray Noise" section of the MiliConfig panel.
+/// "v2ray Noise" section of the LookVPN panel.
 class NoisesPage extends StatefulWidget {
   /// Path prefix of the noises edited: '' (the profile's), 'masque.' or 'serverless.'.
   final String section;
@@ -156,15 +156,15 @@ class _NoisesPageState extends State<NoisesPage> {
       },
       child: Scaffold(
         appBar: ExpressiveSubpageHeader(
-          title: MiliLocale.t('نویز UDP / Obfuscation', 'UDP noise / Obfuscation'),
-          subtitle: MiliLocale.t(
+          title: LookLocale.t('نویز UDP / Obfuscation', 'UDP noise / Obfuscation'),
+          subtitle: LookLocale.t(
             'تنظیم بسته‌های تصادفی برای WARP و MASQUE',
             'Obfuscate tunnel traffic for WARP and MASQUE',
           ),
           actions: [
             TextButton(
               onPressed: _dirty ? _save : null,
-              child: Text(MiliLocale.t('ذخیره', 'Save')),
+              child: Text(LookLocale.t('ذخیره', 'Save')),
             ),
           ],
         ),
@@ -643,7 +643,7 @@ String generateNoisePacket(String mode) {
   }
 }
 
-/// Same rules as MiliConfig's validateXrayNoises.
+/// Same rules as LookVPN's validateXrayNoises.
 String? validateNoisePacket(String mode, String packet) {
   if (packet.isEmpty) return 'Required';
   switch (mode) {

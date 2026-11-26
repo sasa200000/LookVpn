@@ -4,7 +4,8 @@ import 'package:material_symbols_icons/symbols.dart';
 import '../models/theme_color.dart';
 import '../state/app_state.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'light_dance_page.dart';
+import 'look_i18n.dart';
 import 'prefs.dart';
 import 'theme.dart';
 
@@ -36,13 +37,13 @@ class InterfaceSettingsPage extends StatelessWidget {
   };
 
   String _colorName(ThemeColor color) =>
-      MiliLocale.t(_colorNamesFa[color.name] ?? color.label, color.label);
+      LookLocale.t(_colorNamesFa[color.name] ?? color.label, color.label);
 
   @override
   Widget build(BuildContext context) {
     final state = AppScope.of(context);
     return ValueListenableBuilder<String>(
-      valueListenable: MiliLocale.code,
+      valueListenable: LookLocale.code,
       builder: (context, _, __) => ListenableBuilder(
         listenable: Listenable.merge([
           state.themeColor,
@@ -59,8 +60,8 @@ class InterfaceSettingsPage extends StatelessWidget {
           final motion = state.motionEnabled.value;
           return Scaffold(
             appBar: ExpressiveSubpageHeader(
-              title: MiliLocale.t('ظاهر و حرکت', 'Appearance & motion'),
-              subtitle: MiliLocale.t(
+              title: LookLocale.t('ظاهر و حرکت', 'Appearance & motion'),
+              subtitle: LookLocale.t(
                 'رنگ پویا، فونت، انیمیشن و ترنزیشن صفحات',
                 'Dynamic color, type, motion and page transitions',
               ),
@@ -69,12 +70,12 @@ class InterfaceSettingsPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4, bottom: 32),
               children: [
                 SectionHeader(
-                  MiliLocale.t('پیش‌نمایش زنده', 'Live preview'),
+                  LookLocale.t('پیش‌نمایش زنده', 'Live preview'),
                   icon: Symbols.phone_iphone_rounded,
                 ),
                 _PreviewCard(state: state, colorName: _colorName),
                 SectionHeader(
-                  MiliLocale.t('تم و رنگ', 'Theme & color'),
+                  LookLocale.t('تم و رنگ', 'Theme & color'),
                   icon: Symbols.palette_rounded,
                 ),
                 SettingsCard(
@@ -84,7 +85,7 @@ class InterfaceSettingsPage extends StatelessWidget {
                   ],
                 ),
                 SectionHeader(
-                  MiliLocale.t('فونت و خوانایی', 'Type & readability'),
+                  LookLocale.t('فونت و خوانایی', 'Type & readability'),
                   icon: Symbols.text_fields_rounded,
                 ),
                 SettingsCard(
@@ -94,7 +95,7 @@ class InterfaceSettingsPage extends StatelessWidget {
                   ],
                 ),
                 SectionHeader(
-                  MiliLocale.t('حرکت و ترنزیشن', 'Motion & transitions'),
+                  LookLocale.t('حرکت و ترنزیشن', 'Motion & transitions'),
                   icon: Symbols.animation_rounded,
                 ),
                 SettingsCard(
@@ -102,10 +103,10 @@ class InterfaceSettingsPage extends StatelessWidget {
                     SwitchListTile(
                       secondary: const Icon(Symbols.motion_photos_on_rounded),
                       title: Text(
-                        MiliLocale.t('انیمیشن‌های رابط کاربری', 'Interface animations'),
+                        LookLocale.t('انیمیشن‌های رابط کاربری', 'Interface animations'),
                       ),
                       subtitle: Text(
-                        MiliLocale.t(
+                        LookLocale.t(
                           'حرکت کارت‌ها، تب‌ها و باز شدن صفحات. خاموش کردن آن مصرف باتری را کم می‌کند.',
                           'Card, tab and page motion. Turning it off reduces battery use.',
                         ),
@@ -122,10 +123,10 @@ class InterfaceSettingsPage extends StatelessWidget {
                     SwitchListTile(
                       secondary: const Icon(Symbols.blur_on_rounded),
                       title: Text(
-                        MiliLocale.t('پس‌زمینه مش‌گرادیان', 'Mesh gradient backdrop'),
+                        LookLocale.t('پس‌زمینه مش‌گرادیان', 'Mesh gradient backdrop'),
                       ),
                       subtitle: Text(
-                        MiliLocale.t(
+                        LookLocale.t(
                           'برای گوشی‌های ضعیف می‌توانید آن را خاموش کنید تا پس‌زمینه ساده و سبک شود.',
                           'Turn it off on slower phones for a flat, lighter background.',
                         ),
@@ -136,10 +137,10 @@ class InterfaceSettingsPage extends StatelessWidget {
                     ListTile(
                       leading: const Icon(Symbols.play_circle_rounded),
                       title: Text(
-                        MiliLocale.t('پیش‌نمایش ترنزیشن', 'Preview transition'),
+                        LookLocale.t('پیش‌نمایش ترنزیشن', 'Preview transition'),
                       ),
                       subtitle: Text(
-                        MiliLocale.t(
+                        LookLocale.t(
                           'یک صفحه نمونه با ترنزیشن انتخاب‌شده باز کنید.',
                           'Open a sample page with the selected transition.',
                         ),
@@ -154,7 +155,45 @@ class InterfaceSettingsPage extends StatelessWidget {
                   ],
                 ),
                 SectionHeader(
-                  MiliLocale.t('زبان و جهت', 'Language & direction'),
+                  LookLocale.t('رقص نور', 'Light dance'),
+                  icon: Symbols.auto_awesome_rounded,
+                ),
+                SettingsCard(
+                  children: [
+                    SwitchListTile(
+                      secondary: const Icon(Symbols.nightlight_round),
+                      title: Text(LookLocale.t('رقص نور', 'Light dance')),
+                      subtitle: Text(
+                        LookLocale.t(
+                          'حلقه‌های رنگ‌عوض‌کن دور دکمه اتصال، دانلود، آپلود و پروتکل.',
+                          'Colour-cycling rings around connect, download, upload and protocol.',
+                        ),
+                      ),
+                      value: state.lightDance.value.enabled,
+                      onChanged: (v) => state.setLightDance(v),
+                    ),
+                    ListTile(
+                      leading: const Icon(Symbols.tune_rounded),
+                      title: Text(
+                        LookLocale.t('تنظیمات رقص نور', 'Light dance settings'),
+                      ),
+                      subtitle: Text(
+                        LookLocale.t(
+                          'شکل، پالت رنگ، سرعت تغییر و پیش‌نمایش زنده',
+                          'Shape, palette, colour step and live preview',
+                        ),
+                      ),
+                      trailing: const Icon(Symbols.chevron_right_rounded),
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => const LightDancePage(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SectionHeader(
+                  LookLocale.t('زبان و جهت', 'Language & direction'),
                   icon: Symbols.translate_rounded,
                 ),
                 SettingsCard(children: [_LanguagePicker(state: state)]),
@@ -164,7 +203,7 @@ class InterfaceSettingsPage extends StatelessWidget {
                     onPressed: () => _resetAppearance(context, state),
                     icon: const Icon(Symbols.restart_alt_rounded, size: 18),
                     label: Text(
-                      MiliLocale.t(
+                      LookLocale.t(
                         'بازگردانی ظاهر به حالت پیش‌فرض',
                         'Reset appearance to defaults',
                       ),
@@ -174,7 +213,7 @@ class InterfaceSettingsPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 14, 24, 0),
                   child: Text(
-                    MiliLocale.t(
+                    LookLocale.t(
                       'این تنظیمات فقط ظاهر و حرکت برنامه را عوض می‌کنند و روی اتصال، ورکر یا مسیریابی اثری ندارند.',
                       'These preferences only change the app appearance and motion; they do not '
                           'affect the VPN connection, worker, or routing.',
@@ -199,10 +238,10 @@ class InterfaceSettingsPage extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          MiliLocale.t('ظاهر به حالت پیش‌فرض برگردد؟', 'Reset appearance?'),
+          LookLocale.t('ظاهر به حالت پیش‌فرض برگردد؟', 'Reset appearance?'),
         ),
         content: Text(
-          MiliLocale.t(
+          LookLocale.t(
             'رنگ، حالت تاریک/روشن، فونت، اندازه متن، انیمیشن‌ها، ترنزیشن تب‌ها و صفحات و پس‌زمینه به مقدار اولیه برمی‌گردند. اتصال و تنظیمات ورکر دست نمی‌خورند.',
             'Color, light/dark mode, font, text size, motion, tab/page transitions and '
                 'backdrop return to their defaults. Connection and worker settings are untouched.',
@@ -211,11 +250,11 @@ class InterfaceSettingsPage extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(MiliLocale.t('انصراف', 'Cancel')),
+            child: Text(LookLocale.t('انصراف', 'Cancel')),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(MiliLocale.t('بازگردانی', 'Reset')),
+            child: Text(LookLocale.t('بازگردانی', 'Reset')),
           ),
         ],
       ),
@@ -296,7 +335,7 @@ class _PreviewCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 9),
                 Text(
-                  'MiliConfig',
+                  'LookVPN',
                   style: TextStyle(
                     fontFamily: family,
                     color: fg,
@@ -330,7 +369,7 @@ class _PreviewCard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              MiliLocale.t('اتصال فعال', 'Connected'),
+              LookLocale.t('اتصال فعال', 'Connected'),
               style: TextStyle(
                 fontFamily: family,
                 color: fg,
@@ -341,7 +380,7 @@ class _PreviewCard extends StatelessWidget {
             ),
             const SizedBox(height: 3),
             Text(
-              MiliLocale.t('امن، سریع و بدون قطعی', 'Secure, fast and steady'),
+              LookLocale.t('امن، سریع و بدون قطعی', 'Secure, fast and steady'),
               style: TextStyle(fontFamily: family, color: muted, fontSize: 12),
             ),
             const SizedBox(height: 14),
@@ -356,7 +395,7 @@ class _PreviewCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 22),
                 _PreviewStat(
-                  label: MiliLocale.t('دانلود', 'DOWN'),
+                  label: LookLocale.t('دانلود', 'DOWN'),
                   value: '12.4 MB/s',
                   color: fg,
                   muted: muted,
@@ -364,7 +403,7 @@ class _PreviewCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 22),
                 _PreviewStat(
-                  label: MiliLocale.t('آپلود', 'UP'),
+                  label: LookLocale.t('آپلود', 'UP'),
                   value: '1.8 MB/s',
                   color: fg,
                   muted: muted,
@@ -463,9 +502,9 @@ class _ThemeModePicker extends StatelessWidget {
       children: [
         ListTile(
           leading: const Icon(Symbols.contrast_rounded),
-          title: Text(MiliLocale.t('حالت نمایش', 'Appearance mode')),
+          title: Text(LookLocale.t('حالت نمایش', 'Appearance mode')),
           subtitle: Text(
-            MiliLocale.t(
+            LookLocale.t(
               'هماهنگ با گوشی یا انتخاب دستی روشن و تاریک.',
               'Follow the phone or choose light/dark manually.',
             ),
@@ -515,7 +554,7 @@ class _ThemeModePicker extends StatelessWidget {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              MiliLocale.t(fa, en),
+                              LookLocale.t(fa, en),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 11,
@@ -556,9 +595,9 @@ class _AccentPicker extends StatelessWidget {
       children: [
         ListTile(
           leading: const Icon(Symbols.palette_rounded),
-          title: Text(MiliLocale.t('رنگ اصلی', 'Accent color')),
+          title: Text(LookLocale.t('رنگ اصلی', 'Accent color')),
           subtitle: Text(
-            MiliLocale.t(
+            LookLocale.t(
               'رنگ دکمه‌ها، لینک‌ها و جزئیات کل برنامه.',
               'Used for buttons, links and highlights across the app.',
             ),
@@ -674,9 +713,9 @@ class _FontPicker extends StatelessWidget {
       children: [
         ListTile(
           leading: const Icon(Symbols.text_fields_rounded),
-          title: Text(MiliLocale.t('فونت برنامه', 'App font')),
+          title: Text(LookLocale.t('فونت برنامه', 'App font')),
           subtitle: Text(
-            MiliLocale.t(
+            LookLocale.t(
               'برای خوانایی بهتر یکی از فونت‌های زیر را انتخاب کنید.',
               'Pick the typeface that feels most readable to you.',
             ),
@@ -732,7 +771,7 @@ class _FontPicker extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
-                                  'MiliConfig 123 · ${MiliLocale.t('نمونه متن', 'Sample text')}',
+                                  'LookVPN 123 · ${LookLocale.t('نمونه متن', 'Sample text')}',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -797,9 +836,9 @@ class _TextSizePickerState extends State<_TextSizePicker> {
       children: [
         ListTile(
           leading: const Icon(Symbols.format_size_rounded),
-          title: Text(MiliLocale.t('اندازه متن', 'Text size')),
+          title: Text(LookLocale.t('اندازه متن', 'Text size')),
           subtitle: Text(
-            MiliLocale.t(
+            LookLocale.t(
               'اندازه متن کل برنامه را کم و زیاد کنید.',
               'Scale text across the whole app.',
             ),
@@ -846,7 +885,7 @@ class _TextSizePickerState extends State<_TextSizePicker> {
                 textScaler: TextScaler.linear(_value),
               ),
               child: Text(
-                MiliLocale.t(
+                LookLocale.t(
                   'این متن اندازه انتخاب‌شده را نشان می‌دهد.',
                   'This line previews the selected text size.',
                 ),
@@ -890,10 +929,10 @@ class _TransitionPicker extends StatelessWidget {
             ListTile(
               leading: const Icon(Symbols.swap_horiz_rounded),
               title: Text(
-                MiliLocale.t('ترنزیشن بین صفحات', 'Page transition'),
+                LookLocale.t('ترنزیشن بین صفحات', 'Page transition'),
               ),
               subtitle: Text(
-                MiliLocale.t(
+                LookLocale.t(
                   'نوع حرکت هنگام باز کردن یک صفحه یا بازگشت.',
                   'How pages animate when opening and returning.',
                 ),
@@ -943,7 +982,7 @@ class _TransitionPicker extends StatelessWidget {
                               const SizedBox(width: 10),
                               Expanded(
                                 child: Text(
-                                  MiliLocale.t(item.value.$2, item.value.$1),
+                                  LookLocale.t(item.value.$2, item.value.$1),
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: selected == item.key
@@ -1003,10 +1042,10 @@ class _TabTransitionPicker extends StatelessWidget {
             ListTile(
               leading: const Icon(Symbols.view_carousel_rounded),
               title: Text(
-                MiliLocale.t('ترنزیشن تب‌ها', 'Tab transition'),
+                LookLocale.t('ترنزیشن تب‌ها', 'Tab transition'),
               ),
               subtitle: Text(
-                MiliLocale.t(
+                LookLocale.t(
                   'حرکت بین داشبورد، اسکنر و تنظیمات را انتخاب کنید.',
                   'Choose how the dashboard, scanner and settings swap in.',
                 ),
@@ -1057,7 +1096,7 @@ class _TabTransitionPicker extends StatelessWidget {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                MiliLocale.t(option.$2, option.$3),
+                                LookLocale.t(option.$2, option.$3),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -1098,16 +1137,16 @@ class _LanguagePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final current = MiliLocale.code.value;
+    final current = LookLocale.code.value;
     final motion = state.motionEnabled.value;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
           leading: const Icon(Symbols.translate_rounded),
-          title: Text(MiliLocale.t('زبان برنامه', 'App language')),
+          title: Text(LookLocale.t('زبان برنامه', 'App language')),
           subtitle: Text(
-            MiliLocale.t(
+            LookLocale.t(
               'فارسی، انگلیسی، عربی، ترکی، روسی و چینی؛ جهت رابط خودکار تنظیم می‌شود.',
               'Persian, English, Arabic, Turkish, Russian and Chinese; layout direction follows automatically.',
             ),
@@ -1123,10 +1162,10 @@ class _LanguagePicker extends StatelessWidget {
             crossAxisSpacing: 6,
             childAspectRatio: 3.15,
             children: [
-              for (final lang in MiliLocale.languages)
+              for (final lang in LookLocale.languages)
                 InkWell(
                   borderRadius: BorderRadius.circular(14),
-                  onTap: () => MiliLocale.setLang(lang.code),
+                  onTap: () => LookLocale.setLang(lang.code),
                   child: AnimatedContainer(
                     duration: motion
                         ? const Duration(milliseconds: 180)
@@ -1209,8 +1248,8 @@ class _MotionPreviewPage extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: ExpressiveSubpageHeader(
-        title: MiliLocale.t('پیش‌نمایش حرکت', 'Motion preview'),
-        subtitle: MiliLocale.t(
+        title: LookLocale.t('پیش‌نمایش حرکت', 'Motion preview'),
+        subtitle: LookLocale.t(
           'همان ترنزیشن و فنر انتخاب‌شده',
           'The transition and spring you selected',
         ),
@@ -1224,7 +1263,7 @@ class _MotionPreviewPage extends StatelessWidget {
               Icon(Symbols.animation_rounded, size: 56, color: scheme.primary),
               const SizedBox(height: 14),
               Text(
-                MiliLocale.t('ترنزیشن انتخاب‌شده اعمال شد', 'Selected transition applied'),
+                LookLocale.t('ترنزیشن انتخاب‌شده اعمال شد', 'Selected transition applied'),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w800,
@@ -1232,7 +1271,7 @@ class _MotionPreviewPage extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                MiliLocale.t(
+                LookLocale.t(
                   'این صفحه با تنظیم فعلی باز و بسته می‌شود.',
                   'This page opens and closes with your current setting.',
                 ),
@@ -1243,7 +1282,7 @@ class _MotionPreviewPage extends StatelessWidget {
               FilledButton.tonalIcon(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Symbols.arrow_back_rounded, size: 18),
-                label: Text(MiliLocale.t('بازگشت', 'Go back')),
+                label: Text(LookLocale.t('بازگشت', 'Go back')),
               ),
             ],
           ),

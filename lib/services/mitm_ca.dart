@@ -6,12 +6,12 @@ import 'der.dart';
 
 /// The certificate authority Domain Fronting's TLS decryption issues site certificates from
 /// (Xray's `"usage": "issue"`), like `xray tls cert -ca`: an ECDSA P-256 CA, self-signed.
-/// Saved as miliconfig-cert.crt / miliconfig-cert.key in the app's private storage; only the crt leaves
+/// Saved as lookvpn-cert.crt / lookvpn-cert.key in the app's private storage; only the crt leaves
 /// it, to be installed as a trusted CA.
 class MitmCa {
-  static const certFile = 'miliconfig-cert.crt';
-  static const keyFile = 'miliconfig-cert.key';
-  static const _name = 'MiliConfig MITM CA';
+  static const certFile = 'lookvpn-cert.crt';
+  static const keyFile = 'lookvpn-cert.key';
+  static const _name = 'LookVPN MITM CA';
 
   /// PEM, "CERTIFICATE".
   final String cert;

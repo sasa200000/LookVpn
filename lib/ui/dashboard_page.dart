@@ -23,8 +23,9 @@ import 'format.dart';
 import 'fragments_page.dart';
 import 'interface_settings_page.dart';
 import 'log_page.dart';
-import 'mili_i18n.dart';
-import 'mili_toolbox_page.dart';
+import 'look_i18n.dart';
+import 'look_light_dance.dart';
+import 'look_toolbox_page.dart';
 import 'noises_page.dart';
 import 'per_app_page.dart';
 import 'routing_page.dart';
@@ -87,13 +88,13 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
   }
 
   String _modeName(ConnectionMode mode) => switch (mode) {
-    ConnectionMode.worker => MiliLocale.t('ورکر', 'Worker'),
+    ConnectionMode.worker => LookLocale.t('ورکر', 'Worker'),
     ConnectionMode.warp => 'WARP',
     ConnectionMode.masque => 'MASQUE',
-    ConnectionMode.serverless => MiliLocale.t('سرورلس', 'Serverless'),
-    ConnectionMode.psiphon => MiliLocale.t('سایفون', 'Psiphon'),
-    ConnectionMode.tor => MiliLocale.t('تور', 'Tor'),
-    ConnectionMode.node => MiliLocale.t('نود مستقیم', 'Direct node'),
+    ConnectionMode.serverless => LookLocale.t('سرورلس', 'Serverless'),
+    ConnectionMode.psiphon => LookLocale.t('سایفون', 'Psiphon'),
+    ConnectionMode.tor => LookLocale.t('تور', 'Tor'),
+    ConnectionMode.node => LookLocale.t('نود مستقیم', 'Direct node'),
   };
 
   String _protocolLabel(String protocol) => switch (protocol) {
@@ -129,14 +130,14 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  MiliLocale.t('اندازه کارت', 'Card size'),
+                  LookLocale.t('اندازه کارت', 'Card size'),
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w900,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  MiliLocale.t(
+                  LookLocale.t(
                     'چیدمان بنتو را دقیقاً مطابق سلیقه‌ات بساز.',
                     'Shape the bento layout exactly the way you want.',
                   ),
@@ -262,7 +263,7 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
     return ListView(
       padding: EdgeInsets.fromLTRB(
         16,
-        miliHomeTopInset(context) + 8,
+        lookHomeTopInset(context) + 8,
         16,
         108,
       ),
@@ -280,7 +281,7 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      MiliLocale.t(
+                      LookLocale.t(
                         'تنظیمات تغییر کرده؛ برای اعمال دوباره وصل شوید.',
                         'Settings changed; reconnect to apply them.',
                       ),
@@ -292,7 +293,7 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
                   ),
                   FilledButton(
                     onPressed: state.reconnect,
-                    child: Text(MiliLocale.t('اعمال', 'Apply')),
+                    child: Text(LookLocale.t('اعمال', 'Apply')),
                   ),
                 ],
               ),
@@ -425,34 +426,34 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
         icon: _cardMeta(id).$2,
         value: state.isMihomo ? 'Mihomo' : 'Xray',
         detail: state.isMihomo
-            ? MiliLocale.t(
+            ? LookLocale.t(
                 '${state.mihomoSubscriptions.length} اشتراک',
                 '${state.mihomoSubscriptions.length} subscriptions',
               )
-            : MiliLocale.t('Worker · WARP · MASQUE', 'Worker · WARP · MASQUE'),
+            : LookLocale.t('Worker · WARP · MASQUE', 'Worker · WARP · MASQUE'),
         onTap: () => _openPage(const EngineSettingsPage()),
       ),
       'cleanIps' => _InfoCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
-        value: MiliLocale.t(
+        value: LookLocale.t(
           '${state.vless.cleanIps.length} آی‌پی',
           '${state.vless.cleanIps.length} IPs',
         ),
         detail: state.vless.cleanIps.isEmpty
-            ? MiliLocale.t('لیست خالی است', 'List is empty')
+            ? LookLocale.t('لیست خالی است', 'List is empty')
             : state.vless.cleanIps.take(2).join(' · '),
         onTap: widget.onOpenScanner,
       ),
       'proxyIps' => _InfoCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
-        value: MiliLocale.t(
+        value: LookLocale.t(
           '${state.vless.proxyIps.length} آی‌پی',
           '${state.vless.proxyIps.length} IPs',
         ),
         detail: state.vless.proxyIps.isEmpty
-            ? MiliLocale.t('پیش‌فرض ورکر', 'Worker default')
+            ? LookLocale.t('پیش‌فرض ورکر', 'Worker default')
             : state.vless.proxyIps.take(2).join(' · '),
         onTap: () => _openPage(const SettingsPage()),
       ),
@@ -460,14 +461,14 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
         value: switch (state.vless.placement) {
-          'smart' => MiliLocale.t('هوشمند', 'Smart'),
-          'targeted' => MiliLocale.t('منطقه‌ای', 'Targeted'),
-          _ => MiliLocale.t('خودکار', 'Automatic'),
+          'smart' => LookLocale.t('هوشمند', 'Smart'),
+          'targeted' => LookLocale.t('منطقه‌ای', 'Targeted'),
+          _ => LookLocale.t('خودکار', 'Automatic'),
         },
         detail: state.vless.placement == 'targeted'
             ? state.vless.placementRegion
             : (state.device.deployment.isEmpty
-                  ? MiliLocale.t('بدون استقرار', 'No deployment')
+                  ? LookLocale.t('بدون استقرار', 'No deployment')
                   : state.device.deployment),
         wide: true,
         onTap: () => _openPage(const SettingsPage()),
@@ -477,18 +478,18 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
         icon: _cardMeta(id).$2,
         value: state.profile.general.localDns,
         detail: state.profile.general.enableFakeDns
-            ? MiliLocale.t('DNS فیک روشن', 'Fake DNS on')
+            ? LookLocale.t('DNS فیک روشن', 'Fake DNS on')
             : state.profile.general.antiSanctionDns,
         onTap: () => _openPage(const DnsPage()),
       ),
       'routing' => _InfoCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
-        value: MiliLocale.t(
+        value: LookLocale.t(
           '${_activeRules(state)} قانون',
           '${_activeRules(state)} rules',
         ),
-        detail: MiliLocale.t(
+        detail: LookLocale.t(
           '${state.profile.routing.bypass.domains.length + state.profile.routing.block.domains.length} سفارشی',
           '${state.profile.routing.bypass.domains.length + state.profile.routing.block.domains.length} custom',
         ),
@@ -497,32 +498,32 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
       'fragments' => _InfoCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
-        value: MiliLocale.t(
+        value: LookLocale.t(
           '${state.profile.fragments.length} قطعه',
           '${state.profile.fragments.length} pieces',
         ),
-        detail: MiliLocale.t('تنظیم TCP', 'TCP tuning'),
+        detail: LookLocale.t('تنظیم TCP', 'TCP tuning'),
         onTap: () => _openPage(const FragmentsPage(section: 'serverless.')),
       ),
       'noises' => _InfoCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
-        value: MiliLocale.t(
+        value: LookLocale.t(
           '${state.profile.udpNoises.length} پروفایل',
           '${state.profile.udpNoises.length} profiles',
         ),
-        detail: MiliLocale.t('تنظیم UDP', 'UDP tuning'),
+        detail: LookLocale.t('تنظیم UDP', 'UDP tuning'),
         onTap: () => _openPage(const NoisesPage(section: 'serverless.')),
       ),
       'perApp' => _InfoCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
         value: switch (state.device.perAppMode) {
-          PerAppMode.include => MiliLocale.t('انتخابی', 'Selected'),
-          PerAppMode.exclude => MiliLocale.t('استثنا', 'Excluded'),
-          PerAppMode.off => MiliLocale.t('همه برنامه‌ها', 'All apps'),
+          PerAppMode.include => LookLocale.t('انتخابی', 'Selected'),
+          PerAppMode.exclude => LookLocale.t('استثنا', 'Excluded'),
+          PerAppMode.off => LookLocale.t('همه برنامه‌ها', 'All apps'),
         },
-        detail: MiliLocale.t(
+        detail: LookLocale.t(
           '${state.device.perAppApps.length} برنامه',
           '${state.device.perAppApps.length} apps',
         ),
@@ -531,21 +532,21 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
       'chains' => _InfoCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
-        value: MiliLocale.t(
+        value: LookLocale.t(
           '${state.profile.chains.length} کانفیگ',
           '${state.profile.chains.length} configs',
         ),
-        detail: MiliLocale.t('خروج زنجیره‌ای', 'Chained exit'),
+        detail: LookLocale.t('خروج زنجیره‌ای', 'Chained exit'),
         onTap: () => _openPage(const ChainProxiesPage()),
       ),
       'cloudflare' => _InfoCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
-        value: MiliLocale.t(
+        value: LookLocale.t(
           '${state.cfAccounts.length} حساب',
           '${state.cfAccounts.length} accounts',
         ),
-        detail: MiliLocale.t(
+        detail: LookLocale.t(
           '${state.deployments.length} استقرار',
           '${state.deployments.length} deployments',
         ),
@@ -556,8 +557,8 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
         icon: _cardMeta(id).$2,
         value: torBridges[state.device.torBridge] ?? 'Tor',
         detail: state.profile.tor.bridges.isEmpty
-            ? MiliLocale.t('بریج سفارشی ندارید', 'No custom bridges')
-            : MiliLocale.t(
+            ? LookLocale.t('بریج سفارشی ندارید', 'No custom bridges')
+            : LookLocale.t(
                 '${state.profile.tor.bridges.length} بریج',
                 '${state.profile.tor.bridges.length} bridges',
               ),
@@ -573,26 +574,26 @@ class _ExpressiveDashboardTabState extends State<ExpressiveDashboardTab> {
       'scanner' => _InfoCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
-        value: MiliLocale.t('کشوری', 'By country'),
-        detail: MiliLocale.t('پینگ و Clean IP', 'Ping & Clean IP'),
+        value: LookLocale.t('کشوری', 'By country'),
+        detail: LookLocale.t('پینگ و Clean IP', 'Ping & Clean IP'),
         onTap: widget.onOpenScanner,
       ),
       'logs' => _ShortcutCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
-        detail: MiliLocale.t('مشاهده خروجی هسته', 'View core output'),
+        detail: LookLocale.t('مشاهده خروجی هسته', 'View core output'),
         onTap: () => _openPage(const LogPage()),
       ),
       'config' => _ShortcutCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
-        detail: MiliLocale.t('پیش‌نمایش JSON', 'Preview JSON'),
+        detail: LookLocale.t('پیش‌نمایش JSON', 'Preview JSON'),
         onTap: () => _openPage(const ConfigViewPage()),
       ),
       'about' => _ShortcutCard(
         title: _cardMeta(id).$1,
         icon: _cardMeta(id).$2,
-        detail: MiliLocale.t('نسخه و بروزرسانی', 'Version & updates'),
+        detail: LookLocale.t('نسخه و بروزرسانی', 'Version & updates'),
         onTap: () => _openPage(const AboutPage()),
       ),
       _ => const SizedBox.shrink(),
@@ -648,8 +649,8 @@ class _DashboardHeading extends StatelessWidget {
                   children: [
                     Text(
                       editMode
-                          ? MiliLocale.t('ویرایش چیدمان', 'Edit layout')
-                          : MiliLocale.t('داشبورد', 'Dashboard'),
+                          ? LookLocale.t('ویرایش چیدمان', 'Edit layout')
+                          : LookLocale.t('داشبورد', 'Dashboard'),
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w900,
                         letterSpacing: -0.5,
@@ -658,8 +659,8 @@ class _DashboardHeading extends StatelessWidget {
                     const SizedBox(width: 8),
                     BentoTag(
                       connected
-                          ? MiliLocale.t('زنده', 'Live')
-                          : MiliLocale.t('آفلاین', 'Offline'),
+                          ? LookLocale.t('زنده', 'Live')
+                          : LookLocale.t('آفلاین', 'Offline'),
                       icon: Symbols.circle,
                       filled: connected,
                     ),
@@ -668,11 +669,11 @@ class _DashboardHeading extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   editMode
-                      ? MiliLocale.t(
+                      ? LookLocale.t(
                           'کارت‌ها را بکشید، اندازه را عوض کنید یا پنهان کنید',
                           'Drag cards, resize them or hide them',
                         )
-                      : MiliLocale.t(
+                      : LookLocale.t(
                           'ابزارهای واقعی، یک لمس با شما فاصله دارند',
                           'Real tools, one tap away',
                         ),
@@ -689,7 +690,7 @@ class _DashboardHeading extends StatelessWidget {
             FilledButton.tonalIcon(
               onPressed: onEdit,
               icon: const Icon(Symbols.check_rounded, size: 17),
-              label: Text(MiliLocale.t('ذخیره', 'Save')),
+              label: Text(LookLocale.t('ذخیره', 'Save')),
             )
           else
             Material(
@@ -701,7 +702,7 @@ class _DashboardHeading extends StatelessWidget {
                 ),
               ),
               child: IconButton(
-                tooltip: MiliLocale.t('ویرایش داشبورد', 'Edit dashboard'),
+                tooltip: LookLocale.t('ویرایش داشبورد', 'Edit dashboard'),
                 onPressed: onEdit,
                 icon: Icon(
                   Symbols.dashboard_customize_rounded,
@@ -743,7 +744,7 @@ class _EditToolbar extends StatelessWidget {
           const SizedBox(width: 9),
           Expanded(
             child: Text(
-              MiliLocale.t(
+              LookLocale.t(
                 'برای جابه‌جایی، کارت را نگه دارید',
                 'Hold a card to move it',
               ),
@@ -756,19 +757,19 @@ class _EditToolbar extends StatelessWidget {
           ),
           IconButton(
             visualDensity: VisualDensity.compact,
-            tooltip: MiliLocale.t('افزودن یا حذف کارت', 'Add or remove cards'),
+            tooltip: LookLocale.t('افزودن یا حذف کارت', 'Add or remove cards'),
             onPressed: onAdd,
             icon: const Icon(Symbols.add_card_rounded, size: 20),
           ),
           IconButton(
             visualDensity: VisualDensity.compact,
-            tooltip: MiliLocale.t('بازنشانی چیدمان', 'Reset layout'),
+            tooltip: LookLocale.t('بازنشانی چیدمان', 'Reset layout'),
             onPressed: onReset,
             icon: const Icon(Symbols.restart_alt_rounded, size: 20),
           ),
           IconButton(
             visualDensity: VisualDensity.compact,
-            tooltip: MiliLocale.t('پایان ویرایش', 'Finish editing'),
+            tooltip: LookLocale.t('پایان ویرایش', 'Finish editing'),
             onPressed: onDone,
             icon: const Icon(Symbols.check_circle_rounded, size: 21),
           ),
@@ -863,7 +864,7 @@ class _BentoEditSlot extends StatelessWidget {
                         shape: const CircleBorder(),
                         child: IconButton(
                           visualDensity: VisualDensity.compact,
-                          tooltip: MiliLocale.t('پنهان کردن کارت', 'Hide card'),
+                          tooltip: LookLocale.t('پنهان کردن کارت', 'Hide card'),
                           onPressed: onHide,
                           icon: Icon(
                             Symbols.visibility_off_rounded,
@@ -915,7 +916,7 @@ class _BentoEditSlot extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  MiliLocale.t('اندازه', 'Resize'),
+                                  LookLocale.t('اندازه', 'Resize'),
                                   style: TextStyle(
                                     fontSize: 9.5,
                                     fontWeight: FontWeight.w800,
@@ -1037,7 +1038,7 @@ class _HiddenCardSlot extends StatelessWidget {
                   Icon(Symbols.add_rounded, size: 14, color: scheme.primary),
                   const SizedBox(width: 3),
                   Text(
-                    MiliLocale.t('افزودن', 'Add'),
+                    LookLocale.t('افزودن', 'Add'),
                     style: TextStyle(
                       fontSize: 9.5,
                       color: scheme.primary,
@@ -1056,86 +1057,86 @@ class _HiddenCardSlot extends StatelessWidget {
 
 (String, IconData) _cardMeta(String id) => switch (id) {
   'connection' => (
-    MiliLocale.t('هسته و اتصال', 'Core & connection'),
+    LookLocale.t('هسته و اتصال', 'Core & connection'),
     Symbols.power_settings_new_rounded,
   ),
   'speed' => (
-    MiliLocale.t('سرعت شبکه', 'Network speed'),
+    LookLocale.t('سرعت شبکه', 'Network speed'),
     Symbols.speed_rounded,
   ),
   'quota' => (
-    MiliLocale.t('سهمیه ورکر', 'Worker quota'),
+    LookLocale.t('سهمیه ورکر', 'Worker quota'),
     Symbols.cloud_done_rounded,
   ),
   'network' => (
-    MiliLocale.t('آی‌پی و DNS', 'IP & DNS'),
+    LookLocale.t('آی‌پی و DNS', 'IP & DNS'),
     Symbols.public_rounded,
   ),
   'quick' => (
-    MiliLocale.t('تنظیمات سریع', 'Quick settings'),
+    LookLocale.t('تنظیمات سریع', 'Quick settings'),
     Symbols.bolt_rounded,
   ),
   'toolbox' => (
-    MiliLocale.t('جعبه‌ابزار', 'Toolbox'),
+    LookLocale.t('جعبه‌ابزار', 'Toolbox'),
     Symbols.construction_rounded,
   ),
   'engine' => (
-    MiliLocale.t('هسته اتصال', 'Connection engine'),
+    LookLocale.t('هسته اتصال', 'Connection engine'),
     Symbols.memory_rounded,
   ),
   'cleanIps' => (
-    MiliLocale.t('کلین آی‌پی', 'Clean IPs'),
+    LookLocale.t('کلین آی‌پی', 'Clean IPs'),
     Symbols.verified_rounded,
   ),
   'proxyIps' => (
-    MiliLocale.t('پروکسی آی‌پی', 'Proxy IPs'),
+    LookLocale.t('پروکسی آی‌پی', 'Proxy IPs'),
     Symbols.router_rounded,
   ),
   'placement' => (
-    MiliLocale.t('پلیسمنت ورکر', 'Worker placement'),
+    LookLocale.t('پلیسمنت ورکر', 'Worker placement'),
     Symbols.public_rounded,
   ),
-  'dns' => (MiliLocale.t('سرورهای DNS', 'DNS servers'), Symbols.dns_rounded),
+  'dns' => (LookLocale.t('سرورهای DNS', 'DNS servers'), Symbols.dns_rounded),
   'routing' => (
-    MiliLocale.t('مسیریابی و قوانین', 'Routing & rules'),
+    LookLocale.t('مسیریابی و قوانین', 'Routing & rules'),
     Symbols.alt_route_rounded,
   ),
   'fragments' => (
-    MiliLocale.t('فرگمنت TCP', 'TCP fragments'),
+    LookLocale.t('فرگمنت TCP', 'TCP fragments'),
     Symbols.view_week_rounded,
   ),
   'noises' => (
-    MiliLocale.t('مبهم‌سازی UDP', 'UDP obfuscation'),
+    LookLocale.t('مبهم‌سازی UDP', 'UDP obfuscation'),
     Symbols.graphic_eq_rounded,
   ),
   'perApp' => (
-    MiliLocale.t('پروکسی هر برنامه', 'Per-app proxy'),
+    LookLocale.t('پروکسی هر برنامه', 'Per-app proxy'),
     Symbols.apps_rounded,
   ),
   'chains' => (
-    MiliLocale.t('زنجیره پروکسی', 'Chain proxies'),
+    LookLocale.t('زنجیره پروکسی', 'Chain proxies'),
     Symbols.link_rounded,
   ),
   'cloudflare' => (
-    MiliLocale.t('حساب‌های کلادفلر', 'Cloudflare accounts'),
+    LookLocale.t('حساب‌های کلادفلر', 'Cloudflare accounts'),
     Symbols.cloud_rounded,
   ),
-  'tor' => (MiliLocale.t('پل تور', 'Tor bridges'), Symbols.travel_explore_rounded),
+  'tor' => (LookLocale.t('پل تور', 'Tor bridges'), Symbols.travel_explore_rounded),
   'appearance' => (
-    MiliLocale.t('ظاهر و تم', 'Appearance'),
+    LookLocale.t('ظاهر و تم', 'Appearance'),
     Symbols.palette_rounded,
   ),
   'scanner' => (
-    MiliLocale.t('اسکنر شبکه', 'Network scanner'),
+    LookLocale.t('اسکنر شبکه', 'Network scanner'),
     Symbols.radar_rounded,
   ),
-  'logs' => (MiliLocale.t('لاگ زنده', 'Live logs'), Symbols.terminal_rounded),
+  'logs' => (LookLocale.t('لاگ زنده', 'Live logs'), Symbols.terminal_rounded),
   'config' => (
-    MiliLocale.t('کانفیگ Xray', 'Xray config'),
+    LookLocale.t('کانفیگ Xray', 'Xray config'),
     Symbols.data_object_rounded,
   ),
   'about' => (
-    MiliLocale.t('درباره و بروزرسانی', 'About & updates'),
+    LookLocale.t('درباره و بروزرسانی', 'About & updates'),
     Symbols.info_rounded,
   ),
   _ => (id, Symbols.dashboard_rounded),
@@ -1310,7 +1311,7 @@ class _ShortcutCard extends StatelessWidget {
           ),
           const SizedBox(height: 7),
           Text(
-            MiliLocale.t('باز کردن', 'Open'),
+            LookLocale.t('باز کردن', 'Open'),
             style: TextStyle(
               fontSize: 9.5,
               fontWeight: FontWeight.w700,
@@ -1347,10 +1348,10 @@ class _ConnectionCard extends StatelessWidget {
     final connected = state.isConnected;
     final busy = state.isBusy;
     final elapsed = state.connectedAt == null
-        ? MiliLocale.t('آماده اتصال', 'Ready to connect')
+        ? LookLocale.t('آماده اتصال', 'Ready to connect')
         : formatDuration(DateTime.now().difference(state.connectedAt!));
     final mode = state.isMihomo
-        ? 'Mihomo · ${state.mihomoSubscriptions.length} ${MiliLocale.t('اشتراک', 'subs')}'
+        ? 'Mihomo · ${state.mihomoSubscriptions.length} ${LookLocale.t('اشتراک', 'subs')}'
         : state.mode == ConnectionMode.worker
         ? '${modeName(state.mode)} · ${protocolLabel(state.device.workerProtocol)}'
         : modeName(state.mode);
@@ -1387,8 +1388,8 @@ class _ConnectionCard extends StatelessWidget {
                   children: [
                     Text(
                       state.isMihomo
-                          ? MiliLocale.t('هسته Mihomo', 'Mihomo core')
-                          : MiliLocale.t('هسته و اتصال', 'Core & connection'),
+                          ? LookLocale.t('هسته Mihomo', 'Mihomo core')
+                          : LookLocale.t('هسته و اتصال', 'Core & connection'),
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
@@ -1397,10 +1398,10 @@ class _ConnectionCard extends StatelessWidget {
                     ),
                     Text(
                       connected
-                          ? MiliLocale.t('محافظت فعال', 'Protection on')
+                          ? LookLocale.t('محافظت فعال', 'Protection on')
                           : (state.status == VpnStatus.connecting
-                                ? MiliLocale.t('در حال اتصال…', 'Connecting…')
-                                : MiliLocale.t('آماده', 'Ready')),
+                                ? LookLocale.t('در حال اتصال…', 'Connecting…')
+                                : LookLocale.t('آماده', 'Ready')),
                       style: TextStyle(
                         fontSize: 10,
                         color: connected
@@ -1412,7 +1413,7 @@ class _ConnectionCard extends StatelessWidget {
                 ),
               ),
               IconButton(
-                tooltip: MiliLocale.t('وضعیت هسته', 'Core status'),
+                tooltip: LookLocale.t('وضعیت هسته', 'Core status'),
                 onPressed: state.isMihomo
                     ? openEngine
                     : () => openCoreStatusSheet(
@@ -1433,18 +1434,18 @@ class _ConnectionCard extends StatelessWidget {
                   children: [
                     Text(
                       switch (state.status) {
-                        VpnStatus.connected => MiliLocale.t('متصل', 'Connected'),
-                        VpnStatus.connecting => MiliLocale.t(
+                        VpnStatus.connected => LookLocale.t('متصل', 'Connected'),
+                        VpnStatus.connecting => LookLocale.t(
                           'در حال اتصال',
                           'Connecting',
                         ),
-                        VpnStatus.disconnecting => MiliLocale.t(
+                        VpnStatus.disconnecting => LookLocale.t(
                           'در حال قطع',
                           'Disconnecting',
                         ),
                         VpnStatus.disconnected => state.error != null
-                            ? MiliLocale.t('خطا', 'Failed')
-                            : MiliLocale.t('متوقف', 'Stopped'),
+                            ? LookLocale.t('خطا', 'Failed')
+                            : LookLocale.t('متوقف', 'Stopped'),
                       },
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontSize: compact ? 23 : 29,
@@ -1461,7 +1462,7 @@ class _ConnectionCard extends StatelessWidget {
                       connected
                           ? elapsed
                           : (state.error ??
-                                MiliLocale.t(
+                                LookLocale.t(
                                   'برای اتصال، دکمه پخش را لمس کنید',
                                   'Tap play to start your tunnel',
                                 )),
@@ -1481,7 +1482,15 @@ class _ConnectionCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              GestureDetector(
+              LightDanceRing(
+                radius: 21,
+                strokeWidth: 2.8,
+                // Canary yellow while idle, the dancing spectrum once connected.
+                colors: connected ? null : LookLightDance.canary,
+                style: connected
+                    ? null
+                    : LightDanceStyle.marquee,
+                child: GestureDetector(
                 onTap: () {
                   HapticFeedback.mediumImpact();
                   state.toggle();
@@ -1546,11 +1555,17 @@ class _ConnectionCard extends StatelessWidget {
                           ),
                   ),
                 ),
+                ),
               ),
             ],
           ),
           const SizedBox(height: 13),
-          Material(
+          LightDanceRing(
+            radius: 19,
+            strokeWidth: 2.0,
+            padding: 3,
+            style: LightDanceStyle.ripple,
+            child: Material(
             color: scheme.surfaceContainerHigh.withValues(alpha: 0.56),
             borderRadius: BorderRadius.circular(16),
             child: InkWell(
@@ -1572,7 +1587,7 @@ class _ConnectionCard extends StatelessWidget {
                         children: [
                           Text(
                             state.isMihomo
-                                ? MiliLocale.t('اشتراک‌های Mihomo', 'Mihomo subscriptions')
+                                ? LookLocale.t('اشتراک‌های Mihomo', 'Mihomo subscriptions')
                                 : exitLabel(state),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -1584,7 +1599,7 @@ class _ConnectionCard extends StatelessWidget {
                           Text(
                             state.isMihomo
                                 ? mode
-                                : '$mode · ${state.pingMs == null ? MiliLocale.t('پینگ نشده', 'Not tested') : '${state.pingMs} ms'}',
+                                : '$mode · ${state.pingMs == null ? LookLocale.t('پینگ نشده', 'Not tested') : '${state.pingMs} ms'}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -1597,13 +1612,14 @@ class _ConnectionCard extends StatelessWidget {
                     ),
                     BentoTag(
                       state.isMihomo
-                          ? MiliLocale.t('مدیریت', 'Manage')
-                          : MiliLocale.t('تغییر نود', 'Change node'),
+                          ? LookLocale.t('مدیریت', 'Manage')
+                          : LookLocale.t('تغییر نود', 'Change node'),
                       icon: Symbols.expand_more_rounded,
                     ),
                   ],
                 ),
               ),
+            ),
             ),
           ),
           if (!compact) ...[
@@ -1616,7 +1632,7 @@ class _ConnectionCard extends StatelessWidget {
                   icon: Symbols.vpn_lock_rounded,
                   label: state.device.appMode == AppMode.vpn
                       ? 'VPN'
-                      : MiliLocale.t('پروکسی', 'Proxy'),
+                      : LookLocale.t('پروکسی', 'Proxy'),
                   active: state.device.appMode == AppMode.vpn,
                   onTap: state.isBusy
                       ? null
@@ -1636,7 +1652,7 @@ class _ConnectionCard extends StatelessWidget {
                   label: state.pinging
                       ? '…'
                       : (state.pingMs == null
-                            ? MiliLocale.t('تست پینگ', 'Test ping')
+                            ? LookLocale.t('تست پینگ', 'Test ping')
                             : '${state.pingMs} ms'),
                   active: state.pingMs != null && (state.pingMs ?? -1) > 0,
                   onTap: state.isConnected ? state.testPing : null,
@@ -1667,7 +1683,7 @@ class _SpeedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return _DashboardCardFrame(
-      title: MiliLocale.t('سرعت شبکه', 'Network speed'),
+      title: LookLocale.t('سرعت شبکه', 'Network speed'),
       icon: Symbols.speed_rounded,
       onTap: () => openSpeedTestSheet(context),
       action: Icon(
@@ -1678,12 +1694,20 @@ class _SpeedCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Each metre carries its own dancing ring: down and up cycle colours
+          // independently so the two read as separate streams.
           Row(
             children: [
-              Icon(
-                Symbols.arrow_downward_rounded,
-                size: compact ? 15 : 18,
-                color: scheme.primary,
+              LightDanceRing(
+                radius: 11,
+                strokeWidth: 1.8,
+                glow: false,
+                padding: 3,
+                child: Icon(
+                  Symbols.arrow_downward_rounded,
+                  size: compact ? 15 : 18,
+                  color: scheme.primary,
+                ),
               ),
               const SizedBox(width: 3),
               Flexible(
@@ -1700,10 +1724,17 @@ class _SpeedCard extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Icon(
-                Symbols.arrow_upward_rounded,
-                size: 14,
-                color: scheme.tertiary,
+              LightDanceRing(
+                radius: 11,
+                strokeWidth: 1.8,
+                glow: false,
+                padding: 3,
+                style: LightDanceStyle.chase,
+                child: Icon(
+                  Symbols.arrow_upward_rounded,
+                  size: 14,
+                  color: scheme.tertiary,
+                ),
               ),
               const SizedBox(width: 2),
               Text(
@@ -1718,25 +1749,26 @@ class _SpeedCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: compact ? 8 : 11),
-          BettboxLineChart(
+          LightDanceWaveChart(
             values: List<double>.of(history),
             revision: revision,
-            color: state.isConnected ? scheme.primary : scheme.tertiary,
+            baseColor: state.isConnected ? scheme.primary : scheme.tertiary,
             height: compact ? 34 : 54,
+            active: state.isConnected,
           ),
           const SizedBox(height: 8),
           Row(
             children: [
               BentoTag(
                 state.isConnected
-                    ? MiliLocale.t('تونل فعال', 'Tunnel live')
-                    : MiliLocale.t('اتصال غیرفعال', 'Tunnel off'),
+                    ? LookLocale.t('تونل فعال', 'Tunnel live')
+                    : LookLocale.t('اتصال غیرفعال', 'Tunnel off'),
                 icon: Symbols.circle,
                 filled: state.isConnected,
               ),
               const Spacer(),
               Text(
-                MiliLocale.t('تست کامل', 'Full test'),
+                LookLocale.t('تست کامل', 'Full test'),
                 style: TextStyle(
                   fontSize: 9.5,
                   color: scheme.primary,
@@ -1763,7 +1795,7 @@ class _QuotaCard extends StatelessWidget {
     final total = usage?.total ?? 0;
     final ratio = (total / 100000).clamp(0.0, 1.0).toDouble();
     return _DashboardCardFrame(
-      title: MiliLocale.t('سهمیه ورکر · ۲۴ ساعت', 'Worker quota · 24h'),
+      title: LookLocale.t('سهمیه ورکر · ۲۴ ساعت', 'Worker quota · 24h'),
       icon: Symbols.cloud_done_rounded,
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const CfAccountsPage()),
@@ -1782,7 +1814,7 @@ class _QuotaCard extends StatelessWidget {
       child: usage == null
           ? Text(
               state.usageError ??
-                  MiliLocale.t(
+                  LookLocale.t(
                     'برای دریافت آمار، بروزرسانی را لمس کنید',
                     'Tap refresh to load live quota',
                   ),
@@ -1843,7 +1875,7 @@ class _QuotaCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 7),
                 Text(
-                  MiliLocale.t(
+                  LookLocale.t(
                     'این ورکر: ${formatCount(usage.worker)} درخواست',
                     'This worker: ${formatCount(usage.worker)} requests',
                   ),
@@ -1870,7 +1902,7 @@ class _NetworkCard extends StatelessWidget {
     final ip = state.myIps?.other ?? state.myIps?.cloudflare;
     final countryCode = ip?.country ?? '';
     return _DashboardCardFrame(
-      title: MiliLocale.t('آی‌پی و DNS', 'IP & DNS'),
+      title: LookLocale.t('آی‌پی و DNS', 'IP & DNS'),
       icon: Symbols.public_rounded,
       onTap: () => openIpDnsSheet(context),
       action: Icon(
@@ -1911,7 +1943,7 @@ class _NetworkCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            ip?.ip ?? MiliLocale.t('برای بررسی لمس کنید', 'Tap to inspect'),
+            ip?.ip ?? LookLocale.t('برای بررسی لمس کنید', 'Tap to inspect'),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -1925,8 +1957,8 @@ class _NetworkCard extends StatelessWidget {
           const SizedBox(height: 3),
           Text(
             state.isConnected
-                ? MiliLocale.t('خروجی تونل · DNS سالم', 'Tunnel exit · DNS check')
-                : MiliLocale.t('اتصال مستقیم', 'Direct connection'),
+                ? LookLocale.t('خروجی تونل · DNS سالم', 'Tunnel exit · DNS check')
+                : LookLocale.t('اتصال مستقیم', 'Direct connection'),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -1957,11 +1989,11 @@ class _QuickCard extends StatelessWidget {
             .take(compact ? 3 : 5)
             .toList();
         return _DashboardCardFrame(
-          title: MiliLocale.t('تنظیمات سریع', 'Quick settings'),
+          title: LookLocale.t('تنظیمات سریع', 'Quick settings'),
           icon: Symbols.bolt_rounded,
           action: IconButton(
             visualDensity: VisualDensity.compact,
-            tooltip: MiliLocale.t('شخصی‌سازی', 'Customize'),
+            tooltip: LookLocale.t('شخصی‌سازی', 'Customize'),
             onPressed: () => openQuickSettingsSheet(context),
             icon: const Icon(Symbols.tune_rounded, size: 17),
           ),
@@ -1981,7 +2013,7 @@ class _QuickCard extends StatelessWidget {
               ],
               if (actions.isEmpty)
                 Text(
-                  MiliLocale.t(
+                  LookLocale.t(
                     'کنترل‌های دلخواه را اضافه کنید',
                     'Add your preferred controls',
                   ),
@@ -2100,30 +2132,30 @@ class _ToolboxCard extends StatelessWidget {
     final List<(IconData, String, VoidCallback)> tools = [
       (
         Symbols.speed_rounded,
-        MiliLocale.t('تست سرعت', 'Speed test'),
+        LookLocale.t('تست سرعت', 'Speed test'),
         () => openSpeedTestSheet(context),
       ),
       (
         Symbols.public_rounded,
-        MiliLocale.t('آی‌پی و DNS', 'IP & DNS'),
+        LookLocale.t('آی‌پی و DNS', 'IP & DNS'),
         () => openIpDnsSheet(context),
       ),
       (
         Symbols.memory_rounded,
-        MiliLocale.t('وضعیت هسته', 'Core status'),
+        LookLocale.t('وضعیت هسته', 'Core status'),
         () => openCoreStatusSheet(context),
       ),
       (
         Symbols.radar_rounded,
-        MiliLocale.t('اسکنر', 'Scanner'),
+        LookLocale.t('اسکنر', 'Scanner'),
         onOpenScanner,
       ),
     ];
     return _DashboardCardFrame(
-      title: MiliLocale.t('جعبه‌ابزار', 'Toolbox'),
+      title: LookLocale.t('جعبه‌ابزار', 'Toolbox'),
       icon: Symbols.construction_rounded,
       onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const MiliToolboxPage()),
+        MaterialPageRoute(builder: (_) => const LookToolboxPage()),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2181,14 +2213,14 @@ class _ToolboxCard extends StatelessWidget {
             children: [
               BentoTag(
                 state.isConnected
-                    ? MiliLocale.t('اتصال سالم', 'Link healthy')
-                    : MiliLocale.t('اتصال قطع', 'Link offline'),
+                    ? LookLocale.t('اتصال سالم', 'Link healthy')
+                    : LookLocale.t('اتصال قطع', 'Link offline'),
                 icon: Symbols.circle,
                 filled: state.isConnected,
               ),
               const Spacer(),
               Text(
-                MiliLocale.t('همه ابزارها', 'All tools'),
+                LookLocale.t('همه ابزارها', 'All tools'),
                 style: TextStyle(
                   fontSize: 9.5,
                   fontWeight: FontWeight.w700,
@@ -2249,13 +2281,13 @@ class _DashboardFooter extends StatelessWidget {
           Expanded(
             child: Text(
               busy
-                  ? MiliLocale.t('در حال اعمال تغییرات…', 'Applying changes…')
+                  ? LookLocale.t('در حال اعمال تغییرات…', 'Applying changes…')
                   : connected
-                  ? MiliLocale.t(
+                  ? LookLocale.t(
                       'اتصال پایدار · داده زنده',
                       'Stable link · live data',
                     )
-                  : MiliLocale.t(
+                  : LookLocale.t(
                       'برای شروع اتصال، دکمه قدرت را لمس کنید',
                       'Tap power to start your tunnel',
                     ),
@@ -2270,7 +2302,7 @@ class _DashboardFooter extends StatelessWidget {
           TextButton.icon(
             onPressed: onManageNodes,
             icon: const Icon(Symbols.hub_rounded, size: 16),
-            label: Text(MiliLocale.t('نودها', 'Nodes')),
+            label: Text(LookLocale.t('نودها', 'Nodes')),
           ),
           IconButton(
             visualDensity: VisualDensity.compact,
@@ -2298,14 +2330,14 @@ class _DashboardCardsSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              MiliLocale.t('کارت‌های داشبورد', 'Dashboard cards'),
+              LookLocale.t('کارت‌های داشبورد', 'Dashboard cards'),
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w900,
               ),
             ),
             const SizedBox(height: 4),
             Text(
-              MiliLocale.t(
+              LookLocale.t(
                 'هر تنظیم و ابزار می‌تواند کارت داشبورد شود؛ برای چیدمان، کارت‌ها را در حالت ویرایش بکشید.',
                 'Any setting or tool can become a dashboard card; drag cards in edit mode to arrange them.',
               ),
@@ -2379,7 +2411,7 @@ class _DashboardCardsSheet extends StatelessWidget {
                 },
                 icon: const Icon(Symbols.restart_alt_rounded, size: 18),
                 label: Text(
-                  MiliLocale.t('بازگردانی چیدمان پیش‌فرض', 'Restore default layout'),
+                  LookLocale.t('بازگردانی چیدمان پیش‌فرض', 'Restore default layout'),
                 ),
               ),
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 import 'prefs.dart';
 
 /// The single routing destination: choose bypass, sanction or block rules.
@@ -12,11 +12,11 @@ class RoutingHubPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return ValueListenableBuilder<String>(
-      valueListenable: MiliLocale.code,
+      valueListenable: LookLocale.code,
       builder: (context, _, __) => Scaffold(
         appBar: ExpressiveSubpageHeader(
-          title: MiliLocale.t('مسیریابی و قوانین', 'Routing & rules'),
-          subtitle: MiliLocale.t(
+          title: LookLocale.t('مسیریابی و قوانین', 'Routing & rules'),
+          subtitle: LookLocale.t(
             'عبور مستقیم، قوانین تحریم و مسدودسازی',
             'Direct routes, sanctions and blocking',
           ),
@@ -32,15 +32,15 @@ class RoutingHubPage extends StatelessWidget {
                     _RoutingEntry(
                       icon: Icons.alt_route_rounded,
                       color: scheme.primary,
-                      title: MiliLocale.t('عبور مستقیم', 'Bypass'),
-                      subtitle: MiliLocale.t(
+                      title: LookLocale.t('عبور مستقیم', 'Bypass'),
+                      subtitle: LookLocale.t(
                         'ایران، چین، روسیه، بیت‌تورنت و دامنه‌های دلخواه',
                         'Iran, China, Russia, BitTorrent and custom domains',
                       ),
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => RoutingPage(
-                            title: MiliLocale.t(
+                            title: LookLocale.t(
                               'مسیریابی و عبور مستقیم',
                               'Routing & bypass',
                             ),
@@ -58,19 +58,19 @@ class RoutingHubPage extends StatelessWidget {
                     _RoutingEntry(
                       icon: Icons.gpp_maybe_rounded,
                       color: scheme.tertiary,
-                      title: MiliLocale.t('قوانین تحریم', 'Sanction rules'),
-                      subtitle: MiliLocale.t(
+                      title: LookLocale.t('قوانین تحریم', 'Sanction rules'),
+                      subtitle: LookLocale.t(
                         'ChatGPT، هوش مصنوعی گوگل، مایکروسافت و سرویس‌های ابری',
                         'ChatGPT, Google AIs, Microsoft and cloud services',
                       ),
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => RoutingPage(
-                            title: MiliLocale.t('قوانین تحریم', 'Sanction rules'),
+                            title: LookLocale.t('قوانین تحریم', 'Sanction rules'),
                             group: 'sanctionBypass',
                             labels: RoutingPage.sanctionBypassLabels,
                             domainHint: 'gemini.google.com',
-                            help: MiliLocale.t(
+                            help: LookLocale.t(
                               RoutingPage.sanctionHelpFa,
                               RoutingPage.sanctionHelp,
                             ),
@@ -85,15 +85,15 @@ class RoutingHubPage extends StatelessWidget {
                     _RoutingEntry(
                       icon: Icons.block_rounded,
                       color: scheme.error,
-                      title: MiliLocale.t('مسدودسازی', 'Blocking'),
-                      subtitle: MiliLocale.t(
+                      title: LookLocale.t('مسدودسازی', 'Blocking'),
+                      subtitle: LookLocale.t(
                         'تبلیغات، بدافزار، فیشینگ، ماینر و QUIC',
                         'Ads, malware, phishing, miners and QUIC',
                       ),
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => RoutingPage(
-                            title: MiliLocale.t('قوانین مسدودسازی', 'Block rules'),
+                            title: LookLocale.t('قوانین مسدودسازی', 'Block rules'),
                             group: 'block',
                             labels: RoutingPage.blockLabels,
                             domainHint: 'ads.example.com',
@@ -265,17 +265,17 @@ class RoutingPage extends StatelessWidget {
   };
 
   String _label(String key, String fallback) =>
-      MiliLocale.t(_faLabels[key] ?? fallback, fallback);
+      LookLocale.t(_faLabels[key] ?? fallback, fallback);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return ValueListenableBuilder<String>(
-      valueListenable: MiliLocale.code,
+      valueListenable: LookLocale.code,
       builder: (context, _, __) => Scaffold(
         appBar: ExpressiveSubpageHeader(
           title: title,
-          subtitle: MiliLocale.t(
+          subtitle: LookLocale.t(
             'پیش‌تنظیم‌ها و قوانین دستی مسیر مستقیم',
             'Presets and custom direct-route rules',
           ),
@@ -293,7 +293,7 @@ class RoutingPage extends StatelessWidget {
                   ),
                 ),
               ),
-            SectionHeader(MiliLocale.t('پیش‌تنظیم‌ها', 'Presets')),
+            SectionHeader(LookLocale.t('پیش‌تنظیم‌ها', 'Presets')),
             SettingsCard(
               children: [
                 for (final e in labels.entries)
@@ -301,7 +301,7 @@ class RoutingPage extends StatelessWidget {
                     'routing.$group.presets.${e.key}',
                     _label(e.key, e.value),
                     subtitle: e.key == 'quic'
-                        ? MiliLocale.t(
+                        ? LookLocale.t(
                             'VLESS همیشه UDP را مسدود می‌کند؛ این گزینه فقط روی پروتکل‌های دیگر اثر دارد.',
                             'VLESS always blocks UDP, this only applies to other protocols',
                           )
@@ -309,19 +309,19 @@ class RoutingPage extends StatelessWidget {
                   ),
               ],
             ),
-            SectionHeader(MiliLocale.t('دستی', 'Manual')),
+            SectionHeader(LookLocale.t('دستی', 'Manual')),
             SettingsCard(
               children: [
                 ListPref(
                   'routing.$group.domains',
-                  MiliLocale.t('دامنه‌ها', 'Domains'),
+                  LookLocale.t('دامنه‌ها', 'Domains'),
                   hint: domainHint,
                   itemValidator: validateDomain,
                 ),
                 if (ipHint != null)
                   ListPref(
                     'routing.$group.ips',
-                    MiliLocale.t('آی‌پی یا CIDR', 'IPs or CIDRs'),
+                    LookLocale.t('آی‌پی یا CIDR', 'IPs or CIDRs'),
                     hint: ipHint,
                     itemValidator: validateIpOrCidr,
                   ),

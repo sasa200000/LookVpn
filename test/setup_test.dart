@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:mili_vpn/models/cf_account.dart';
-import 'package:mili_vpn/models/settings.dart';
-import 'package:mili_vpn/services/masque.dart';
-import 'package:mili_vpn/services/net_errors.dart';
-import 'package:mili_vpn/services/warp.dart';
+import 'package:look_vpn/models/cf_account.dart';
+import 'package:look_vpn/models/settings.dart';
+import 'package:look_vpn/services/masque.dart';
+import 'package:look_vpn/services/net_errors.dart';
+import 'package:look_vpn/services/warp.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

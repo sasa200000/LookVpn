@@ -1,5 +1,5 @@
-name: mili_vpn
-description: "MiliConfig — Multi-protocol VPN & Cloudflare Control Client."
+name: look_vpn
+description: "LookVPN — Multi-protocol VPN & Cloudflare Control Client."
 publish_to: "none"
 
 version: 2.4.9+24
@@ -40,7 +40,7 @@ flutter:
     # Cloudflare scanner CIDRs.
     - assets/scanner/
     - assets/dns/
-    - assets/mili/
+    - assets/look/
     - assets/route_svg/
   fonts:
     - family: OpenSans

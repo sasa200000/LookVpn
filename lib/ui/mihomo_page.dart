@@ -7,7 +7,7 @@ import '../models/settings.dart';
 import '../services/vpn_channel.dart';
 import '../state/app_state.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 
 /// Manage the alternate Mihomo core: its own encrypted subscription list,
 /// connection status and traffic. The main power button uses the engine chosen
@@ -28,7 +28,7 @@ class _MihomoPageState extends State<MihomoPage> {
     final result = await showDialog<({String name, String url})>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(MiliLocale.t('افزودن اشتراک Mihomo', 'Add Mihomo subscription')),
+        title: Text(LookLocale.t('افزودن اشتراک Mihomo', 'Add Mihomo subscription')),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -36,7 +36,7 @@ class _MihomoPageState extends State<MihomoPage> {
               controller: name,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                labelText: MiliLocale.t('نام (اختیاری)', 'Name (optional)'),
+                labelText: LookLocale.t('نام (اختیاری)', 'Name (optional)'),
                 prefixIcon: const Icon(Symbols.label_rounded),
               ),
             ),
@@ -46,7 +46,7 @@ class _MihomoPageState extends State<MihomoPage> {
               keyboardType: TextInputType.url,
               autocorrect: false,
               decoration: InputDecoration(
-                labelText: MiliLocale.t('آدرس اشتراک', 'Subscription URL'),
+                labelText: LookLocale.t('آدرس اشتراک', 'Subscription URL'),
                 hintText: 'https://…',
                 prefixIcon: const Icon(Symbols.link_rounded),
               ),
@@ -56,7 +56,7 @@ class _MihomoPageState extends State<MihomoPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text(MiliLocale.t('انصراف', 'Cancel')),
+            child: Text(LookLocale.t('انصراف', 'Cancel')),
           ),
           FilledButton(
             onPressed: () {
@@ -69,7 +69,7 @@ class _MihomoPageState extends State<MihomoPage> {
                 url: value,
               ));
             },
-            child: Text(MiliLocale.t('افزودن', 'Add')),
+            child: Text(LookLocale.t('افزودن', 'Add')),
           ),
         ],
       ),
@@ -93,16 +93,16 @@ class _MihomoPageState extends State<MihomoPage> {
     final remove = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(MiliLocale.t('حذف اشتراک؟', 'Remove subscription?')),
+        title: Text(LookLocale.t('حذف اشتراک؟', 'Remove subscription?')),
         content: Text(item.name),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(MiliLocale.t('انصراف', 'Cancel')),
+            child: Text(LookLocale.t('انصراف', 'Cancel')),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(MiliLocale.t('حذف', 'Remove')),
+            child: Text(LookLocale.t('حذف', 'Remove')),
           ),
         ],
       ),
@@ -134,7 +134,7 @@ class _MihomoPageState extends State<MihomoPage> {
         return Scaffold(
           appBar: ExpressiveSubpageHeader(
             title: 'Mihomo',
-            subtitle: MiliLocale.t(
+            subtitle: LookLocale.t(
               'هسته جایگزین برای اشتراک‌های Clash / Mihomo',
               'Alternate core for Clash / Mihomo subscriptions',
             ),
@@ -164,8 +164,8 @@ class _MihomoPageState extends State<MihomoPage> {
                               children: [
                                 Text(
                                   connected
-                                      ? MiliLocale.t('Mihomo متصل است', 'Mihomo is connected')
-                                      : MiliLocale.t('Mihomo آماده است', 'Mihomo is ready'),
+                                      ? LookLocale.t('Mihomo متصل است', 'Mihomo is connected')
+                                      : LookLocale.t('Mihomo آماده است', 'Mihomo is ready'),
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w900,
@@ -174,19 +174,19 @@ class _MihomoPageState extends State<MihomoPage> {
                                 const SizedBox(height: 2),
                                 Text(
                                   switch (state.status) {
-                                    VpnStatus.connected => MiliLocale.t(
+                                    VpnStatus.connected => LookLocale.t(
                                       'ترافیک از هسته Mihomo عبور می‌کند',
                                       'Traffic is routed through Mihomo',
                                     ),
-                                    VpnStatus.connecting => MiliLocale.t(
+                                    VpnStatus.connecting => LookLocale.t(
                                       'در حال راه‌اندازی هسته…',
                                       'Starting the core…',
                                     ),
-                                    VpnStatus.disconnecting => MiliLocale.t(
+                                    VpnStatus.disconnecting => LookLocale.t(
                                       'در حال قطع اتصال…',
                                       'Stopping…',
                                     ),
-                                    VpnStatus.disconnected => MiliLocale.t(
+                                    VpnStatus.disconnected => LookLocale.t(
                                       'برای اتصال، دکمه را بزنید',
                                       'Tap to connect',
                                     ),
@@ -201,7 +201,7 @@ class _MihomoPageState extends State<MihomoPage> {
                             ),
                           ),
                           BentoTag(
-                            '${state.mihomoSubscriptions.length} ${MiliLocale.t('اشتراک', 'subs')}',
+                            '${state.mihomoSubscriptions.length} ${LookLocale.t('اشتراک', 'subs')}',
                             icon: Symbols.link_rounded,
                           ),
                         ],
@@ -229,10 +229,10 @@ class _MihomoPageState extends State<MihomoPage> {
                           ),
                           label: Text(
                             working
-                                ? MiliLocale.t('لطفاً صبر کنید…', 'Please wait…')
+                                ? LookLocale.t('لطفاً صبر کنید…', 'Please wait…')
                                 : connected
-                                ? MiliLocale.t('قطع اتصال', 'Disconnect')
-                                : MiliLocale.t('اتصال با Mihomo', 'Connect with Mihomo'),
+                                ? LookLocale.t('قطع اتصال', 'Disconnect')
+                                : LookLocale.t('اتصال با Mihomo', 'Connect with Mihomo'),
                           ),
                         ),
                       ),
@@ -244,7 +244,7 @@ class _MihomoPageState extends State<MihomoPage> {
                   children: [
                     Expanded(
                       child: Text(
-                        MiliLocale.t('اشتراک‌ها', 'Subscriptions'),
+                        LookLocale.t('اشتراک‌ها', 'Subscriptions'),
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w900,
@@ -254,7 +254,7 @@ class _MihomoPageState extends State<MihomoPage> {
                     TextButton.icon(
                       onPressed: _busy ? null : () => _addSubscription(state),
                       icon: const Icon(Symbols.add_rounded, size: 18),
-                      label: Text(MiliLocale.t('افزودن', 'Add')),
+                      label: Text(LookLocale.t('افزودن', 'Add')),
                     ),
                   ],
                 ),
@@ -271,7 +271,7 @@ class _MihomoPageState extends State<MihomoPage> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          MiliLocale.t(
+                          LookLocale.t(
                             'هنوز اشتراکی اضافه نشده است',
                             'No subscriptions yet',
                           ),
@@ -282,7 +282,7 @@ class _MihomoPageState extends State<MihomoPage> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          MiliLocale.t(
+                          LookLocale.t(
                             'لینک Clash / Mihomo یا اشتراک base64 را وارد کنید؛ خود هسته آن را دانلود و مدیریت می‌کند.',
                             'Paste a Clash / Mihomo or base64 subscription link; the core downloads and manages it itself.',
                           ),
@@ -325,7 +325,7 @@ class _MihomoPageState extends State<MihomoPage> {
                                 ),
                               ),
                               trailing: IconButton(
-                                tooltip: MiliLocale.t('حذف', 'Remove'),
+                                tooltip: LookLocale.t('حذف', 'Remove'),
                                 onPressed: _busy ? null : () => _remove(state, item),
                                 icon: const Icon(Symbols.delete_rounded, size: 19),
                               ),
@@ -336,9 +336,9 @@ class _MihomoPageState extends State<MihomoPage> {
                   ),
                 const SizedBox(height: 12),
                 Text(
-                  MiliLocale.t(
-                    'هسته Mihomo برای اشتراک‌های شخصی است و از پروتکل‌های Clash پشتیبانی می‌کند. برای WARP، MASQUE و مسیر خروج MiliConfig هسته Xray را انتخاب کنید.',
-                    'The Mihomo core is for personal Clash subscriptions. Choose the Xray core for MiliConfig WARP, MASQUE and exit paths.',
+                  LookLocale.t(
+                    'هسته Mihomo برای اشتراک‌های شخصی است و از پروتکل‌های Clash پشتیبانی می‌کند. برای WARP، MASQUE و مسیر خروج LookVPN هسته Xray را انتخاب کنید.',
+                    'The Mihomo core is for personal Clash subscriptions. Choose the Xray core for LookVPN WARP, MASQUE and exit paths.',
                   ),
                   style: TextStyle(
                     fontSize: 9.5,

@@ -3,7 +3,7 @@ import 'dart:convert';
 /// A parsed share link (vless://, vmess://, trojan://, ss://, socks://, http://, wireguard://,
 /// hysteria2://).
 ///
-/// Field names follow MiliConfig's `extractProxyParams` so the chain outbound can be
+/// Field names follow LookVPN's `extractProxyParams` so the chain outbound can be
 /// built the same way the panel does.
 class ProxyUri {
   /// Xray protocol name: vless, vmess, trojan, shadowsocks, socks, http or wireguard; hysteria2 for

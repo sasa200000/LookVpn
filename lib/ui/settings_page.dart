@@ -14,7 +14,7 @@ import 'cf_accounts_page.dart';
 import 'cloudflare_scanner_page.dart';
 import 'dns_page.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 import 'fragments_page.dart';
 import 'noises_page.dart';
 import 'prefs.dart';
@@ -77,27 +77,27 @@ class _SettingsPageState extends State<SettingsPage> {
     final d = state.device;
 
     return ValueListenableBuilder<String>(
-      valueListenable: MiliLocale.code,
+      valueListenable: LookLocale.code,
       builder: (context, _, __) => Scaffold(
       backgroundColor: widget.embedded ? Colors.transparent : null,
       appBar: widget.embedded
           ? null
           : ExpressiveSubpageHeader(
-        title: MiliLocale.t('اتصال و شبکه', 'Connection & network'),
-        subtitle: MiliLocale.t(
+        title: LookLocale.t('اتصال و شبکه', 'Connection & network'),
+        subtitle: LookLocale.t(
           'پروتکل ورکر، WARP، MASQUE، DNS، MTU و داده‌ها',
           'Worker protocol, WARP, MASQUE, DNS, MTU and data',
         ),
         actions: [
           IconButton(
-            tooltip: MiliLocale.t('بازنشانی تنظیمات', 'Reset settings'),
+            tooltip: LookLocale.t('بازنشانی تنظیمات', 'Reset settings'),
             icon: const Icon(Symbols.settings_backup_restore_rounded),
             onPressed: () async {
               final ok = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: Text(MiliLocale.t('بازنشانی تنظیمات؟', 'Reset settings?')),
-                  content: Text(MiliLocale.t(
+                  title: Text(LookLocale.t('بازنشانی تنظیمات؟', 'Reset settings?')),
+                  content: Text(LookLocale.t(
                     'تنظیمات پروکسی به حالت پیش‌فرض برمی‌گردند. آی‌پی‌های سالم VLESS، اندپوینت‌های WARP/MASQUE و بریج‌های تور حفظ می‌شوند.',
                     'Proxy settings return to their defaults. VLESS Clean IPs, WARP and MASQUE '
                         'endpoints and Tor custom bridges are preserved.',
@@ -105,11 +105,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(false),
-                      child: Text(MiliLocale.t('انصراف', 'Cancel')),
+                      child: Text(LookLocale.t('انصراف', 'Cancel')),
                     ),
                     FilledButton(
                       onPressed: () => Navigator.of(context).pop(true),
-                      child: Text(MiliLocale.t('بازنشانی', 'Reset')),
+                      child: Text(LookLocale.t('بازنشانی', 'Reset')),
                     ),
                   ],
                 ),
@@ -128,7 +128,7 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.only(bottom: 104, top: 6),
         children: [
           SectionHeader(
-            MiliLocale.t('شبکه و DNS', 'Network & DNS'),
+            LookLocale.t('شبکه و DNS', 'Network & DNS'),
             key: _networkKey,
             icon: Symbols.lan_rounded,
           ),
@@ -137,10 +137,10 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               TextPref(
                 'general.localDns',
-                MiliLocale.t('DNS محلی', 'Local DNS'),
+                LookLocale.t('DNS محلی', 'Local DNS'),
                 icon: Symbols.home_rounded,
                 hint: 'IP, tcp://IP or localhost',
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'دامنه‌های خروجی و قوانین عبور مستقیم را resolve می‌کند. می‌تواند UDP، TCP یا localhost باشد.',
                   'Resolves outbound domains and bypass routing rules. '
                       'It can be an UDP DNS, TCP DNS or "localhost" to use system DNS.',
@@ -149,9 +149,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               TextPref(
                 'general.antiSanctionDns',
-                MiliLocale.t('DNS ضدتحریم', 'Anti Sanction DNS'),
+                LookLocale.t('DNS ضدتحریم', 'Anti Sanction DNS'),
                 icon: Symbols.account_circle_off_rounded,
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'دامنه‌های تحریمی را برای اتصال مستقیم resolve می‌کند؛ فقط در Serverless، WARP و MASQUE با خروجی Default.',
                   'Resolves the sanctioned domains so they work over a direct connection. '
                       'This only applies to Serverless, WARP and MASQUE connections when Exit node is set to Default. '
@@ -161,9 +161,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               SwitchPref(
                 'general.enableFakeDns',
-                MiliLocale.t('DNS فیک', 'Fake DNS'),
+                LookLocale.t('DNS فیک', 'Fake DNS'),
                 icon: Symbols.dns_rounded,
-                subtitle: MiliLocale.t('سریع‌تر، اما ممکن است با بعضی برنامه‌ها کار نکند', 'Faster but may not work with some apps'),
+                subtitle: LookLocale.t('سریع‌تر، اما ممکن است با بعضی برنامه‌ها کار نکند', 'Faster but may not work with some apps'),
               ),
             ],
           ),
@@ -174,27 +174,27 @@ class _SettingsPageState extends State<SettingsPage> {
                 'general.enableIpv6',
                 'IPv6',
                 icon: Symbols.counter_6_rounded,
-                subtitle: MiliLocale.t('بسته به ISP خود فعال کنید', 'Enable it based on your ISP'),
+                subtitle: LookLocale.t('بسته به ISP خود فعال کنید', 'Enable it based on your ISP'),
               ),
               SwitchPref(
                 'general.preferIpv6',
-                MiliLocale.t('ترجیح IPv6', 'Prefer IPv6'),
+                LookLocale.t('ترجیح IPv6', 'Prefer IPv6'),
                 icon: Symbols.counter_6_rounded,
-                subtitle: MiliLocale.t('بسته به ISP خود فعال کنید', 'Enable it based on your ISP'),
+                subtitle: LookLocale.t('بسته به ISP خود فعال کنید', 'Enable it based on your ISP'),
               ),
               SwitchPref(
                 'device.lanSharing.enabled',
-                MiliLocale.t('اشتراک در شبکه محلی', 'Share over LAN'),
+                LookLocale.t('اشتراک در شبکه محلی', 'Share over LAN'),
                 icon: Symbols.lan_rounded,
-                subtitle: MiliLocale.t('پروکسی Socks/HTTP روی پورت ۱۰۸۰۸', 'Share a Socks, HTTP proxy on port 10808'),
+                subtitle: LookLocale.t('پروکسی Socks/HTTP روی پورت ۱۰۸۰۸', 'Share a Socks, HTTP proxy on port 10808'),
               ),
               if (d.lanSharing) ...[
                 TextPref(
                   'device.lanSharing.username',
-                  MiliLocale.t('نام کاربری پروکسی', 'Proxy username'),
+                  LookLocale.t('نام کاربری پروکسی', 'Proxy username'),
                   icon: Symbols.account_circle_rounded,
-                  hint: MiliLocale.t('اختیاری', 'Optional'),
-                  help: MiliLocale.t(
+                  hint: LookLocale.t('اختیاری', 'Optional'),
+                  help: LookLocale.t(
                     'برای محدود کردن به دستگاه‌های مطمئن، نام کاربری و رمز بگذارید. برای بدون ورود، هر دو را خالی کنید.',
                     'Recommended to set a username and password to only allow trusted devices. '
                         'Leave both empty for no login.',
@@ -204,10 +204,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 TextPref(
                   'device.lanSharing.password',
-                  MiliLocale.t('رمز پروکسی', 'Proxy password'),
+                  LookLocale.t('رمز پروکسی', 'Proxy password'),
                   icon: Symbols.password_rounded,
-                  hint: MiliLocale.t('اختیاری', 'Optional'),
-                  help: MiliLocale.t('فقط همراه با نام کاربری استفاده می‌شود.', 'Used only together with a username.'),
+                  hint: LookLocale.t('اختیاری', 'Optional'),
+                  help: LookLocale.t('فقط همراه با نام کاربری استفاده می‌شود.', 'Used only together with a username.'),
                   allowEmpty: true,
                   secret: true,
                   validator: validateProxyPassword,
@@ -218,9 +218,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 builder: (context, snapshot) => snapshot.data == true
                     ? SwitchPref(
                         'device.appendHttpProxy',
-                        MiliLocale.t('افزودن پروکسی HTTP به VPN', 'Add HTTP proxy to VPN'),
+                        LookLocale.t('افزودن پروکسی HTTP به VPN', 'Add HTTP proxy to VPN'),
                         icon: Symbols.http_rounded,
-                        subtitle: MiliLocale.t(
+                        subtitle: LookLocale.t(
                           'استفاده مستقیم پروکسی برای برنامه‌ها و مرورگرهای پشتیبانی‌شده',
                           'Use proxy directly for supported apps, browsers',
                         ),
@@ -229,7 +229,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               IntPref(
                 'device.mtu',
-                MiliLocale.t('MTU وی‌پی‌ان', 'VPN MTU'),
+                LookLocale.t('MTU وی‌پی‌ان', 'VPN MTU'),
                 icon: Symbols.straighten_rounded,
                 min: 1280,
                 max: 9000,
@@ -238,7 +238,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
 
           SectionHeader(
-            MiliLocale.t(
+            LookLocale.t(
               'اتصال · ورکر (VLESS / XHTTP / Shadowsocks)',
               'Connection · Worker (VLESS / XHTTP / Shadowsocks)',
             ),
@@ -250,7 +250,7 @@ class _SettingsPageState extends State<SettingsPage> {
               const _DeploymentTile(),
               ChoicePref(
                 'device.connection.workerProtocol',
-                MiliLocale.t('پروتکل ورکر', 'Worker protocol'),
+                LookLocale.t('پروتکل ورکر', 'Worker protocol'),
                 {
                   'vless_ws': 'VLESS · WS',
                   'vless_xhttp': 'VLESS · XHTTP (stream-one)',
@@ -261,11 +261,11 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ChoicePref(
                 'vless.placement',
-                MiliLocale.t('محل اجرای ورکر', 'Worker placement'),
+                LookLocale.t('محل اجرای ورکر', 'Worker placement'),
                 {
-                  'auto': MiliLocale.t('خودکار', 'Auto'),
+                  'auto': LookLocale.t('خودکار', 'Auto'),
                   'smart': 'Smart Placement',
-                  'targeted': MiliLocale.t('منطقه مشخص', 'Targeted region'),
+                  'targeted': LookLocale.t('منطقه مشخص', 'Targeted region'),
                 },
                 icon: Symbols.pin_drop_rounded,
               ),
@@ -273,9 +273,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 const _PlacementRegionTile(),
               TextPref(
                 'vless.remoteDns.server',
-                MiliLocale.t('DNS راه دور', 'Remote DNS'),
+                LookLocale.t('DNS راه دور', 'Remote DNS'),
                 icon: Symbols.outbound_rounded,
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'دامنه‌های خارجی را برای مسیریابی resolve می‌کند؛ DoH یا DNS از نوع TCP.',
                   'Resolves foreign domains for routing and can be a DoH or TCP DNS.',
                 ),
@@ -283,13 +283,13 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               MultiIntPref(
                 'vless.ports',
-                MiliLocale.t('پورت‌ها', 'Ports'),
+                LookLocale.t('پورت‌ها', 'Ports'),
                 XrayConfigBuilder.httpsPorts,
                 icon: Symbols.numbers_rounded,
               ),
               ChoicePref(
                 'vless.tlsFingerprint',
-                MiliLocale.t('اثر انگشت TLS', 'TLS Fingerprint'),
+                LookLocale.t('اثر انگشت TLS', 'TLS Fingerprint'),
                 fingerprints,
                 icon: Symbols.fingerprint_rounded,
               ),
@@ -298,7 +298,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 'vless.customCdn.enabled',
                 'Custom CDN',
                 icon: Symbols.cloud_rounded,
-                subtitle: MiliLocale.t(
+                subtitle: LookLocale.t(
                   'برای دور زدن محدودیت دامنه فعال کنید',
                   'Enable for domain fronting',
                 ),
@@ -306,10 +306,10 @@ class _SettingsPageState extends State<SettingsPage> {
               if (p.vless.customCdn.enabled) ...[
                 ListPref(
                   'vless.customCdn.addresses',
-                  MiliLocale.t('آدرس‌های CDN سفارشی', 'Custom CDN addresses'),
+                  LookLocale.t('آدرس‌های CDN سفارشی', 'Custom CDN addresses'),
                   icon: Symbols.list_arrow_rounded,
                   hint: 'speedtest.net\n151.101.66.219\n2a04:4e42::731',
-                  help: MiliLocale.t(
+                  help: LookLocale.t(
                     'همراه با هاست و SNI سفارشی استفاده می‌شود.',
                     'Used with the custom CDN host and SNI together.',
                   ),
@@ -317,14 +317,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 TextPref(
                   'vless.customCdn.host',
-                  MiliLocale.t('هاست CDN سفارشی', 'Custom CDN host'),
+                  LookLocale.t('هاست CDN سفارشی', 'Custom CDN host'),
                   icon: Symbols.host_rounded,
                   allowEmpty: true,
                   validator: validateHost,
                 ),
                 TextPref(
                   'vless.customCdn.sni',
-                  MiliLocale.t('SNI سفارشی', 'Custom CDN SNI'),
+                  LookLocale.t('SNI سفارشی', 'Custom CDN SNI'),
                   icon: Symbols.host_rounded,
                   allowEmpty: true,
                   validator: validateHost,
@@ -332,17 +332,17 @@ class _SettingsPageState extends State<SettingsPage> {
               ],
               SwitchPref(
                 'vless.ech.enabled',
-                MiliLocale.t('ECH در TLS', 'TLS ECH'),
+                LookLocale.t('ECH در TLS', 'TLS ECH'),
                 icon: Symbols.encrypted_rounded,
-                subtitle: MiliLocale.t('SNI واقعی را پنهان می‌کند', 'Hide the real SNI'),
+                subtitle: LookLocale.t('SNI واقعی را پنهان می‌کند', 'Hide the real SNI'),
               ),
               if (p.vless.ech.enabled)
                 TextPref(
                   'vless.ech.dns',
-                  MiliLocale.t('سرور DNS برای ECH', 'ECH DNS server'),
+                  LookLocale.t('سرور DNS برای ECH', 'ECH DNS server'),
                   icon: Symbols.dns_rounded,
                   hint: '8.8.8.8 or https://8.8.8.8/dns-query',
-                  help: MiliLocale.t(
+                  help: LookLocale.t(
                     'DNS که تنظیمات ECH از آن گرفته می‌شود؛ IP یا DoH با هاست IP. باید از شبکه شما در دسترس باشد.',
                     'DNS server the ECH config is fetched from, an IP or a DoH with an IP host. '
                         'DNS server should be reachable from your network and not blocked by your ISP.',
@@ -351,7 +351,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ListTile(
                 leading: const Icon(Symbols.view_week_rounded),
-                title: Text(MiliLocale.t('فرگمنت TCP', 'TCP Fragments')),
+                title: Text(LookLocale.t('فرگمنت TCP', 'TCP Fragments')),
                 subtitle: Text(_fragmentSummary(p.fragments)),
                 trailing: const Icon(Symbols.chevron_right_rounded),
                 onTap: () => Navigator.of(context).push(
@@ -360,10 +360,10 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               TextPref(
                 'vless.upstreamProxy',
-                MiliLocale.t('پروکسی TCP بالادست', 'Upstream TCP Proxy'),
+                LookLocale.t('پروکسی TCP بالادست', 'Upstream TCP Proxy'),
                 icon: Symbols.swap_vert_rounded,
                 hint: 'host:port',
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'یک پروکسی TCP بالادست برای جلوگیری از SNI spoofing تنظیم کنید.',
                   'Setup a upstream TCP proxy like SNI spoofing.',
                 ),
@@ -372,9 +372,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListPref(
                 'vless.proxyIps',
-                MiliLocale.t('آی‌پی یا دامنه‌های پروکسی', 'Proxy IPs or domains'),
+                LookLocale.t('آی‌پی یا دامنه‌های پروکسی', 'Proxy IPs or domains'),
                 icon: Symbols.list_arrow_rounded,
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'برای اتصال worker به سایت‌های میزبانی‌شده در کلادفلر استفاده می‌شود. برای مقدار پیش‌فرض خالی بگذارید. بهتر است خالی بماند چون IPهای پروکسی منقضی می‌شوند و IPهای پیش‌فرض مرتب به‌روز می‌شوند.',
                   'Used by the worker to connect to Cloudflare-hosted sites. Leave empty for its '
                       'built-in default. It is highly recommended to leave it empty, because Proxy IPs expire frequently '
@@ -388,14 +388,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 'vless.enableTcpFastOpen',
                 'TCP Fast Open',
                 icon: Symbols.bolt_rounded,
-                subtitle: MiliLocale.t('با احتیاط فعال کنید', 'Enable with caution'),
+                subtitle: LookLocale.t('با احتیاط فعال کنید', 'Enable with caution'),
               ),
               TextPref(
                 'vless.fallbackUrl',
-                MiliLocale.t('وب‌سایت جایگزین', 'Fallback website'),
+                LookLocale.t('وب‌سایت جایگزین', 'Fallback website'),
                 icon: Symbols.eyeglasses_rounded,
                 hint: 'https://example.com',
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'بازدیدکننده‌هایی که VPN ندارند به‌جای ۴۰۴ این وب‌سایت را می‌بینند.',
                   'Non-VPN visitors to the worker see this website instead of a 404. ',
                 ),
@@ -404,9 +404,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               IntPref(
                 'vless.speedTestInterval',
-                MiliLocale.t('فاصله تست سرعت (ثانیه)', 'Speed test interval (s)'),
+                LookLocale.t('فاصله تست سرعت (ثانیه)', 'Speed test interval (s)'),
                 icon: Symbols.timer_rounded,
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'فاصله بین پینگ‌ها برای پیدا کردن خودکار سریع‌ترین سرور.',
                   'Interval between ping attempts to automatically find the fastest server.',
                 ),
@@ -421,10 +421,10 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               ListPref(
                 'vless.cleanIps',
-                MiliLocale.t('آی‌پی یا دامنه سالم', 'Clean IPs or domains'),
+                LookLocale.t('آی‌پی یا دامنه سالم', 'Clean IPs or domains'),
                 icon: Symbols.list_arrow_rounded,
                 hint: 'www.speedtest.net\n104.16.1.1\n2606:4700::6810:84e5',
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'برای افزایش سرعت، آی‌پی/دامنه سالم کلادفلر بگذارید. حداقل یک IPv4 لازم است.',
                   'Set clean Cloudflare IPs or domains to boost connection speed. '
                       'Include at least one IPv4 address.',
@@ -434,8 +434,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 leading: const Icon(Symbols.manage_search_rounded),
-                title: Text(MiliLocale.t('اسکن آی‌پی سالم', 'Scan clean IPs')),
-                subtitle: Text(MiliLocale.t('آی‌پی‌های سریع برای VLESS', 'Find fast IPs for VLESS')),
+                title: Text(LookLocale.t('اسکن آی‌پی سالم', 'Scan clean IPs')),
+                subtitle: Text(LookLocale.t('آی‌پی‌های سریع برای VLESS', 'Find fast IPs for VLESS')),
                 trailing: const Icon(Symbols.chevron_right_rounded),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -451,17 +451,17 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsCard(children: [const _CloudflareAccountsTile()]),
 
           SectionHeader(
-            MiliLocale.t('اتصال · MASQUE', 'Connection · MASQUE'),
+            LookLocale.t('اتصال · MASQUE', 'Connection · MASQUE'),
             icon: Symbols.waves_rounded,
           ),
           SettingsCard(
             children: [
               TextPref(
                 'masque.remoteDns',
-                MiliLocale.t('DNS راه دور', 'Remote DNS'),
+                LookLocale.t('DNS راه دور', 'Remote DNS'),
                 icon: Symbols.outbound_rounded,
                 hint: '1.1.1.1',
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'می‌تواند DNS از نوع UDP، TCP یا DoH باشد.',
                   'It can be an UDP DNS, TCP DNS or DoH.',
                 ),
@@ -481,13 +481,13 @@ class _SettingsPageState extends State<SettingsPage> {
               if (p.masque.transport == 'h2')
                 ChoicePref(
                   'masque.tlsFingerprint',
-                  MiliLocale.t('اثر انگشت H2', 'H2 Fingerprint'),
+                  LookLocale.t('اثر انگشت H2', 'H2 Fingerprint'),
                   fingerprints,
                   icon: Symbols.fingerprint_rounded,
                 ),
               ListTile(
                 leading: const Icon(Symbols.view_week_rounded),
-                title: Text(MiliLocale.t('فرگمنت TCP در H2', 'H2 TCP Fragments')),
+                title: Text(LookLocale.t('فرگمنت TCP در H2', 'H2 TCP Fragments')),
                 subtitle: Text(_fragmentSummary(p.masque.fragments)),
                 trailing: const Icon(Symbols.chevron_right_rounded),
                 onTap: () => Navigator.of(context).push(
@@ -498,9 +498,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 leading: const Icon(Symbols.graphic_eq_rounded),
-                title: Text(MiliLocale.t('مبهم‌سازی UDP در H3', 'H3 UDP Obfuscation')),
+                title: Text(LookLocale.t('مبهم‌سازی UDP در H3', 'H3 UDP Obfuscation')),
                 subtitle: Text(
-                  MiliLocale.t(
+                  LookLocale.t(
                     '${p.masque.udpNoises.length} نویز',
                     '${p.masque.udpNoises.length} noise${p.masque.udpNoises.length == 1 ? '' : 's'}',
                   ),
@@ -514,9 +514,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               IntPref(
                 'masque.speedTestInterval',
-                MiliLocale.t('فاصله تست سرعت (ثانیه)', 'Speed test interval (s)'),
+                LookLocale.t('فاصله تست سرعت (ثانیه)', 'Speed test interval (s)'),
                 icon: Symbols.timer_rounded,
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'فاصله بین پینگ‌ها برای پیدا کردن خودکار سریع‌ترین سرور.',
                   'Interval between ping attempts to automatically find the fastest server.',
                 ),
@@ -531,10 +531,10 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               ListPref(
                 'masque.endpoints',
-                MiliLocale.t('نقاط اتصال', 'Endpoints'),
+                LookLocale.t('نقاط اتصال', 'Endpoints'),
                 icon: Symbols.list_arrow_rounded,
                 hint: '162.159.198.1:443\n[2606:4700:103::1]:443',
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'هر نقطه اتصال در یک خط. حداقل دو نقطه IPv4 وارد کنید.',
                   'Each endpoint in a new line. Include at least two IPv4 endpoints.',
                 ),
@@ -543,8 +543,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 leading: const Icon(Symbols.manage_search_rounded),
-                title: Text(MiliLocale.t('اسکن نقاط اتصال', 'Scan endpoints')),
-                subtitle: Text(MiliLocale.t('آی‌پی‌های سریع برای MASQUE', 'Find fast IPs for MASQUE')),
+                title: Text(LookLocale.t('اسکن نقاط اتصال', 'Scan endpoints')),
+                subtitle: Text(LookLocale.t('آی‌پی‌های سریع برای MASQUE', 'Find fast IPs for MASQUE')),
                 trailing: const Icon(Symbols.chevron_right_rounded),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -562,17 +562,17 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsCard(children: [const _MasqueAccountTile()]),
 
           SectionHeader(
-            MiliLocale.t('اتصال · WARP', 'Connection · WARP'),
+            LookLocale.t('اتصال · WARP', 'Connection · WARP'),
             icon: Symbols.shield_rounded,
           ),
           SettingsCard(
             children: [
               TextPref(
                 'warp.remoteDns',
-                MiliLocale.t('DNS راه دور', 'Remote DNS'),
+                LookLocale.t('DNS راه دور', 'Remote DNS'),
                 icon: Symbols.outbound_rounded,
                 hint: '1.1.1.1',
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'می‌تواند DNS از نوع UDP، TCP یا DoH باشد.',
                   'It can be a UDP DNS, TCP DNS or DoH.',
                 ),
@@ -580,15 +580,15 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               SwitchPref(
                 'warp.enableReservedBytes',
-                MiliLocale.t('بایت‌های رزروشده', 'Reserved bytes'),
+                LookLocale.t('بایت‌های رزروشده', 'Reserved bytes'),
                 icon: Symbols.memory_rounded,
-                subtitle: MiliLocale.t('ممکن است روی بعضی ISPها کمک کند', 'May help on some ISPs'),
+                subtitle: LookLocale.t('ممکن است روی بعضی ISPها کمک کند', 'May help on some ISPs'),
               ),
               ListTile(
                 leading: const Icon(Symbols.graphic_eq_rounded),
-                title: Text(MiliLocale.t('مبهم‌سازی UDP', 'UDP Obfuscation')),
+                title: Text(LookLocale.t('مبهم‌سازی UDP', 'UDP Obfuscation')),
                 subtitle: Text(
-                  MiliLocale.t(
+                  LookLocale.t(
                     '${p.udpNoises.length} نویز',
                     '${p.udpNoises.length} noise${p.udpNoises.length == 1 ? '' : 's'}',
                   ),
@@ -600,9 +600,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               IntPref(
                 'warp.keepAlive',
-                MiliLocale.t('فاصله زنده‌نگه‌داشتن (ثانیه)', 'Keep alive interval (s)'),
+                LookLocale.t('فاصله زنده‌نگه‌داشتن (ثانیه)', 'Keep alive interval (s)'),
                 icon: Symbols.timer_rounded,
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'اتصال WARP را زنده نگه می‌دارد. برای غیرفعال کردن ۰ بگذارید.',
                   'Keep WARP connection alive. Set 0 to disable.',
                 ),
@@ -612,9 +612,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               IntPref(
                 'warp.speedTestInterval',
-                MiliLocale.t('فاصله تست سرعت (ثانیه)', 'Speed test interval (s)'),
+                LookLocale.t('فاصله تست سرعت (ثانیه)', 'Speed test interval (s)'),
                 icon: Symbols.timer_rounded,
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'فاصله بین پینگ‌ها برای پیدا کردن خودکار سریع‌ترین سرور.',
                   'Interval between ping attempts to automatically find the fastest server.',
                 ),
@@ -629,10 +629,10 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               ListPref(
                 'warp.endpoints',
-                MiliLocale.t('نقاط اتصال', 'Endpoints'),
+                LookLocale.t('نقاط اتصال', 'Endpoints'),
                 icon: Symbols.list_arrow_rounded,
                 hint: 'engage.cloudflareclient.com:2408\n162.159.192.1:2408\n[2606:4700:d0::a29f:c001]:2408',
-                help: MiliLocale.t(
+                help: LookLocale.t(
                   'نقاط اتصال Cloudflare WARP. حداقل دو نقطه IPv4 وارد کنید.',
                   'Cloudflare Warp endpoints. Include at least two IPv4 endpoints.',
                 ),
@@ -641,8 +641,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 leading: const Icon(Symbols.manage_search_rounded),
-                title: Text(MiliLocale.t('اسکن نقاط اتصال', 'Scan endpoints')),
-                subtitle: Text(MiliLocale.t('آی‌پی‌های سریع برای WARP', 'Find fast IPs for WARP')),
+                title: Text(LookLocale.t('اسکن نقاط اتصال', 'Scan endpoints')),
+                subtitle: Text(LookLocale.t('آی‌پی‌های سریع برای WARP', 'Find fast IPs for WARP')),
                 trailing: const Icon(Symbols.chevron_right_rounded),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -658,24 +658,24 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsCard(children: [const _WarpAccountTile()]),
 
           SectionHeader(
-            MiliLocale.t('اتصال · سرورلس', 'Connection · Serverless'),
+            LookLocale.t('اتصال · سرورلس', 'Connection · Serverless'),
             icon: Symbols.cloud_off_rounded,
           ),
           SettingsCard(
             children: [
               ListTile(
                 leading: const Icon(Symbols.dns_rounded),
-                title: Text(MiliLocale.t('سرورهای DNS', 'DNS servers')),
-                subtitle: Text(MiliLocale.t('حالت DNS', 'DNS mode')),
+                title: Text(LookLocale.t('سرورهای DNS', 'DNS servers')),
+                subtitle: Text(LookLocale.t('حالت DNS', 'DNS mode')),
                 trailing: const Icon(Symbols.chevron_right_rounded),
                 onTap: () => Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => const DnsPage())),
               ),
               SwitchPref(
                 'serverless.dnsSettings.fakeSniServers',
-                MiliLocale.t('سرورهای SNI فیک', 'Fake SNI servers'),
+                LookLocale.t('سرورهای SNI فیک', 'Fake SNI servers'),
                 icon: Symbols.encrypted_rounded,
-                subtitle: MiliLocale.t('حالت DNS', 'DNS mode'),
+                subtitle: LookLocale.t('حالت DNS', 'DNS mode'),
               ),
             ],
           ),
@@ -684,8 +684,8 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               ListTile(
                 leading: const Icon(Symbols.view_week_rounded),
-                title: Text(MiliLocale.t('فرگمنت TCP', 'TCP Fragments')),
-                subtitle: Text(MiliLocale.t('حالت بسته', 'Packet mode')),
+                title: Text(LookLocale.t('فرگمنت TCP', 'TCP Fragments')),
+                subtitle: Text(LookLocale.t('حالت بسته', 'Packet mode')),
                 trailing: const Icon(Symbols.chevron_right_rounded),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -695,8 +695,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 leading: const Icon(Symbols.graphic_eq_rounded),
-                title: Text(MiliLocale.t('مبهم‌سازی UDP', 'UDP Obfuscation')),
-                subtitle: Text(MiliLocale.t('حالت بسته', 'Packet mode')),
+                title: Text(LookLocale.t('مبهم‌سازی UDP', 'UDP Obfuscation')),
+                subtitle: Text(LookLocale.t('حالت بسته', 'Packet mode')),
                 trailing: const Icon(Symbols.chevron_right_rounded),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -710,7 +710,7 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsCard(children: [const _MitmCaTile()]),
 
           SectionHeader(
-            MiliLocale.t('داده‌ها (ورود / خروج)', 'Data (Import / Export)'),
+            LookLocale.t('داده‌ها (ورود / خروج)', 'Data (Import / Export)'),
             icon: Symbols.import_export_rounded,
           ),
           const SettingsCard(
@@ -787,7 +787,7 @@ class _InterfaceEntryCard extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Text(
-                              MiliLocale.t(
+                              LookLocale.t(
                                 'ظاهر، تم و حرکت',
                                 'Appearance, theme & motion',
                               ),
@@ -808,7 +808,7 @@ class _InterfaceEntryCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Text(
-                              MiliLocale.t('کامل', 'NEW'),
+                              LookLocale.t('کامل', 'NEW'),
                               style: TextStyle(
                                 color: scheme.primary,
                                 fontSize: 9,
@@ -820,7 +820,7 @@ class _InterfaceEntryCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        MiliLocale.t(
+                        LookLocale.t(
                           'پیش‌نمایش زنده · رنگ‌ها · فونت · انیمیشن · ترنزیشن صفحات',
                           'Live preview · colors · font · motion · page transitions',
                         ),
@@ -863,7 +863,7 @@ class _ThemeModeTile extends StatelessWidget {
         children: [
           ListTile(
             leading: const Icon(Symbols.contrast_rounded),
-            title: Text(MiliLocale.t('حالت نمایش', 'Theme mode')),
+            title: Text(LookLocale.t('حالت نمایش', 'Theme mode')),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
@@ -873,15 +873,15 @@ class _ThemeModeTile extends StatelessWidget {
                 segments: [
                   ButtonSegment(
                     value: ThemeMode.system,
-                    label: Text(MiliLocale.t('سیستم', 'System')),
+                    label: Text(LookLocale.t('سیستم', 'System')),
                   ),
                   ButtonSegment(
                     value: ThemeMode.light,
-                    label: Text(MiliLocale.t('روشن', 'Light')),
+                    label: Text(LookLocale.t('روشن', 'Light')),
                   ),
                   ButtonSegment(
                     value: ThemeMode.dark,
-                    label: Text(MiliLocale.t('تیره', 'Dark')),
+                    label: Text(LookLocale.t('تیره', 'Dark')),
                   ),
                 ],
                 selected: {mode},
@@ -910,7 +910,7 @@ class _ThemeColorTile extends StatelessWidget {
         children: [
           ListTile(
             leading: const Icon(Symbols.palette_rounded),
-            title: Text(MiliLocale.t('رنگ تم', 'Theme color')),
+            title: Text(LookLocale.t('رنگ تم', 'Theme color')),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
@@ -1001,11 +1001,11 @@ class _PlacementRegionTile extends StatelessWidget {
     final current = state.readString('vless.placementRegion');
     return ListTile(
       leading: const Icon(Symbols.public_rounded),
-      title: Text(MiliLocale.t('منطقه اجرای ورکر', 'Placement region')),
+      title: Text(LookLocale.t('منطقه اجرای ورکر', 'Placement region')),
       subtitle: Text(
         _labelFor(current) ??
             (current.isEmpty
-                ? MiliLocale.t('انتخاب منطقه', 'Choose a region')
+                ? LookLocale.t('انتخاب منطقه', 'Choose a region')
                 : current),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
@@ -1031,12 +1031,12 @@ class _PlacementRegionTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          MiliLocale.t('منطقه اجرای ورکر', 'Placement region'),
+                          LookLocale.t('منطقه اجرای ورکر', 'Placement region'),
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          MiliLocale.t(
+                          LookLocale.t(
                             'ورکر نزدیک‌ترین دیتاسنتر به این منطقه را انتخاب می‌کند. اگر مطمئن نیستید، gcp:us-east4 یا aws:us-east-1 انتخاب امنی است.',
                             'The Worker runs near this cloud region. If unsure, gcp:us-east4 or aws:us-east-1 is a safe default.',
                           ),
@@ -1053,7 +1053,7 @@ class _PlacementRegionTile extends StatelessWidget {
                         ListTile(
                           leading: const Icon(Symbols.edit_rounded),
                           title: Text(
-                            MiliLocale.t('وارد کردن دستی', 'Enter custom region'),
+                            LookLocale.t('وارد کردن دستی', 'Enter custom region'),
                           ),
                           subtitle: const Text('provider:region'),
                           onTap: () => Navigator.of(context).pop('__custom'),
@@ -1093,10 +1093,10 @@ class _PlacementRegionTile extends StatelessWidget {
         if (picked == '__custom') {
           final custom = await showTextInputDialog(
             context,
-            title: MiliLocale.t('منطقه اجرای ورکر', 'Placement region'),
+            title: LookLocale.t('منطقه اجرای ورکر', 'Placement region'),
             initial: current,
             hint: 'gcp:us-east4',
-            help: MiliLocale.t(
+            help: LookLocale.t(
               'منطقه را به شکل provider:region وارد کنید؛ مثلاً gcp:us-east4 یا aws:us-east-1.',
               'Use provider:region, for example gcp:us-east4 or aws:us-east-1.',
             ),
@@ -1149,7 +1149,7 @@ class _FontTile extends StatelessWidget {
       valueListenable: state.fontFamily,
       builder: (context, selected, _) => ListTile(
         leading: const Icon(Symbols.text_fields_rounded),
-        title: Text(MiliLocale.t('فونت برنامه', 'App font')),
+        title: Text(LookLocale.t('فونت برنامه', 'App font')),
         subtitle: Text(
           _fonts[selected] ?? _fonts['OpenSans']!,
           style: TextStyle(
@@ -1161,7 +1161,7 @@ class _FontTile extends StatelessWidget {
           final picked = await showDialog<String>(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text(MiliLocale.t('فونت برنامه', 'App font')),
+              title: Text(LookLocale.t('فونت برنامه', 'App font')),
               contentPadding: const EdgeInsets.symmetric(vertical: 12),
               content: RadioGroup<String>(
                 groupValue: selected,
@@ -1205,14 +1205,14 @@ class _FontScaleTile extends StatelessWidget {
       valueListenable: state.fontScale,
       builder: (context, selected, _) => ListTile(
         leading: const Icon(Symbols.format_size_rounded),
-        title: Text(MiliLocale.t('اندازه متن', 'Text size')),
+        title: Text(LookLocale.t('اندازه متن', 'Text size')),
         subtitle: Text('${(selected * 100).round()}%'),
         trailing: const Icon(Symbols.chevron_right_rounded),
         onTap: () async {
           final picked = await showDialog<double>(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text(MiliLocale.t('اندازه متن', 'Text size')),
+              title: Text(LookLocale.t('اندازه متن', 'Text size')),
               contentPadding: const EdgeInsets.symmetric(vertical: 12),
               content: RadioGroup<double>(
                 groupValue: selected,
@@ -1326,22 +1326,22 @@ class _CustomDomainTileState extends State<_CustomDomainTile> {
     final state = AppScope.read(context);
     final domain = await showTextInputDialog(
       context,
-      title: MiliLocale.t('افزودن دامنه سفارشی', 'Add custom domain'),
+      title: LookLocale.t('افزودن دامنه سفارشی', 'Add custom domain'),
       hint: 'vpn.example.com',
-      help: MiliLocale.t(
-        'دامنه باید روی همان حساب کلادفلر ثبت شده باشد. یک زیردامنه دلخواه که هنوز در کلادفلر نیست اضافه کنید؛ MiliConfig رکورد DNS را می‌سازد و به worker اضافه می‌کند.',
+      help: LookLocale.t(
+        'دامنه باید روی همان حساب کلادفلر ثبت شده باشد. یک زیردامنه دلخواه که هنوز در کلادفلر نیست اضافه کنید؛ LookVPN رکورد DNS را می‌سازد و به worker اضافه می‌کند.',
         'The domain must be registered on the same Cloudflare account. '
             'Just add a desired subdomain which is not available on Cloudflare yet. '
-            'MiliConfig creates the DNS record and adds it to the worker.',
+            'LookVPN creates the DNS record and adds it to the worker.',
       ),
       validator: (v) => isDomain(v)
           ? null
-          : MiliLocale.t('دامنه نامعتبر است', 'Invalid domain'),
+          : LookLocale.t('دامنه نامعتبر است', 'Invalid domain'),
     );
     if (domain == null || !mounted) return;
     await _run(
       () => state.setCustomDomain(domain.toLowerCase()),
-      MiliLocale.t('دامنه سفارشی اضافه شد', 'Custom domain added'),
+      LookLocale.t('دامنه سفارشی اضافه شد', 'Custom domain added'),
     );
   }
 
@@ -1351,9 +1351,9 @@ class _CustomDomainTileState extends State<_CustomDomainTile> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(MiliLocale.t('دامنه سفارشی حذف شود؟', 'Delete custom domain?')),
+        title: Text(LookLocale.t('دامنه سفارشی حذف شود؟', 'Delete custom domain?')),
         content: Text(
-          MiliLocale.t(
+          LookLocale.t(
             '$domain از worker در کلادفلر جدا می‌شود. کانفیگ‌ها به آدرس workers.dev برمی‌گردند.',
             '$domain will be detached from the worker in Cloudflare. '
                 'Configs fall back to the workers.dev address.',
@@ -1362,11 +1362,11 @@ class _CustomDomainTileState extends State<_CustomDomainTile> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(MiliLocale.t('انصراف', 'Cancel')),
+            child: Text(LookLocale.t('انصراف', 'Cancel')),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(MiliLocale.t('حذف', 'Delete')),
+            child: Text(LookLocale.t('حذف', 'Delete')),
           ),
         ],
       ),
@@ -1374,7 +1374,7 @@ class _CustomDomainTileState extends State<_CustomDomainTile> {
     if (ok != true || !mounted) return;
     await _run(
       state.removeCustomDomain,
-      MiliLocale.t('دامنه سفارشی حذف شد', 'Custom domain deleted'),
+      LookLocale.t('دامنه سفارشی حذف شد', 'Custom domain deleted'),
     );
   }
 
@@ -1383,8 +1383,8 @@ class _CustomDomainTileState extends State<_CustomDomainTile> {
     final domain = AppScope.of(context).worker?.customDomain ?? '';
     return ListTile(
       leading: const Icon(Symbols.host_rounded),
-      title: Text(MiliLocale.t('دامنه سفارشی', 'Custom domain')),
-      subtitle: Text(domain.isEmpty ? MiliLocale.t('تنظیم نشده', 'Not set') : domain),
+      title: Text(LookLocale.t('دامنه سفارشی', 'Custom domain')),
+      subtitle: Text(domain.isEmpty ? LookLocale.t('تنظیم نشده', 'Not set') : domain),
       onTap: _busy || domain.isNotEmpty ? null : _add,
       trailing: _busy
           ? const Padding(
@@ -1398,7 +1398,7 @@ class _CustomDomainTileState extends State<_CustomDomainTile> {
           : domain.isEmpty
           ? null
           : IconButton(
-              tooltip: MiliLocale.t('حذف دامنه سفارشی', 'Delete custom domain'),
+              tooltip: LookLocale.t('حذف دامنه سفارشی', 'Delete custom domain'),
               icon: const Icon(Symbols.delete_outline_rounded),
               onPressed: _delete,
             ),
@@ -1406,7 +1406,7 @@ class _CustomDomainTileState extends State<_CustomDomainTile> {
   }
 }
 
-/// Domain Fronting's CA (miliconfig-cert.crt / .key): created on this device on first install, then
+/// Domain Fronting's CA (lookvpn-cert.crt / .key): created on this device on first install, then
 /// handed to Android's certificate install (like [_WarpAccountTile]).
 class _MitmCaTile extends StatefulWidget {
   const _MitmCaTile();
@@ -1426,24 +1426,24 @@ class _MitmCaTileState extends State<_MitmCaTile> {
       context: context,
       builder: (context) => AlertDialog(
         icon: const Icon(Symbols.verified_user_rounded, size: 36, weight: 600),
-        title: Text(MiliLocale.t('نصب گواهی', 'Install certificate')),
+        title: Text(LookLocale.t('نصب گواهی', 'Install certificate')),
         content: Text(
-          MiliLocale.t(
-            'گواهی در پوشه Downloads ذخیره می‌شود. آن را در تنظیمات → امنیت → رمزنگاری و اعتبارنامه‌ها → نصب گواهی → گواهی CA نصب کنید.\n\nفایل‌های گواهی MiliConfig را هرگز با کسی به اشتراک نگذارید؛ هر کسی که آن‌ها را داشته باشد می‌تواند ترافیک مرورگر شما را شنود کند.',
+          LookLocale.t(
+            'گواهی در پوشه Downloads ذخیره می‌شود. آن را در تنظیمات → امنیت → رمزنگاری و اعتبارنامه‌ها → نصب گواهی → گواهی CA نصب کنید.\n\nفایل‌های گواهی LookVPN را هرگز با کسی به اشتراک نگذارید؛ هر کسی که آن‌ها را داشته باشد می‌تواند ترافیک مرورگر شما را شنود کند.',
             'Certificate will be saved to Downloads folder. Install it in Settings → '
                 'Security → Encryption & credentials → Install a certificate → CA certificate.\n\n'
-                'Never share MiliConfig certificate files with anyone. Whoever has them can sniff your '
+                'Never share LookVPN certificate files with anyone. Whoever has them can sniff your '
                 'browser traffic.',
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(MiliLocale.t('انصراف', 'Cancel')),
+            child: Text(LookLocale.t('انصراف', 'Cancel')),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text(MiliLocale.t('نصب', 'Install')),
+            child: Text(LookLocale.t('نصب', 'Install')),
           ),
         ],
       ),
@@ -1455,7 +1455,7 @@ class _MitmCaTileState extends State<_MitmCaTile> {
       if (saved != null) {
         messenger.showSnackBar(
           SnackBar(
-            content: Text(MiliLocale.t('ذخیره شد در $saved', 'Saved to $saved')),
+            content: Text(LookLocale.t('ذخیره شد در $saved', 'Saved to $saved')),
           ),
         );
       }
@@ -1463,7 +1463,7 @@ class _MitmCaTileState extends State<_MitmCaTile> {
       messenger.showSnackBar(
         SnackBar(
           content: Text(
-            MiliLocale.t(
+            LookLocale.t(
               'گواهی نصب نشد: $e',
               'Could not install the certificate: $e',
             ),
@@ -1488,11 +1488,11 @@ class _MitmCaTileState extends State<_MitmCaTile> {
         final created = snapshot.data ?? false;
         return ListTile(
           leading: const Icon(Symbols.vpn_key_rounded),
-          title: Text(MiliLocale.t('گواهی MITM', 'MITM certificate')),
+          title: Text(LookLocale.t('گواهی MITM', 'MITM certificate')),
           subtitle: Text(
             created
-                ? MiliLocale.t('ساخته شده', 'Created')
-                : MiliLocale.t('ساخته نشده', 'Not created'),
+                ? LookLocale.t('ساخته شده', 'Created')
+                : LookLocale.t('ساخته نشده', 'Not created'),
           ),
           trailing: _busy
               ? const SizedBox(
@@ -1502,7 +1502,7 @@ class _MitmCaTileState extends State<_MitmCaTile> {
                 )
               : FilledButton.tonalIcon(
                   icon: const Icon(Symbols.security_rounded, size: 18),
-                  label: Text(MiliLocale.t('نصب', 'Install')),
+                  label: Text(LookLocale.t('نصب', 'Install')),
                   onPressed: _install,
                 ),
         );
@@ -1521,11 +1521,11 @@ class _WarpAccountTile extends StatelessWidget {
     final registered = state.profile.warp.account != null;
     return ListTile(
       leading: const Icon(Symbols.vpn_key_rounded),
-      title: Text(MiliLocale.t('حساب WARP', 'WARP account')),
+      title: Text(LookLocale.t('حساب WARP', 'WARP account')),
       subtitle: Text(
         registered
-            ? MiliLocale.t('ثبت شده', 'Registered')
-            : MiliLocale.t('ثبت نشده', 'Not registered'),
+            ? LookLocale.t('ثبت شده', 'Registered')
+            : LookLocale.t('ثبت نشده', 'Not registered'),
       ),
       trailing: state.renewingWarp
           ? const SizedBox(
@@ -1537,8 +1537,8 @@ class _WarpAccountTile extends StatelessWidget {
               icon: const Icon(Symbols.autorenew_rounded, size: 18),
               label: Text(
                 registered
-                    ? MiliLocale.t('تمدید', 'Renew')
-                    : MiliLocale.t('ثبت', 'Register'),
+                    ? LookLocale.t('تمدید', 'Renew')
+                    : LookLocale.t('ثبت', 'Register'),
               ),
               onPressed: () async {
                 final messenger = ScaffoldMessenger.of(context);
@@ -1546,9 +1546,9 @@ class _WarpAccountTile extends StatelessWidget {
                   final ok = await showDialog<bool>(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: Text(MiliLocale.t('تمدید حساب WARP', 'Renew WARP account')),
+                      title: Text(LookLocale.t('تمدید حساب WARP', 'Renew WARP account')),
                       content: Text(
-                        MiliLocale.t(
+                        LookLocale.t(
                           'مطمئن هستید؟ حساب جدید جایگزین حساب فعلی می‌شود.',
                           'Are you sure? A new account replaces the current one.',
                         ),
@@ -1556,11 +1556,11 @@ class _WarpAccountTile extends StatelessWidget {
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(false),
-                          child: Text(MiliLocale.t('انصراف', 'Cancel')),
+                          child: Text(LookLocale.t('انصراف', 'Cancel')),
                         ),
                         FilledButton(
                           onPressed: () => Navigator.of(context).pop(true),
-                          child: Text(MiliLocale.t('تمدید', 'Renew')),
+                          child: Text(LookLocale.t('تمدید', 'Renew')),
                         ),
                       ],
                     ),
@@ -1572,7 +1572,7 @@ class _WarpAccountTile extends StatelessWidget {
                   messenger.showSnackBar(
                     SnackBar(
                       content: Text(
-                        MiliLocale.t('حساب WARP به‌روز شد', 'WARP account updated'),
+                        LookLocale.t('حساب WARP به‌روز شد', 'WARP account updated'),
                       ),
                     ),
                   );
@@ -1595,11 +1595,11 @@ class _MasqueAccountTile extends StatelessWidget {
     final registered = state.profile.masque.account != null;
     return ListTile(
       leading: const Icon(Symbols.vpn_key_rounded),
-      title: Text(MiliLocale.t('حساب MASQUE', 'MASQUE account')),
+      title: Text(LookLocale.t('حساب MASQUE', 'MASQUE account')),
       subtitle: Text(
         registered
-            ? MiliLocale.t('ثبت شده', 'Registered')
-            : MiliLocale.t('ثبت نشده', 'Not registered'),
+            ? LookLocale.t('ثبت شده', 'Registered')
+            : LookLocale.t('ثبت نشده', 'Not registered'),
       ),
       trailing: state.renewingMasque
           ? const SizedBox(
@@ -1611,8 +1611,8 @@ class _MasqueAccountTile extends StatelessWidget {
               icon: const Icon(Symbols.autorenew_rounded, size: 18),
               label: Text(
                 registered
-                    ? MiliLocale.t('تمدید', 'Renew')
-                    : MiliLocale.t('ثبت', 'Register'),
+                    ? LookLocale.t('تمدید', 'Renew')
+                    : LookLocale.t('ثبت', 'Register'),
               ),
               onPressed: () async {
                 final messenger = ScaffoldMessenger.of(context);
@@ -1620,9 +1620,9 @@ class _MasqueAccountTile extends StatelessWidget {
                   final ok = await showDialog<bool>(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: Text(MiliLocale.t('تمدید حساب MASQUE', 'Renew MASQUE account')),
+                      title: Text(LookLocale.t('تمدید حساب MASQUE', 'Renew MASQUE account')),
                       content: Text(
-                        MiliLocale.t(
+                        LookLocale.t(
                           'مطمئن هستید؟ حساب جدید جایگزین حساب فعلی می‌شود.',
                           'Are you sure? A new account replaces the current one.',
                         ),
@@ -1630,11 +1630,11 @@ class _MasqueAccountTile extends StatelessWidget {
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(false),
-                          child: Text(MiliLocale.t('انصراف', 'Cancel')),
+                          child: Text(LookLocale.t('انصراف', 'Cancel')),
                         ),
                         FilledButton(
                           onPressed: () => Navigator.of(context).pop(true),
-                          child: Text(MiliLocale.t('تمدید', 'Renew')),
+                          child: Text(LookLocale.t('تمدید', 'Renew')),
                         ),
                       ],
                     ),
@@ -1646,7 +1646,7 @@ class _MasqueAccountTile extends StatelessWidget {
                   messenger.showSnackBar(
                     SnackBar(
                       content: Text(
-                        MiliLocale.t('حساب MASQUE به‌روز شد', 'MASQUE account updated'),
+                        LookLocale.t('حساب MASQUE به‌روز شد', 'MASQUE account updated'),
                       ),
                     ),
                   );
@@ -1661,7 +1661,7 @@ class _MasqueAccountTile extends StatelessWidget {
 
 /// "1 fragment", "3 fragments", like the noises' subtitles.
 String _fragmentSummary(List<Fragment> fragments) =>
-    MiliLocale.t(
+    LookLocale.t(
       '${fragments.length} فرگمنت',
       '${fragments.length} fragment${fragments.length == 1 ? '' : 's'}',
     );
@@ -1679,9 +1679,9 @@ class _DeploymentTile extends StatelessWidget {
     if (s == null) {
       return ListTile(
         leading: const Icon(Symbols.deployed_code_rounded),
-        title: Text(MiliLocale.t('نوع', 'Type')),
+        title: Text(LookLocale.t('نوع', 'Type')),
         subtitle: Text(
-          MiliLocale.t(
+          LookLocale.t(
             'هیچ‌کدام. پایین یک حساب کلادفلر اضافه کنید.',
             'None. Add a Cloudflare account below.',
           ),
@@ -1693,16 +1693,16 @@ class _DeploymentTile extends StatelessWidget {
     final error = state.deployErrors[key];
     // Proxy IPs and the fallback website deploy right away; only a failure stays on screen.
     final status = deploying
-        ? MiliLocale.t('در حال استقرار…', 'Deploying…')
+        ? LookLocale.t('در حال استقرار…', 'Deploying…')
         : s.deployment.pending
         ? (error != null
-              ? MiliLocale.t('مستقر نشده: $error', 'Not deployed: $error')
-              : MiliLocale.t('هنوز مستقر نشده', 'Not deployed yet'))
+              ? LookLocale.t('مستقر نشده: $error', 'Not deployed: $error')
+              : LookLocale.t('هنوز مستقر نشده', 'Not deployed yet'))
         : null;
     final all = s.account.deployments;
     return ListTile(
       leading: const Icon(Symbols.deployed_code_rounded),
-      title: Text(MiliLocale.t('نوع', 'Type')),
+      title: Text(LookLocale.t('نوع', 'Type')),
       subtitle: Text.rich(
         TextSpan(
           children: [
@@ -1727,7 +1727,7 @@ class _DeploymentTile extends StatelessWidget {
             )
           : s.deployment.pending
           ? IconButton(
-              tooltip: MiliLocale.t('استقرار دوباره', 'Deploy again'),
+              tooltip: LookLocale.t('استقرار دوباره', 'Deploy again'),
               icon: const Icon(Symbols.refresh_rounded),
               onPressed: () => state.redeploy(s.account, s.deployment.type),
             )
@@ -1738,7 +1738,7 @@ class _DeploymentTile extends StatelessWidget {
               final picked = await showDialog<WorkerType>(
                 context: context,
                 builder: (context) => SimpleDialog(
-                  title: Text(MiliLocale.t('نوع', 'Type')),
+                  title: Text(LookLocale.t('نوع', 'Type')),
                   children: [
                     RadioGroup<WorkerType>(
                       groupValue: s.deployment.type,
@@ -1775,7 +1775,7 @@ class _CloudflareAccountsTile extends StatelessWidget {
     final account = AppScope.of(context).selected?.account;
     return ListTile(
       leading: const Icon(Symbols.cloud_rounded),
-      title: Text(MiliLocale.t('حساب‌های کلادفلر', 'Cloudflare accounts')),
+      title: Text(LookLocale.t('حساب‌های کلادفلر', 'Cloudflare accounts')),
       subtitle: account == null
           ? null
           : Text(account.label, maxLines: 1, overflow: TextOverflow.ellipsis),
@@ -1787,7 +1787,7 @@ class _CloudflareAccountsTile extends StatelessWidget {
   }
 }
 
-const sourceCodeUrl = 'https://github.com/miladjahani/Milinovpn';
+const sourceCodeUrl = 'https://github.com/sasa200000/LookVpn';
 
 /// The installed app's version (pubspec.yaml's); opens the cores' versions.
 class _VersionTile extends StatelessWidget {
@@ -1799,7 +1799,7 @@ class _VersionTile extends StatelessWidget {
       future: VpnChannel.appInfo().then((i) => i.version).catchError((_) => ''),
       builder: (context, snapshot) => ListTile(
         leading: const Icon(Symbols.info_rounded),
-        title: Text(MiliLocale.t('نسخه', 'Version')),
+        title: Text(LookLocale.t('نسخه', 'Version')),
         subtitle: Text(snapshot.data ?? '…'),
         trailing: const Icon(Symbols.chevron_right_rounded),
         onTap: () =>
@@ -1822,7 +1822,7 @@ class _VersionsPage extends StatelessWidget {
         .firstMatch(s)
         ?.group(1);
     return commit != null
-        ? MiliLocale.t('کامیت $commit', 'Commit $commit')
+        ? LookLocale.t('کامیت $commit', 'Commit $commit')
         : s.replaceFirst(RegExp('^v'), '');
   }
 
@@ -1834,7 +1834,7 @@ class _VersionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(MiliLocale.t('نسخه‌ها', 'Versions'))),
+      appBar: AppBar(title: Text(LookLocale.t('نسخه‌ها', 'Versions'))),
       body: FutureBuilder(
         future: VpnChannel.versions(),
         builder: (context, snapshot) {
@@ -1842,9 +1842,9 @@ class _VersionsPage extends StatelessWidget {
           String shown(String Function(String) format, String? raw) =>
               switch (raw) {
                 null => snapshot.hasError
-                    ? MiliLocale.t('نامشخص', 'Unknown')
+                    ? LookLocale.t('نامشخص', 'Unknown')
                     : '…',
-                '' => MiliLocale.t('نامشخص', 'Unknown'),
+                '' => LookLocale.t('نامشخص', 'Unknown'),
                 final r => format(r),
               };
           return ListView(
@@ -1896,9 +1896,9 @@ class _UpdateTileState extends State<_UpdateTile> {
         messenger.showSnackBar(
           SnackBar(
             content: Text(
-              MiliLocale.t(
-                'MiliConfig به‌روز است',
-                'MiliConfig is up to date',
+              LookLocale.t(
+                'LookVPN به‌روز است',
+                'LookVPN is up to date',
               ),
             ),
           ),
@@ -1917,14 +1917,14 @@ class _UpdateTileState extends State<_UpdateTile> {
     final update = state.availableUpdate;
     return ListTile(
       leading: const Icon(Symbols.update_rounded),
-      title: Text(MiliLocale.t('بررسی بروزرسانی', 'Check for updates')),
+      title: Text(LookLocale.t('بررسی بروزرسانی', 'Check for updates')),
       subtitle: Text(
         update != null
-            ? MiliLocale.t(
+            ? LookLocale.t(
                 'نسخه ${update.version} آماده نصب است',
                 'Version ${update.version} is ready',
               )
-            : MiliLocale.t('آخرین انتشار در GitHub', 'Latest release on GitHub'),
+            : LookLocale.t('آخرین انتشار در GitHub', 'Latest release on GitHub'),
       ),
       trailing: state.checkingUpdate
           ? const SizedBox(
@@ -1984,8 +1984,8 @@ class _GeoAssetsTileState extends State<_GeoAssetsTile> {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Symbols.update_rounded),
-      title: Text(MiliLocale.t('بروزرسانی فایل‌های Geo', 'Update Geo assets')),
-      subtitle: Text(MiliLocale.t('آخرین فایل‌های Chocolate4U', 'Latest Chocolate4U assets')),
+      title: Text(LookLocale.t('بروزرسانی فایل‌های Geo', 'Update Geo assets')),
+      subtitle: Text(LookLocale.t('آخرین فایل‌های Chocolate4U', 'Latest Chocolate4U assets')),
       trailing: _updating
           ? const SizedBox(
               width: 24,
@@ -2013,7 +2013,7 @@ class _ExportSettingsTile extends StatelessWidget {
     final state = AppScope.read(context);
     final messenger = ScaffoldMessenger.of(context);
     final name =
-        'miliconfig-settings-${DateTime.now().toIso8601String().substring(0, 10)}.json';
+        'lookvpn-settings-${DateTime.now().toIso8601String().substring(0, 10)}.json';
     final content = state.exportSettingsFile();
     try {
       if (download) {
@@ -2021,7 +2021,7 @@ class _ExportSettingsTile extends StatelessWidget {
         if (where != null) {
           messenger.showSnackBar(
             SnackBar(
-              content: Text(MiliLocale.t('ذخیره شد در $where', 'Saved to $where')),
+              content: Text(LookLocale.t('ذخیره شد در $where', 'Saved to $where')),
             ),
           );
         }
@@ -2029,14 +2029,14 @@ class _ExportSettingsTile extends StatelessWidget {
         await VpnChannel.shareFile(
           name: name,
           content: content,
-          title: MiliLocale.t('اشتراک تنظیمات', 'Share settings'),
+          title: LookLocale.t('اشتراک تنظیمات', 'Share settings'),
         );
       }
     } on PlatformException catch (e) {
       messenger.showSnackBar(
         SnackBar(
           content: Text(
-            MiliLocale.t(
+            LookLocale.t(
               'خروجی گرفته نشد: ${e.message}',
               "Couldn't export: ${e.message}",
             ),
@@ -2051,13 +2051,13 @@ class _ExportSettingsTile extends StatelessWidget {
     leading: Icon(download ? Symbols.download_rounded : Symbols.send_rounded),
     title: Text(
       download
-          ? MiliLocale.t('خروجی تنظیمات', 'Export settings')
-          : MiliLocale.t('اشتراک تنظیمات', 'Share settings'),
+          ? LookLocale.t('خروجی تنظیمات', 'Export settings')
+          : LookLocale.t('اشتراک تنظیمات', 'Share settings'),
     ),
     subtitle: Text(
       download
-          ? MiliLocale.t('ذخیره فایل تنظیمات در Downloads', 'Save settings file to Downloads')
-          : MiliLocale.t('ارسال فایل تنظیمات به کاربر دیگر', 'Send settings file to other users'),
+          ? LookLocale.t('ذخیره فایل تنظیمات در Downloads', 'Save settings file to Downloads')
+          : LookLocale.t('ارسال فایل تنظیمات به کاربر دیگر', 'Send settings file to other users'),
     ),
     onTap: () => _export(context),
   );
@@ -2077,7 +2077,7 @@ class _ImportSettingsTile extends StatelessWidget {
       messenger.showSnackBar(
         SnackBar(
           content: Text(
-            MiliLocale.t(
+            LookLocale.t(
               'فایل خوانده نشد: ${e.message}',
               "Couldn't read the file: ${e.message}",
             ),
@@ -2091,9 +2091,9 @@ class _ImportSettingsTile extends StatelessWidget {
     final ok = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(MiliLocale.t('تنظیمات وارد شوند؟', 'Import settings?')),
+        title: Text(LookLocale.t('تنظیمات وارد شوند؟', 'Import settings?')),
         content: Text(
-          MiliLocale.t(
+          LookLocale.t(
             'تنظیمات شما با تنظیمات این فایل جایگزین می‌شود. حساب WARP، worker و تنظیمات این دستگاه (لیست برنامه‌ها، اشتراک LAN، تم و…) حفظ می‌شوند.',
             'Your settings are replaced with the ones in this file. '
                 'Your WARP account, worker and this device\'s setup (per-app list, LAN sharing, theme…) stay as they are.',
@@ -2102,11 +2102,11 @@ class _ImportSettingsTile extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(MiliLocale.t('انصراف', 'Cancel')),
+            child: Text(LookLocale.t('انصراف', 'Cancel')),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(MiliLocale.t('وارد کردن', 'Import')),
+            child: Text(LookLocale.t('وارد کردن', 'Import')),
           ),
         ],
       ),
@@ -2116,7 +2116,7 @@ class _ImportSettingsTile extends StatelessWidget {
       state.importSettingsFile(text);
       messenger.showSnackBar(
         SnackBar(
-          content: Text(MiliLocale.t('تنظیمات وارد شد', 'Settings imported')),
+          content: Text(LookLocale.t('تنظیمات وارد شد', 'Settings imported')),
         ),
       );
     } on FormatException catch (e) {
@@ -2127,8 +2127,8 @@ class _ImportSettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListTile(
     leading: const Icon(Symbols.upload_rounded),
-    title: Text(MiliLocale.t('ورود تنظیمات', 'Import settings')),
-    subtitle: Text(MiliLocale.t('بارگذاری تنظیمات از فایل', 'Load settings from a file')),
+    title: Text(LookLocale.t('ورود تنظیمات', 'Import settings')),
+    subtitle: Text(LookLocale.t('بارگذاری تنظیمات از فایل', 'Load settings from a file')),
     onTap: () => _import(context),
   );
 }
@@ -2141,10 +2141,10 @@ class _LanguageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<String>(
-      valueListenable: MiliLocale.code,
+      valueListenable: LookLocale.code,
       builder: (context, lang, _) => ListTile(
         leading: const Icon(Symbols.translate_rounded),
-        title: Text(MiliLocale.t('زبان برنامه', 'App Language')),
+        title: Text(LookLocale.t('زبان برنامه', 'App Language')),
         subtitle: Text(lang == 'fa' ? 'فارسی (راست‌به‌چپ)' : 'English (LTR)'),
         trailing: SegmentedButton<String>(
           showSelectedIcon: false,
@@ -2157,7 +2157,7 @@ class _LanguageTile extends StatelessWidget {
             ButtonSegment(value: 'en', label: Text('EN')),
           ],
           selected: {lang},
-          onSelectionChanged: (s) => MiliLocale.setLang(s.first),
+          onSelectionChanged: (s) => LookLocale.setLang(s.first),
         ),
       ),
     );

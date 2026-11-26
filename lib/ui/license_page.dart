@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 
 /// The app's GPL-3.0 license, plus the third-party licenses of bundled packages.
 class LicensePageView extends StatelessWidget {
@@ -12,15 +12,15 @@ class LicensePageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ExpressiveSubpageHeader(
-        title: MiliLocale.t('مجوز متن‌باز', 'Open source license'),
+        title: LookLocale.t('مجوز متن‌باز', 'Open source license'),
         subtitle: 'GNU GPL v3.0',
         actions: [
           TextButton(
             onPressed: () => showLicensePage(
               context: context,
-              applicationName: 'MiliConfig',
+              applicationName: 'LookVPN',
             ),
-            child: Text(MiliLocale.t('کتابخانه‌ها', 'Third-party')),
+            child: Text(LookLocale.t('کتابخانه‌ها', 'Third-party')),
           ),
         ],
       ),
@@ -34,7 +34,7 @@ class LicensePageView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'MiliConfig VPN is free software: you can redistribute it and/or modify it under the terms of the '
+                  'LookVPN is free software: you can redistribute it and/or modify it under the terms of the '
                   'GNU General Public License as published by the Free Software Foundation, version 3. '
                   'Powered by Xray-core, Psiphon, and Tor.',
                   style: Theme.of(context).textTheme.bodyMedium,

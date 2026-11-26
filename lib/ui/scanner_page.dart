@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
-import '../services/mili_ip_pool.dart';
-import '../services/mili_live_scanner.dart';
+import '../services/look_ip_pool.dart';
+import '../services/look_live_scanner.dart';
 import '../services/my_ip.dart';
 import '../services/scanner_channel.dart';
 import '../state/app_state.dart';
 import 'cloudflare_scanner_page.dart';
 import 'dashboard_tools.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 
 /// UI for the Cloudflare network scanner.
 ///
@@ -28,13 +28,13 @@ class ExpressiveScannerTab extends StatefulWidget {
 
 class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
   String _selectedCountry = '';
-  final _poolFuture = MiliCatalog.loadIpPool();
-  final _liveScanner = MiliLiveScanner();
+  final _poolFuture = LookCatalog.loadIpPool();
+  final _liveScanner = LookLiveScanner();
   StreamSubscription? _scanSub;
   bool _scanning = false;
   int _tested = 0;
   int _total = 0;
-  List<MiliScanResult> _liveResults = const [];
+  List<LookScanResult> _liveResults = const [];
 
   int _livePort = 443;
   int _liveSample = 80;
@@ -46,7 +46,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      final saved = AppScope.read(context).device.scanners['mili_live'];
+      final saved = AppScope.read(context).device.scanners['look_live'];
       if (saved == null) return;
       setState(() {
         int? number(String key) =>
@@ -76,7 +76,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          MiliLocale.t(
+          LookLocale.t(
             '${ips.length} آی‌پی ($label) به‌عنوان آی‌پی تمیز ثبت شد',
             'Set ${ips.length} IP(s) ($label) as Clean IPs',
           ),
@@ -98,7 +98,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          MiliLocale.t(
+          LookLocale.t(
             '${formatted.length} آی‌پی ($label) به‌عنوان پروکسی ثبت شد',
             'Set ${formatted.length} IP(s) ($label) as ProxyIPs',
           ),
@@ -107,19 +107,19 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
     );
   }
 
-  void _startLiveScan(MiliIpPoolData data) {
+  void _startLiveScan(LookIpPoolData data) {
     _liveScanner.cancel();
     _scanSub?.cancel();
     final state = AppScope.read(context);
     if (state.isReady) {
-      state.write('device.scanners.mili_live', {
+      state.write('device.scanners.look_live', {
         'port': _livePort,
         'sample': _liveSample,
         'timeout': _liveTimeout,
         'concurrency': _liveConcurrency,
       });
     }
-    final pool = List<MiliIpEntry>.of(
+    final pool = List<LookIpEntry>.of(
       data.byCountry(_selectedCountry),
     )..shuffle();
     final sample = (_liveSample <= 0 ? pool : pool.take(_liveSample)).toList();
@@ -160,7 +160,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
     setState(() => _scanning = false);
   }
 
-  Future<void> _pickCountry(MiliIpPoolData data) async {
+  Future<void> _pickCountry(LookIpPoolData data) async {
     final picked = await showModalBottomSheet<String>(
       context: context,
       isScrollControlled: true,
@@ -185,7 +185,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, update) => AlertDialog(
-          title: Text(MiliLocale.t('تنظیمات اسکن زنده', 'Live scan settings')),
+          title: Text(LookLocale.t('تنظیمات اسکن زنده', 'Live scan settings')),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -193,7 +193,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
                 DropdownButtonFormField<int>(
                   initialValue: port,
                   decoration: InputDecoration(
-                    labelText: MiliLocale.t('پورت', 'Port'),
+                    labelText: LookLocale.t('پورت', 'Port'),
                   ),
                   items: const [443, 2053, 2083, 2087, 2096, 8443]
                       .map(
@@ -208,14 +208,14 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
                 DropdownButtonFormField<int>(
                   initialValue: sample,
                   decoration: InputDecoration(
-                    labelText: MiliLocale.t('تعداد نمونه', 'Sample size'),
+                    labelText: LookLocale.t('تعداد نمونه', 'Sample size'),
                   ),
                   items: const [40, 80, 160, 0]
                       .map(
                         (value) => DropdownMenuItem(
                           value: value,
                           child: Text(
-                            value == 0 ? MiliLocale.t('همه', 'All') : '$value',
+                            value == 0 ? LookLocale.t('همه', 'All') : '$value',
                           ),
                         ),
                       )
@@ -227,7 +227,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
                 DropdownButtonFormField<int>(
                   initialValue: timeout,
                   decoration: InputDecoration(
-                    labelText: MiliLocale.t('تایم‌اوت (ms)', 'Timeout (ms)'),
+                    labelText: LookLocale.t('تایم‌اوت (ms)', 'Timeout (ms)'),
                   ),
                   items: const [800, 1400, 2000, 3000]
                       .map(
@@ -242,7 +242,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
                 DropdownButtonFormField<int>(
                   initialValue: concurrency,
                   decoration: InputDecoration(
-                    labelText: MiliLocale.t('همزمانی', 'Concurrency'),
+                    labelText: LookLocale.t('همزمانی', 'Concurrency'),
                   ),
                   items: const [8, 16, 32, 48]
                       .map(
@@ -259,13 +259,13 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text(MiliLocale.t('انصراف', 'Cancel')),
+              child: Text(LookLocale.t('انصراف', 'Cancel')),
             ),
             FilledButton(
               onPressed: () => Navigator.of(
                 context,
               ).pop((port, sample, timeout, concurrency)),
-              child: Text(MiliLocale.t('ذخیره', 'Save')),
+              child: Text(LookLocale.t('ذخیره', 'Save')),
             ),
           ],
         ),
@@ -291,7 +291,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
     );
   }
 
-  Future<void> _openPool(MiliIpPoolData data) async {
+  Future<void> _openPool(LookIpPoolData data) async {
     await showBentoSheet(
       context: context,
       builder: (_) => _PoolSheet(
@@ -309,7 +309,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
     final cleanCount = state.vless.cleanIps.length;
     final proxyCount = state.vless.proxyIps.length;
 
-    return FutureBuilder<MiliIpPoolData>(
+    return FutureBuilder<LookIpPoolData>(
       future: _poolFuture,
       builder: (context, snapshot) {
         final data = snapshot.data;
@@ -319,7 +319,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
         return ListView(
           padding: EdgeInsets.fromLTRB(
             16,
-            miliHomeTopInset(context) + 8,
+            lookHomeTopInset(context) + 8,
             16,
             108,
           ),
@@ -339,7 +339,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
                           children: [
                             Flexible(
                               child: Text(
-                                MiliLocale.t('اسکنر شبکه', 'Network scanner'),
+                                LookLocale.t('اسکنر شبکه', 'Network scanner'),
                                 style: Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(
                                       fontWeight: FontWeight.w900,
@@ -350,8 +350,8 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
                             const SizedBox(width: 7),
                             BentoTag(
                               _scanning
-                                  ? MiliLocale.t('در حال اسکن', 'Scanning')
-                                  : MiliLocale.t('آماده', 'Ready'),
+                                  ? LookLocale.t('در حال اسکن', 'Scanning')
+                                  : LookLocale.t('آماده', 'Ready'),
                               icon: Symbols.circle,
                               filled: _scanning,
                             ),
@@ -359,7 +359,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          MiliLocale.t(
+                          LookLocale.t(
                             '$countries کشور · انتخاب و تست واقعی TCP',
                             '$countries countries · real TCP probing',
                           ),
@@ -398,7 +398,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
             ),
             const SizedBox(height: 4),
             BentoSectionLabel(
-              MiliLocale.t('آی‌پی تمیز و پروکسی', 'Clean IP & proxy'),
+              LookLocale.t('آی‌پی تمیز و پروکسی', 'Clean IP & proxy'),
               icon: Symbols.bolt_rounded,
             ),
             Row(
@@ -407,9 +407,9 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
                 Expanded(
                   child: _PoolActionCard(
                     icon: Symbols.bolt_rounded,
-                    title: MiliLocale.t('آی‌پی تمیز', 'Clean IP'),
+                    title: LookLocale.t('آی‌پی تمیز', 'Clean IP'),
                     value: '$cleanCount',
-                    subtitle: MiliLocale.t(
+                    subtitle: LookLocale.t(
                       'ثبت ۱۰ آی‌پی سریع در پروفایل',
                       'Add 10 fast IPs to your profile',
                     ),
@@ -432,9 +432,9 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
                 Expanded(
                   child: _PoolActionCard(
                     icon: Symbols.dns_rounded,
-                    title: MiliLocale.t('پروکسی کلادفلر', 'Cloudflare proxy'),
+                    title: LookLocale.t('پروکسی کلادفلر', 'Cloudflare proxy'),
                     value: '$proxyCount',
-                    subtitle: MiliLocale.t(
+                    subtitle: LookLocale.t(
                       'ثبت ۵ پروکسی برای ورکر',
                       'Add 5 Worker proxy IPs',
                     ),
@@ -457,10 +457,10 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
             ),
             const SizedBox(height: 4),
             BentoSectionLabel(
-              MiliLocale.t('اسکن عمیق کلادفلر', 'Cloudflare deep scan'),
+              LookLocale.t('اسکن عمیق کلادفلر', 'Cloudflare deep scan'),
               icon: Symbols.radar_rounded,
               trailing: BentoTag(
-                MiliLocale.t('۴ پروتکل', '4 protocols'),
+                LookLocale.t('۴ پروتکل', '4 protocols'),
                 icon: Symbols.check_circle_rounded,
               ),
             ),
@@ -490,7 +490,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            MiliLocale.t(
+                            LookLocale.t(
                               'مرور مخزن آی‌پی',
                               'Browse the IP pool',
                             ),
@@ -500,7 +500,7 @@ class _ExpressiveScannerTabState extends State<ExpressiveScannerTab> {
                             ),
                           ),
                           Text(
-                            MiliLocale.t(
+                            LookLocale.t(
                               'جستجو، انتخاب کشور و ثبت مستقیم Clean IP / Proxy',
                               'Search, choose a country and apply Clean IP / Proxy directly',
                             ),
@@ -540,8 +540,8 @@ class _LiveScanCard extends StatelessWidget {
   final bool scanning;
   final int tested;
   final int total;
-  final List<MiliScanResult> results;
-  final MiliScanResult? fastest;
+  final List<LookScanResult> results;
+  final LookScanResult? fastest;
   final VoidCallback? onStart;
   final VoidCallback onStop;
   final VoidCallback? onSettings;
@@ -590,14 +590,14 @@ class _LiveScanCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      MiliLocale.t('اسکن زنده سریع', 'Fast live scan'),
+                      LookLocale.t('اسکن زنده سریع', 'Fast live scan'),
                       style: const TextStyle(
                         fontSize: 13.5,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
                     Text(
-                      MiliLocale.t(
+                      LookLocale.t(
                         'پینگ TCP محلی · بدون نیاز به اتصال',
                         'Local TCP ping · works without a tunnel',
                       ),
@@ -611,7 +611,7 @@ class _LiveScanCard extends StatelessWidget {
               ),
               IconButton(
                 visualDensity: VisualDensity.compact,
-                tooltip: MiliLocale.t('تنظیمات', 'Settings'),
+                tooltip: LookLocale.t('تنظیمات', 'Settings'),
                 onPressed: onSettings,
                 icon: const Icon(Symbols.tune_rounded, size: 20),
               ),
@@ -632,7 +632,7 @@ class _LiveScanCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  MiliLocale.t(
+                  LookLocale.t(
                     'بررسی $tested از $total',
                     'Tested $tested of $total',
                   ),
@@ -644,7 +644,7 @@ class _LiveScanCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  MiliLocale.t(
+                  LookLocale.t(
                     '${results.length} سالم',
                     '${results.length} alive',
                   ),
@@ -662,17 +662,17 @@ class _LiveScanCard extends StatelessWidget {
             Row(
               children: [
                 _MiniStat(
-                  label: MiliLocale.t('سالم', 'Alive'),
+                  label: LookLocale.t('سالم', 'Alive'),
                   value: '${results.length}',
                 ),
                 const SizedBox(width: 7),
                 _MiniStat(
-                  label: MiliLocale.t('میانگین', 'Average'),
+                  label: LookLocale.t('میانگین', 'Average'),
                   value: '${average ?? 0} ms',
                 ),
                 const SizedBox(width: 7),
                 _MiniStat(
-                  label: MiliLocale.t('سریع‌ترین', 'Fastest'),
+                  label: LookLocale.t('سریع‌ترین', 'Fastest'),
                   value: '${fastest?.pingMs ?? 0} ms',
                   highlight: true,
                 ),
@@ -699,7 +699,7 @@ class _LiveScanCard extends StatelessWidget {
                   onPressed: onShowAll,
                   icon: const Icon(Symbols.format_list_bulleted_rounded, size: 17),
                   label: Text(
-                    MiliLocale.t(
+                    LookLocale.t(
                       'مشاهده همه (${results.length})',
                       'View all (${results.length})',
                     ),
@@ -715,7 +715,7 @@ class _LiveScanCard extends StatelessWidget {
                       results.take(8).map((entry) => entry.ip).toList(),
                     ),
                     icon: const Icon(Symbols.bolt_rounded, size: 17),
-                    label: Text(MiliLocale.t('۸ آی‌پی تمیز', '8 clean IPs')),
+                    label: Text(LookLocale.t('۸ آی‌پی تمیز', '8 clean IPs')),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -725,7 +725,7 @@ class _LiveScanCard extends StatelessWidget {
                       results.take(5).map((entry) => entry.ip).toList(),
                     ),
                     icon: const Icon(Symbols.dns_rounded, size: 17),
-                    label: Text(MiliLocale.t('۵ پروکسی', '5 proxies')),
+                    label: Text(LookLocale.t('۵ پروکسی', '5 proxies')),
                   ),
                 ),
               ],
@@ -751,7 +751,7 @@ class _LiveScanCard extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      MiliLocale.t(
+                      LookLocale.t(
                         'نمونه‌ای از مخزن را با پینگ واقعی TCP ارزیابی کنید؛ نتایج فقط اینجا نمایش داده می‌شوند.',
                         'Probe a sample from the pool with real TCP. Results stay compact here.',
                       ),
@@ -777,8 +777,8 @@ class _LiveScanCard extends StatelessWidget {
               ),
               label: Text(
                 scanning
-                    ? MiliLocale.t('توقف اسکن', 'Stop scan')
-                    : MiliLocale.t('شروع اسکن زنده', 'Start live scan'),
+                    ? LookLocale.t('توقف اسکن', 'Stop scan')
+                    : LookLocale.t('شروع اسکن زنده', 'Start live scan'),
               ),
             ),
           ),
@@ -844,7 +844,7 @@ class _MiniStat extends StatelessWidget {
 }
 
 class _ResultRow extends StatelessWidget {
-  final MiliScanResult result;
+  final LookScanResult result;
   final VoidCallback onClean;
   final VoidCallback onProxy;
 
@@ -907,13 +907,13 @@ class _ResultRow extends StatelessWidget {
           const SizedBox(width: 4),
           IconButton(
             visualDensity: VisualDensity.compact,
-            tooltip: MiliLocale.t('آی‌پی تمیز', 'Clean IP'),
+            tooltip: LookLocale.t('آی‌پی تمیز', 'Clean IP'),
             onPressed: onClean,
             icon: const Icon(Symbols.bolt_rounded, size: 17),
           ),
           IconButton(
             visualDensity: VisualDensity.compact,
-            tooltip: MiliLocale.t('پروکسی', 'Proxy'),
+            tooltip: LookLocale.t('پروکسی', 'Proxy'),
             onPressed: onProxy,
             icon: const Icon(Symbols.dns_rounded, size: 17),
           ),
@@ -1144,7 +1144,7 @@ class _ProtocolTile extends StatelessWidget {
 }
 
 class _CountryFilterBar extends StatelessWidget {
-  final List<MiliCountryInfo> countries;
+  final List<LookCountryInfo> countries;
   final String selected;
   final bool disabled;
   final VoidCallback? onTap;
@@ -1161,14 +1161,14 @@ class _CountryFilterBar extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final info = countries.where((country) => country.code == selected).firstOrNull;
     final label = info == null
-        ? MiliLocale.t('همه کشورها', 'All countries')
+        ? LookLocale.t('همه کشورها', 'All countries')
         : '${countryFlag(info.code)}  ${info.name}';
     final detail = info == null
-        ? MiliLocale.t(
+        ? LookLocale.t(
             '${countries.length} کشور · اسکن و انتخاب آی‌پی به تفکیک کشور',
             '${countries.length} countries · scan and pick IPs per country',
           )
-        : MiliLocale.t(
+        : LookLocale.t(
             '${info.count} آی‌پی در مخزن ${info.code}',
             '${info.count} IPs in the ${info.code} pool',
           );
@@ -1225,7 +1225,7 @@ class _CountryFilterBar extends StatelessWidget {
 }
 
 class _CountryScanSheet extends StatefulWidget {
-  final List<MiliCountryInfo> countries;
+  final List<LookCountryInfo> countries;
   final String selected;
 
   const _CountryScanSheet({
@@ -1272,14 +1272,14 @@ class _CountryScanSheetState extends State<_CountryScanSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              MiliLocale.t('اسکن به تفکیک کشور', 'Scan by country'),
+              LookLocale.t('اسکن به تفکیک کشور', 'Scan by country'),
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w900,
               ),
             ),
             const SizedBox(height: 3),
             Text(
-              MiliLocale.t(
+              LookLocale.t(
                 'کشور را انتخاب کنید؛ اسکن زنده و انتخاب خودکار آی‌پی‌ها روی همان کشور اعمال می‌شود.',
                 'Pick a country; the live scan and one-tap IP picks use that pool.',
               ),
@@ -1293,7 +1293,7 @@ class _CountryScanSheetState extends State<_CountryScanSheet> {
             BentoSearchField(
               controller: _search,
               value: _query,
-              hint: MiliLocale.t('جستجوی کشور یا کد…', 'Search country or code…'),
+              hint: LookLocale.t('جستجوی کشور یا کد…', 'Search country or code…'),
               onChanged: (value) => setState(() => _query = value),
               onClear: () {
                 _search.clear();
@@ -1309,8 +1309,8 @@ class _CountryScanSheetState extends State<_CountryScanSheet> {
                   if (query.isEmpty && index == 0) {
                     return _CountryRow(
                       flag: '🌐',
-                      title: MiliLocale.t('همه کشورها', 'All countries'),
-                      subtitle: MiliLocale.t(
+                      title: LookLocale.t('همه کشورها', 'All countries'),
+                      subtitle: LookLocale.t(
                         '${widget.countries.length} کشور · بدون فیلتر',
                         '${widget.countries.length} countries · no filter',
                       ),
@@ -1427,11 +1427,11 @@ class _ScannerFootnote extends StatelessWidget {
           Expanded(
             child: Text(
               selectedCountry.isEmpty
-                  ? MiliLocale.t(
+                  ? LookLocale.t(
                       'مخزن و اسکنر بدون تغییر در عملکرد قبلی کار می‌کنند؛ لیست کامل فقط هنگام مرور باز می‌شود.',
                       'The pool and scanners keep their original behavior; the full list opens only when browsing.',
                     )
-                  : MiliLocale.t(
+                  : LookLocale.t(
                       'فیلتر کشور فعال است: $selectedCountry',
                       'Country filter active: $selectedCountry',
                     ),
@@ -1445,7 +1445,7 @@ class _ScannerFootnote extends StatelessWidget {
           if (selectedCountry.isNotEmpty)
             TextButton(
               onPressed: onClearCountry,
-              child: Text(MiliLocale.t('همه', 'All')),
+              child: Text(LookLocale.t('همه', 'All')),
             ),
         ],
       ),
@@ -1454,7 +1454,7 @@ class _ScannerFootnote extends StatelessWidget {
 }
 
 class _LiveResultsSheet extends StatelessWidget {
-  final List<MiliScanResult> results;
+  final List<LookScanResult> results;
   final ValueChanged<List<String>> onClean;
   final ValueChanged<List<String>> onProxy;
 
@@ -1470,8 +1470,8 @@ class _LiveResultsSheet extends StatelessWidget {
     return Column(
       children: [
         _ScannerSheetHeader(
-          title: MiliLocale.t('نتایج اسکن زنده', 'Live scan results'),
-          subtitle: MiliLocale.t(
+          title: LookLocale.t('نتایج اسکن زنده', 'Live scan results'),
+          subtitle: LookLocale.t(
             '${results.length} آی‌پی سالم',
             '${results.length} alive IPs',
           ),
@@ -1504,7 +1504,7 @@ class _LiveResultsSheet extends StatelessWidget {
                     results.take(8).map((entry) => entry.ip).toList(),
                   ),
                   icon: const Icon(Symbols.bolt_rounded, size: 17),
-                  label: Text(MiliLocale.t('۸ آی‌پی تمیز', '8 clean IPs')),
+                  label: Text(LookLocale.t('۸ آی‌پی تمیز', '8 clean IPs')),
                 ),
               ),
               const SizedBox(width: 8),
@@ -1514,7 +1514,7 @@ class _LiveResultsSheet extends StatelessWidget {
                     results.take(5).map((entry) => entry.ip).toList(),
                   ),
                   icon: const Icon(Symbols.dns_rounded, size: 17),
-                  label: Text(MiliLocale.t('۵ پروکسی', '5 proxies')),
+                  label: Text(LookLocale.t('۵ پروکسی', '5 proxies')),
                 ),
               ),
             ],
@@ -1526,7 +1526,7 @@ class _LiveResultsSheet extends StatelessWidget {
 }
 
 class _PoolSheet extends StatefulWidget {
-  final MiliIpPoolData data;
+  final LookIpPoolData data;
   final void Function(List<String> ips, String label) onClean;
   final void Function(List<String> ips, String label) onProxy;
 
@@ -1559,8 +1559,8 @@ class _PoolSheetState extends State<_PoolSheet> {
     return Column(
       children: [
         _ScannerSheetHeader(
-          title: MiliLocale.t('مخزن آی‌پی', 'IP pool'),
-          subtitle: MiliLocale.t(
+          title: LookLocale.t('مخزن آی‌پی', 'IP pool'),
+          subtitle: LookLocale.t(
             '${widget.data.countries.length} کشور · جستجو و انتخاب آی‌پی',
             '${widget.data.countries.length} countries · search and pick an IP',
           ),
@@ -1572,7 +1572,7 @@ class _PoolSheetState extends State<_PoolSheet> {
             decoration: InputDecoration(
               isDense: true,
               prefixIcon: const Icon(Symbols.search_rounded, size: 19),
-              hintText: MiliLocale.t(
+              hintText: LookLocale.t(
                 'جستجوی آی‌پی یا کشور…',
                 'Search IP or country…',
               ),
@@ -1590,7 +1590,7 @@ class _PoolSheetState extends State<_PoolSheet> {
                 selected: _country.isEmpty,
                 visualDensity: VisualDensity.compact,
                 label: Text(
-                  MiliLocale.t('همه', 'All'),
+                  LookLocale.t('همه', 'All'),
                 ),
                 onSelected: (_) => setState(() => _country = ''),
               ),
@@ -1643,14 +1643,14 @@ class _PoolSheetState extends State<_PoolSheet> {
                       ),
                       IconButton(
                         visualDensity: VisualDensity.compact,
-                        tooltip: MiliLocale.t('آی‌پی تمیز', 'Clean IP'),
+                        tooltip: LookLocale.t('آی‌پی تمیز', 'Clean IP'),
                         onPressed: () =>
                             widget.onClean([item.ip], item.country),
                         icon: const Icon(Symbols.bolt_rounded, size: 18),
                       ),
                       IconButton(
                         visualDensity: VisualDensity.compact,
-                        tooltip: MiliLocale.t('پروکسی', 'Proxy'),
+                        tooltip: LookLocale.t('پروکسی', 'Proxy'),
                         onPressed: () =>
                             widget.onProxy([item.ip], item.country),
                         icon: Icon(
@@ -1661,13 +1661,13 @@ class _PoolSheetState extends State<_PoolSheet> {
                       ),
                       IconButton(
                         visualDensity: VisualDensity.compact,
-                        tooltip: MiliLocale.t('کپی', 'Copy'),
+                        tooltip: LookLocale.t('کپی', 'Copy'),
                         onPressed: () {
                           Clipboard.setData(ClipboardData(text: item.ip));
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                MiliLocale.t(
+                                LookLocale.t(
                                   '${item.ip} کپی شد',
                                   '${item.ip} copied',
                                 ),

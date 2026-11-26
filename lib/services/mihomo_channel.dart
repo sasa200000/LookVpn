@@ -34,8 +34,8 @@ class MihomoStateEvent {
 
 /// Separate channel from [VpnChannel]: Mihomo does not read or mutate the Xray profile.
 class MihomoChannel {
-  static const _methods = MethodChannel('miliconfig/mihomo');
-  static const _events = EventChannel('miliconfig/mihomoState');
+  static const _methods = MethodChannel('lookvpn/mihomo');
+  static const _events = EventChannel('lookvpn/mihomoState');
 
   static Stream<MihomoStateEvent> get states =>
       _events.receiveBroadcastStream().map(

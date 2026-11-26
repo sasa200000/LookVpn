@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:mili_vpn/services/mitm_ca.dart';
+import 'package:look_vpn/services/mitm_ca.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

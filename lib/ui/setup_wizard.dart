@@ -12,15 +12,15 @@ import '../services/net_errors.dart';
 import '../services/vpn_channel.dart';
 import '../state/app_state.dart';
 import 'cf_accounts_page.dart';
-import 'mili_i18n.dart';
-import 'mili_logo.dart';
+import 'look_i18n.dart';
+import 'look_logo.dart';
 
 const _signUpUrl = 'https://dash.cloudflare.com/sign-up';
 
 /// A checked API token: the token, its user's email and the accounts it can access.
 typedef CheckedToken = ({String token, String email, List<CfAccount> accounts});
 
-/// First-run setup, like MiliConfig-Wizard's three steps: Cloudflare account → API token →
+/// First-run setup, like LookVPN-Wizard's three steps: Cloudflare account → API token →
 /// install the VPN worker. Shown instead of the home page until a worker is set up, and pushed
 /// by Cloudflare accounts → Add account ([addingAccount]); every run deploys a fresh worker.
 class SetupWizard extends StatefulWidget {
@@ -102,24 +102,24 @@ class _SetupWizardState extends State<SetupWizard> {
               children: [
                 if (_step != _Step.done) ...[
                   ValueListenableBuilder<String>(
-                    valueListenable: MiliLocale.code,
+                    valueListenable: LookLocale.code,
                     builder: (context, _, __) => Row(
                       children: [
-                        const MiliShieldLogo(size: 46),
+                        const LookLogo(size: 46),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'MiliConfig VPN',
+                                'LookVPN',
                                 style: theme.textTheme.titleLarge?.copyWith(
                                   fontWeight: FontWeight.w800,
                                   letterSpacing: 0.2,
                                 ),
                               ),
                               Text(
-                                MiliLocale.t('راه‌اندازی امن در ۳ مرحله', 'Secure setup in 3 steps'),
+                                LookLocale.t('راه‌اندازی امن در ۳ مرحله', 'Secure setup in 3 steps'),
                                 style: theme.textTheme.bodySmall?.copyWith(
                                   color: theme.colorScheme.onSurfaceVariant,
                                 ),
@@ -129,13 +129,13 @@ class _SetupWizardState extends State<SetupWizard> {
                         ),
                         TextButton(
                           onPressed: () {
-                            final index = MiliLocale.languages.indexWhere(
-                              (l) => l.code == MiliLocale.code.value,
+                            final index = LookLocale.languages.indexWhere(
+                              (l) => l.code == LookLocale.code.value,
                             );
                             final next =
-                                MiliLocale.languages[(index + 1) %
-                                    MiliLocale.languages.length];
-                            MiliLocale.setLang(next.code);
+                                LookLocale.languages[(index + 1) %
+                                    LookLocale.languages.length];
+                            LookLocale.setLang(next.code);
                           },
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -147,7 +147,7 @@ class _SetupWizardState extends State<SetupWizard> {
                             ),
                           ),
                           child: Text(
-                            MiliLocale.code.value.toUpperCase(),
+                            LookLocale.code.value.toUpperCase(),
                             style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ),
@@ -159,7 +159,7 @@ class _SetupWizardState extends State<SetupWizard> {
                               minimumSize: Size.zero,
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
-                            child: Text(MiliLocale.t('رد کردن', 'Skip')),
+                            child: Text(LookLocale.t('رد کردن', 'Skip')),
                           ),
                       ],
                     ),
@@ -295,7 +295,7 @@ class _StepBar extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  MiliLocale.t(_labels[i].$1, _labels[i].$2),
+                  LookLocale.t(_labels[i].$1, _labels[i].$2),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.labelSmall?.copyWith(
@@ -347,7 +347,7 @@ class _InstallProgress extends StatelessWidget {
               const SizedBox(width: 7),
               Expanded(
                 child: Text(
-                  MiliLocale.t('پیشرفت نصب ورکر', 'Worker installation'),
+                  LookLocale.t('پیشرفت نصب ورکر', 'Worker installation'),
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -509,7 +509,7 @@ Future<void> _openUrl(BuildContext context, String url) async {
     messenger.showSnackBar(
       SnackBar(
         content: Text(
-          MiliLocale.t(
+          LookLocale.t(
             'لینک کپی شد. آن را در مرورگر باز کنید.',
             'Link copied. Open it in your browser.',
           ),
@@ -533,18 +533,18 @@ class _AccountStep extends StatelessWidget {
     if (signingUp) {
       return _StepLayout(
         icon: Symbols.person_add_rounded,
-        title: MiliLocale.t('حساب کلادفلر بسازید', 'Create your Cloudflare account'),
+        title: LookLocale.t('حساب کلادفلر بسازید', 'Create your Cloudflare account'),
         buttons: [
           TextButton(
             onPressed: onBack,
-            child: Text(MiliLocale.t('بازگشت', 'Back')),
+            child: Text(LookLocale.t('بازگشت', 'Back')),
           ),
           const SizedBox(width: 12),
           // Takes the rest of the row, so the label stays on one line (and can't overflow).
           Expanded(
             child: FilledButton(
               onPressed: onYes,
-              child: Text(MiliLocale.t('ایمیل را تأیید کردم', "I've verified it")),
+              child: Text(LookLocale.t('ایمیل را تأیید کردم', "I've verified it")),
             ),
           ),
         ],
@@ -552,7 +552,7 @@ class _AccountStep extends StatelessWidget {
           _Instruction(
             1,
             TextSpan(
-              text: MiliLocale.t(
+              text: LookLocale.t(
                 'در صفحه‌ای که باز شد، در کلادفلر ثبت‌نام کنید.',
                 'Sign up on the Cloudflare page that just opened.',
               ),
@@ -561,7 +561,7 @@ class _AccountStep extends StatelessWidget {
           _Instruction(
             2,
             TextSpan(
-              text: MiliLocale.t(
+              text: LookLocale.t(
                 'ایمیل کلادفلر را باز کنید و آدرس ایمیل خود را تأیید کنید.',
                 'Open the email Cloudflare sends you and verify your address.',
               ),
@@ -570,7 +570,7 @@ class _AccountStep extends StatelessWidget {
           _Instruction(
             3,
             TextSpan(
-              text: MiliLocale.t(
+              text: LookLocale.t(
                 'به اینجا برگردید و ادامه دهید.',
                 'Come back here and continue.',
               ),
@@ -580,35 +580,35 @@ class _AccountStep extends StatelessWidget {
           TextButton.icon(
             onPressed: () => _openUrl(context, _signUpUrl),
             icon: const Icon(Symbols.open_in_new_rounded, size: 18),
-            label: Text(MiliLocale.t('بازکردن دوباره صفحه ثبت‌نام', 'Open sign-up page again')),
+            label: Text(LookLocale.t('بازکردن دوباره صفحه ثبت‌نام', 'Open sign-up page again')),
           ),
         ],
       );
     }
     return _StepLayout(
       icon: Symbols.shield_rounded,
-      title: MiliLocale.t('به MiliConfig خوش آمدید', 'Welcome to MiliConfig'),
+      title: LookLocale.t('به LookVPN خوش آمدید', 'Welcome to LookVPN'),
       buttons: [
         Expanded(
           child: OutlinedButton(
             onPressed: onNo,
-            child: Text(MiliLocale.t('نه، ثبت‌نام می‌کنم', 'No, sign me up')),
+            child: Text(LookLocale.t('نه، ثبت‌نام می‌کنم', 'No, sign me up')),
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
           child: FilledButton(
             onPressed: onYes,
-            child: Text(MiliLocale.t('بله، دارم', 'Yes')),
+            child: Text(LookLocale.t('بله، دارم', 'Yes')),
           ),
         ),
       ],
       children: [
         Text(
-          MiliLocale.t(
-            'MiliConfig یک پروکسی خصوصی روی پلن رایگان کلادفلر برای شما می‌سازد. '
+          LookLocale.t(
+            'LookVPN یک پروکسی خصوصی روی پلن رایگان کلادفلر برای شما می‌سازد. '
                 'راه‌اندازی فقط سه مرحله و چند دقیقه وقت می‌برد.',
-            'MiliConfig runs your own private proxy server on Cloudflare\'s free plan. '
+            'LookVPN runs your own private proxy server on Cloudflare\'s free plan. '
                 'Setting it up takes three steps and a couple of minutes.',
           ),
         ),
@@ -630,7 +630,7 @@ class _AccountStep extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  MiliLocale.t(
+                  LookLocale.t(
                     'آیا حساب کلادفلر با ایمیل تأییدشده دارید؟',
                     'Do you have a Cloudflare account with a verified email?',
                   ),
@@ -678,7 +678,7 @@ class _TokenStepState extends State<_TokenStep> {
   Future<void> _next() async {
     if (_token.text.trim().isEmpty) {
       return setState(
-        () => _error = MiliLocale.t(
+        () => _error = LookLocale.t(
           'اول توکن API را جای‌گذاری کنید',
           'Paste your API token first',
         ),
@@ -701,18 +701,18 @@ class _TokenStepState extends State<_TokenStep> {
   Widget build(BuildContext context) {
     return _StepLayout(
       icon: Symbols.key_rounded,
-      title: MiliLocale.t('توکن API بسازید', 'Create an API token'),
+      title: LookLocale.t('توکن API بسازید', 'Create an API token'),
       buttons: [
         TextButton(
           onPressed: _busy ? null : widget.onBack,
-          child: Text(MiliLocale.t('بازگشت', 'Back')),
+          child: Text(LookLocale.t('بازگشت', 'Back')),
         ),
         const Spacer(),
         FilledButton(
           onPressed: _busy ? null : _next,
           child: _busy
               ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
-              : Text(MiliLocale.t('ادامه', 'Next')),
+              : Text(LookLocale.t('ادامه', 'Next')),
         ),
       ],
       children: [
@@ -720,10 +720,10 @@ class _TokenStepState extends State<_TokenStep> {
           1,
           TextSpan(
             children: [
-              TextSpan(text: MiliLocale.t('روی ', 'Tap ')),
-              _bold(MiliLocale.t('ساخت توکن', 'Create token')),
+              TextSpan(text: LookLocale.t('روی ', 'Tap ')),
+              _bold(LookLocale.t('ساخت توکن', 'Create token')),
               TextSpan(
-                text: MiliLocale.t(
+                text: LookLocale.t(
                   ' پایین بزنید؛ دسترسی‌های لازم از قبل پر شده‌اند.',
                   ' below. The permissions are filled in for you.',
                 ),
@@ -736,12 +736,12 @@ class _TokenStepState extends State<_TokenStep> {
           TextSpan(
             children: [
               TextSpan(
-                text: MiliLocale.t(
+                text: LookLocale.t(
                   'اگر خواست وارد شوید، پایین بروید و ',
                   'Log in if asked, scroll down and tap ',
                 ),
               ),
-              _bold(MiliLocale.t('ادامه به خلاصه', 'Continue to summary')),
+              _bold(LookLocale.t('ادامه به خلاصه', 'Continue to summary')),
               const TextSpan(text: '.'),
             ],
           ),
@@ -750,10 +750,10 @@ class _TokenStepState extends State<_TokenStep> {
           3,
           TextSpan(
             children: [
-              TextSpan(text: MiliLocale.t('روی ', 'Tap ')),
-              _bold(MiliLocale.t('ساخت توکن', 'Create Token')),
+              TextSpan(text: LookLocale.t('روی ', 'Tap ')),
+              _bold(LookLocale.t('ساخت توکن', 'Create Token')),
               TextSpan(
-                text: MiliLocale.t(
+                text: LookLocale.t(
                   ' بزنید و توکن را کپی کنید.',
                   ', then copy the token.',
                 ),
@@ -764,7 +764,7 @@ class _TokenStepState extends State<_TokenStep> {
         _Instruction(
           4,
           TextSpan(
-            text: MiliLocale.t(
+            text: LookLocale.t(
               'به اینجا برگردید و آن را جای‌گذاری کنید.',
               'Come back and paste it here.',
             ),
@@ -774,7 +774,7 @@ class _TokenStepState extends State<_TokenStep> {
         FilledButton.tonalIcon(
           onPressed: () => openTokenPage(context),
           icon: const Icon(Symbols.open_in_new_rounded, size: 18),
-          label: Text(MiliLocale.t('ساخت توکن', 'Create token')),
+          label: Text(LookLocale.t('ساخت توکن', 'Create token')),
         ),
         const SizedBox(height: 20),
         TextField(
@@ -784,10 +784,10 @@ class _TokenStepState extends State<_TokenStep> {
           autocorrect: false,
           enableSuggestions: false,
           decoration: InputDecoration(
-            labelText: MiliLocale.t('توکن API کلادفلر', 'Cloudflare API token'),
+            labelText: LookLocale.t('توکن API کلادفلر', 'Cloudflare API token'),
             errorText: _error,
             errorMaxLines: 4,
-            helperText: MiliLocale.t(
+            helperText: LookLocale.t(
               'فقط روی همین دستگاه ذخیره می‌شود.',
               'Stored only on this device.',
             ),
@@ -795,14 +795,14 @@ class _TokenStepState extends State<_TokenStep> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  tooltip: MiliLocale.t('جای‌گذاری', 'Paste'),
+                  tooltip: LookLocale.t('جای‌گذاری', 'Paste'),
                   onPressed: _busy ? null : _paste,
                   icon: const Icon(Symbols.content_paste_rounded),
                 ),
                 IconButton(
                   tooltip: _obscure
-                      ? MiliLocale.t('نمایش', 'Show')
-                      : MiliLocale.t('پنهان', 'Hide'),
+                      ? LookLocale.t('نمایش', 'Show')
+                      : LookLocale.t('پنهان', 'Hide'),
                   onPressed: () => setState(() => _obscure = !_obscure),
                   icon: Icon(_obscure ? Symbols.visibility_rounded : Symbols.visibility_off_rounded),
                 ),
@@ -830,7 +830,7 @@ enum _Item {
   final String fa;
   final String en;
   const _Item(this.fa, this.en);
-  String get label => MiliLocale.t(fa, en);
+  String get label => LookLocale.t(fa, en);
 }
 
 enum _Status { waiting, running, done, failed, skipped }
@@ -943,7 +943,7 @@ class _InstallStepState extends State<_InstallStep> {
         ..status = _Status.failed
         ..network = isNetworkError(e)
         ..message = isNetworkError(e)
-            ? MiliLocale.t('اتصال به سرور برقرار نشد', "Can't reach the server")
+            ? LookLocale.t('اتصال به سرور برقرار نشد', "Can't reach the server")
             : (e is StateError ? e.message : '$e');
     }
     if (mounted) setState(() {});
@@ -998,7 +998,7 @@ class _InstallStepState extends State<_InstallStep> {
         if (!mounted) return;
         final status = await VpnChannel.setupTorStatus();
         if (!status.running) {
-          throw StateError(status.error ?? MiliLocale.t('تور متوقف شد', 'Tor stopped'));
+          throw StateError(status.error ?? LookLocale.t('تور متوقف شد', 'Tor stopped'));
         }
         if (status.progress != last) {
           last = status.progress;
@@ -1008,7 +1008,7 @@ class _InstallStepState extends State<_InstallStep> {
         if (status.progress >= 100) break;
         if (DateTime.now().difference(since) > const Duration(minutes: 2)) {
           throw StateError(
-            MiliLocale.t(
+            LookLocale.t(
               'تور با بریج‌های داخلی وصل نشد',
               "Tor couldn't connect with the built-in bridges",
             ),
@@ -1150,13 +1150,13 @@ class _InstallStepState extends State<_InstallStep> {
       buttons = [
         TextButton(
           onPressed: widget.onBack,
-          child: Text(MiliLocale.t('بازگشت', 'Back')),
+          child: Text(LookLocale.t('بازگشت', 'Back')),
         ),
         const Spacer(),
         FilledButton.icon(
           onPressed: () => _run(_rows.keys),
           icon: const Icon(Symbols.cloud_upload_rounded),
-          label: Text(MiliLocale.t('نصب و راه‌اندازی', 'Install')),
+          label: Text(LookLocale.t('نصب و راه‌اندازی', 'Install')),
         ),
       ];
     } else if (!_busy && failed.isNotEmpty) {
@@ -1169,7 +1169,7 @@ class _InstallStepState extends State<_InstallStep> {
               Center(
                 child: TextButton(
                   onPressed: _skip,
-                  child: Text(MiliLocale.t('فعلاً رد کن', 'Skip for now')),
+                  child: Text(LookLocale.t('فعلاً رد کن', 'Skip for now')),
                 ),
               ),
               const SizedBox(height: 8),
@@ -1179,7 +1179,7 @@ class _InstallStepState extends State<_InstallStep> {
                     Expanded(
                       child: OutlinedButton(
                         onPressed: _retryWithTor,
-                        child: Text(MiliLocale.t('تلاش دوباره با تور', 'Retry with Tor')),
+                        child: Text(LookLocale.t('تلاش دوباره با تور', 'Retry with Tor')),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -1188,7 +1188,7 @@ class _InstallStepState extends State<_InstallStep> {
                   Expanded(
                     child: FilledButton(
                       onPressed: () => _run(failed),
-                      child: Text(MiliLocale.t('تلاش دوباره', 'Retry')),
+                      child: Text(LookLocale.t('تلاش دوباره', 'Retry')),
                     ),
                   ),
                 ],
@@ -1203,17 +1203,17 @@ class _InstallStepState extends State<_InstallStep> {
     return _StepLayout(
       icon: Symbols.rocket_launch_rounded,
       title: widget.addingAccount
-          ? MiliLocale.t('نصب ورکر VPN', 'Install your VPN worker')
-          : MiliLocale.t('نصب MiliConfig', 'Install MiliConfig'),
+          ? LookLocale.t('نصب ورکر VPN', 'Install your VPN worker')
+          : LookLocale.t('نصب LookVPN', 'Install LookVPN'),
       buttons: buttons,
       children: [
         Text(
           widget.addingAccount
-              ? MiliLocale.t(
+              ? LookLocale.t(
                   'پروکسی شما روی کلادفلر به شکل یک Worker و یک پروژه Pages نصب می‌شود.',
                   'Your proxy will be deployed to Cloudflare as a Worker and a Pages project.',
                 )
-              : MiliLocale.t(
+              : LookLocale.t(
                   'پروکسی شما روی کلادفلر به شکل Worker و Pages نصب می‌شود و سپس حساب‌های WARP و MASQUE ثبت می‌شوند.',
                   'Your proxy will be deployed to Cloudflare as a Worker and a Pages project, '
                       'then WARP and MASQUE accounts are registered.',
@@ -1226,7 +1226,7 @@ class _InstallStepState extends State<_InstallStep> {
           DropdownMenu<CfAccount>(
             initialSelection: _account,
             expandedInsets: EdgeInsets.zero,
-            label: Text(MiliLocale.t('حساب کلادفلر', 'Cloudflare account')),
+            label: Text(LookLocale.t('حساب کلادفلر', 'Cloudflare account')),
             dropdownMenuEntries: [for (final a in accounts) DropdownMenuEntry(value: a, label: a.name)],
             onSelected: (a) {
               if (a != null) setState(() => _account = a);
@@ -1238,7 +1238,7 @@ class _InstallStepState extends State<_InstallStep> {
         if (_torProgress case final progress?) ...[
           const SizedBox(height: 12),
           Text(
-            MiliLocale.t(
+            LookLocale.t(
               'اتصال از طریق تور… $progress%',
               'Connecting through Tor… $progress%',
             ),
@@ -1254,7 +1254,7 @@ class _InstallStepState extends State<_InstallStep> {
         if (!_busy && failed.any((i) => _rows[i]!.network)) ...[
           const SizedBox(height: 12),
           Text(
-            MiliLocale.t(
+            LookLocale.t(
               'برخی مراحل به سرور نرسیدند. با یک VPN یا پروکسی دیگر دوباره تلاش کنید'
                   '${offerTor ? '، یا با تور تلاش کنید' : ''}، یا فعلاً رد کنید و بعداً از تب ابزارها کامل کنید.',
               "Some steps couldn't reach the server. Connect through another VPN or proxy and retry"
@@ -1266,7 +1266,7 @@ class _InstallStepState extends State<_InstallStep> {
         if (!_busy && failed.any((i) => (i == _Item.workers || i == _Item.pages) && !_rows[i]!.network)) ...[
           const SizedBox(height: 12),
           Text(
-            MiliLocale.t(
+            LookLocale.t(
               'نصب Workers انجام نشد. حساب کلادفلر را بررسی کنید یا از حساب دیگری استفاده کنید.',
               'Workers could not be deployed. Please check your Cloudflare account or use another account.',
             ),
@@ -1300,18 +1300,18 @@ class _DoneStep extends StatelessWidget {
     return _StepLayout(
       icon: Symbols.check_circle_rounded,
       title: skipped.isEmpty
-          ? MiliLocale.t('همه‌چیز آماده است', "You're all set")
-          : MiliLocale.t('تقریباً تمام شد', 'Almost done'),
+          ? LookLocale.t('همه‌چیز آماده است', "You're all set")
+          : LookLocale.t('تقریباً تمام شد', 'Almost done'),
       buttons: [
         Expanded(
           child: addingAccount
               ? FilledButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text(MiliLocale.t('تمام', 'Done')),
+                  child: Text(LookLocale.t('تمام', 'Done')),
                 )
               : FilledButton(
                   onPressed: state.finishSetup,
-                  child: Text(MiliLocale.t('شروع استفاده از MiliConfig', 'Start using MiliConfig')),
+                  child: Text(LookLocale.t('شروع استفاده از LookVPN', 'Start using LookVPN')),
                 ),
         ),
       ],
@@ -1336,7 +1336,7 @@ class _DoneStep extends StatelessWidget {
                   child: Text(
                     row.status == _Status.done
                         ? item.label
-                        : MiliLocale.t('${item.label} (رد شد)', '${item.label} (skipped)'),
+                        : LookLocale.t('${item.label} (رد شد)', '${item.label} (skipped)'),
                   ),
                 ),
               ],
@@ -1345,28 +1345,28 @@ class _DoneStep extends StatelessWidget {
         if (skipped.isNotEmpty) ...[
           const SizedBox(height: 16),
           Text(
-            MiliLocale.t(
+            LookLocale.t(
               'این پروتکل‌ها بعد از تکمیل راه‌اندازی در دسترس قرار می‌گیرند:',
               'These protocols will be available once you finish setting them up:',
             ),
           ),
           if (deploySkipped)
             Text(
-              MiliLocale.t(
+              LookLocale.t(
                 '• ورکر: در تنظیمات → VLESS → حساب‌های کلادفلر یک حساب اضافه کنید.',
                 '• Worker: add a Cloudflare account in Settings → VLESS → Cloudflare accounts.',
               ),
             ),
           if (registerSkipped)
             Text(
-              MiliLocale.t(
+              LookLocale.t(
                 '• WARP / MASQUE: تنظیمات → Warp یا Masque → ثبت.',
                 '• WARP / MASQUE: Settings → Warp or Masque → Register.',
               ),
             ),
           if (!addingAccount)
             Text(
-              MiliLocale.t(
+              LookLocale.t(
                 'Psiphon، Tor و Serverless بدون آن‌ها هم کار می‌کنند.',
                 'Psiphon, Tor and Serverless work without them.',
               ),

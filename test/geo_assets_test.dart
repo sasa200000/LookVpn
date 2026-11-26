@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:mili_vpn/models/settings.dart';
-import 'package:mili_vpn/services/xray_config.dart';
+import 'package:look_vpn/models/settings.dart';
+import 'package:look_vpn/services/xray_config.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Tags (country_code) in a geosite.dat / geoip.dat: a protobuf list whose entries

@@ -43,7 +43,7 @@ class WarpAccount {
     return a.privateKey.isEmpty || a.publicKey.isEmpty || a.ipv6.isEmpty ? null : a;
   }
 
-  /// WARP's base64 client_id as WireGuard reserved bytes, like MiliConfig's base64ToDecimal.
+  /// WARP's base64 client_id as WireGuard reserved bytes, like LookVPN's base64ToDecimal.
   static List<int> reservedFromClientId(String clientId) {
     try {
       final bytes = base64.decode(clientId);
@@ -69,7 +69,7 @@ class WarpException implements Exception {
 /// [WarpRegistrar.offeredEndpoints]).
 typedef WarpRegistration = ({WarpAccount account, List<String> endpoints});
 
-/// Registers WARP accounts directly from the device (MiliConfig's src/api/warp.ts).
+/// Registers WARP accounts directly from the device (LookVPN's src/api/warp.ts).
 class WarpRegistrar {
   static const _endpoint = 'https://api.cloudflareclient.com/v0a4005/reg';
 

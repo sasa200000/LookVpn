@@ -1,6 +1,6 @@
-import 'package:mili_vpn/state/app_state.dart';
-import 'package:mili_vpn/ui/status_card.dart';
-import 'package:mili_vpn/services/vpn_channel.dart';
+import 'package:look_vpn/state/app_state.dart';
+import 'package:look_vpn/ui/status_card.dart';
+import 'package:look_vpn/services/vpn_channel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -30,7 +30,7 @@ void main() {
     final state = AppState()
       ..status = VpnStatus.connecting
       ..exitDetail = 'Failed · Retrying…';
-    const channel = MethodChannel('miliconfig/core');
+    const channel = MethodChannel('lookvpn/core');
     final calls = <String>[];
     final messenger = tester.binding.defaultBinaryMessenger;
     messenger.setMockMethodCallHandler(channel, (call) async {

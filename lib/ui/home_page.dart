@@ -8,8 +8,8 @@ import 'config_view_page.dart';
 import 'connection_card.dart';
 import 'format.dart';
 import 'log_page.dart';
-import 'mili_hub_page.dart';
-import 'mili_logo.dart';
+import 'look_hub_page.dart';
+import 'look_logo.dart';
 import 'theme.dart';
 import 'status_card.dart';
 
@@ -25,10 +25,10 @@ class HomePage extends StatelessWidget {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const MiliShieldLogo(size: 28),
+            const LookLogo(size: 28),
             const SizedBox(width: 8),
             Text(
-              'MiliConfig',
+              'LookVPN',
               style: TextStyle(
                 fontWeight: FontWeight.w800,
                 letterSpacing: 0.4,
@@ -75,7 +75,7 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 14),
                 const StatusCard(),
                 const SizedBox(height: 14),
-                const _MiliHubStrip(),
+                const _LookHubStrip(),
                 const SizedBox(height: 14),
                 const _TrafficRow(),
               const SizedBox(height: 16),
@@ -414,10 +414,10 @@ class _AccountUsage extends StatelessWidget {
 }
 
 
-/// Quick-access glowing action strip for MiliConfig's exclusive tools:
-/// Clean IP pool, 1-tap presets, and live Mili Panel Sync.
-class _MiliHubStrip extends StatelessWidget {
-  const _MiliHubStrip();
+/// Quick-access glowing action strip for LookVPN's exclusive tools:
+/// Clean IP pool, 1-tap presets, and live Look Panel Sync.
+class _LookHubStrip extends StatelessWidget {
+  const _LookHubStrip();
 
   @override
   Widget build(BuildContext context) {
@@ -435,7 +435,7 @@ class _MiliHubStrip extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(18),
           onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => MiliHubPage(initialTab: tab)),
+            MaterialPageRoute(builder: (_) => LookHubPage(initialTab: tab)),
           ),
           child: Ink(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),

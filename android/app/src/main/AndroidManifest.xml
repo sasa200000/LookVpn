@@ -46,7 +46,7 @@
         </activity>
 
         <service
-            android:name=".MiliVpnService"
+            android:name=".LookVpnService"
             android:exported="false"
             android:foregroundServiceType="specialUse"
             android:permission="android.permission.BIND_VPN_SERVICE">
@@ -75,10 +75,10 @@
         </service>
 
         <service
-            android:name=".MiliTileService"
+            android:name=".LookTileService"
             android:exported="true"
             android:icon="@drawable/ic_stat_vpn"
-            android:label="MiliConfig"
+            android:label="LookVPN"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />

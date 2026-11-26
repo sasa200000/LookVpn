@@ -1,5 +1,5 @@
 name: Bug report (English)
-description: Report a problem with MiliConfig VPN
+description: Report a problem with LookVPN
 body:
   - type: markdown
     attributes:
@@ -19,7 +19,7 @@ body:
   - type: input
     id: app_version
     attributes:
-      label: MiliConfig app version
+      label: LookVPN app version
       description: Find the version in the app's About in Settings screen.
       placeholder: For example, 1.2.3
     validations:

@@ -33,7 +33,7 @@ class UpdateInstaller {
     final dir = Directory('$base/updates');
     if (await dir.exists()) await dir.delete(recursive: true);
     await dir.create(recursive: true);
-    final file = File('${dir.path}/MiliConfig-${update.version}.apk');
+    final file = File('${dir.path}/LookVPN-${update.version}.apk');
 
     final request = http.Request('GET', Uri.parse(url));
     final http.StreamedResponse response;

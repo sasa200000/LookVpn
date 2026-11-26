@@ -8,7 +8,7 @@ import '../models/settings.dart';
 import '../state/app_state.dart';
 import 'chip_menu.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 import 'theme.dart';
 
 typedef Validator = String? Function(String value);
@@ -119,7 +119,7 @@ String? validateHost(String v) =>
 /// Domain name used in routing rules.
 String? validateDomain(String v) => isDomain(v) ? null : 'Enter a domain';
 
-/// A standard DoH URL (MiliConfig's validateDoH): https, with a path ending in /dns-query.
+/// A standard DoH URL (LookVPN's validateDoH): https, with a path ending in /dns-query.
 bool _isDoh(Uri? uri) =>
     uri != null &&
     uri.scheme == 'https' &&
@@ -143,7 +143,7 @@ bool _isDnsUrl(String v, Set<String> schemes) {
 
 /// A plain IPv4 or IPv6 address (no port, no brackets).
 /// Local DNS: "localhost" (the system resolver), an IP (UDP DNS) or tcp://IP, with an optional
-/// port (MiliConfig's validateLocalDNS plus TCP; IPs only, so it never needs DNS itself).
+/// port (LookVPN's validateLocalDNS plus TCP; IPs only, so it never needs DNS itself).
 String? validateLocalDns(String v) =>
     v == 'localhost' ||
         isIp(v) ||
@@ -151,7 +151,7 @@ String? validateLocalDns(String v) =>
     ? null
     : 'Use an IP, tcp://IP or localhost';
 
-/// ECH DNS (MiliConfig's validateEchDNS, IPv6 allowed too): an IP (IPv4 or bare IPv6), or exactly
+/// ECH DNS (LookVPN's validateEchDNS, IPv6 allowed too): an IP (IPv4 or bare IPv6), or exactly
 /// https://IP/dns-query or https://[IPv6]/dns-query.
 String? validateEchDns(String v) {
   if (isIp(v)) return null;
@@ -168,7 +168,7 @@ String? validateIp(String v) => InternetAddress.tryParse(v) != null
     ? null
     : 'Enter an IP address, e.g. 8.8.8.8';
 
-/// Routing rules' IPs (MiliConfig: isIPv4CIDR / isIPv6CIDR): an IP, or a CIDR range.
+/// Routing rules' IPs (LookVPN: isIPv4CIDR / isIPv6CIDR): an IP, or a CIDR range.
 String? validateIpOrCidr(String v) =>
     isIp(v) || isCidr(v) ? null : 'Enter an IP or CIDR';
 
@@ -220,10 +220,10 @@ String? validateIpv4Endpoints(List<String> values) {
   return count >= 2 ? null : 'Add at least two IPv4 endpoints';
 }
 
-// DNS validators follow MiliConfig panel's (src/settings/validators.ts); IPv6 bare, as everywhere
+// DNS validators follow LookVPN panel's (src/settings/validators.ts); IPv6 bare, as everywhere
 // without a port.
 
-/// Cloudflare's DNS: a worker can't reach Cloudflare's own addresses (MiliConfig's list).
+/// Cloudflare's DNS: a worker can't reach Cloudflare's own addresses (LookVPN's list).
 const _cloudflareDns = {
   '1.1.1.1', '1.0.0.1', '1.1.1.2', '1.0.0.2', '1.1.1.3', '1.0.0.3', //
   '2606:4700:4700::1111', '2606:4700:4700::1001', '2606:4700:4700::1112', //
@@ -235,7 +235,7 @@ const _cloudflareDns = {
   'security.cloudflare-dns.com',
 };
 
-/// VLESS remote DNS (MiliConfig's validateRemoteDNS, stricter, and without DoT, which Xray's DNS
+/// VLESS remote DNS (LookVPN's validateRemoteDNS, stricter, and without DoT, which Xray's DNS
 /// doesn't have): https://host/dns-query or tcp://host, the host a domain or IP (IPv6 in
 /// brackets), with an optional port; through the worker, so not Cloudflare's.
 String? validateRemoteDns(String v) {
@@ -700,7 +700,7 @@ class _MultiSelectDialogState extends State<_MultiSelectDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(MiliLocale.t('انصراف', 'Cancel')),
+          child: Text(LookLocale.t('انصراف', 'Cancel')),
         ),
         FilledButton(
           onPressed: _selected.isEmpty
@@ -708,7 +708,7 @@ class _MultiSelectDialogState extends State<_MultiSelectDialog> {
               : () =>
                     Navigator.of(context)
                         .pop(widget.options.where(_selected.contains).toList()),
-          child: Text(MiliLocale.t('ذخیره', 'Save')),
+          child: Text(LookLocale.t('ذخیره', 'Save')),
         ),
       ],
     );
@@ -923,11 +923,11 @@ class _TextInputDialogState extends State<_TextInputDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(MiliLocale.t('انصراف', 'Cancel')),
+          child: Text(LookLocale.t('انصراف', 'Cancel')),
         ),
         FilledButton(
           onPressed: _save,
-          child: Text(MiliLocale.t('ذخیره', 'Save')),
+          child: Text(LookLocale.t('ذخیره', 'Save')),
         ),
       ],
     );

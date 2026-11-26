@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
 import 'state/app_state.dart';
-import 'ui/mili_home_shell.dart';
-import 'ui/mili_i18n.dart';
+import 'ui/look_home_shell.dart';
+import 'ui/look_i18n.dart';
 import 'ui/setup_wizard.dart';
 import 'ui/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MiliLocale.init();
+  await LookLocale.init();
   final state = AppState();
   await state.init();
-  runApp(MiliApp(state: state));
+  runApp(LookApp(state: state));
 }
 
-class MiliApp extends StatelessWidget {
+class LookApp extends StatelessWidget {
   final AppState state;
-  const MiliApp({super.key, required this.state});
+  const LookApp({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,10 @@ class MiliApp extends StatelessWidget {
           state.motionEnabled,
           state.pageTransition,
           state.meshBackground,
-          MiliLocale.code,
+          LookLocale.code,
         ]),
         builder: (context, _) => MaterialApp(
-          title: 'MiliConfig',
+          title: 'LookVPN',
           debugShowCheckedModeBanner: false,
           builder: (context, child) {
             final media = MediaQuery.of(context);
@@ -49,7 +49,7 @@ class MiliApp extends StatelessWidget {
                     media.disableAnimations || !state.motionEnabled.value,
               ),
               child: Directionality(
-                textDirection: MiliLocale.direction,
+                textDirection: LookLocale.direction,
                 child: SafeArea(
                   top: false,
                   child: child ?? const SizedBox.shrink(),
@@ -79,7 +79,7 @@ class MiliApp extends StatelessWidget {
   }
 }
 
-/// Opens SetupWizard on first launch (with Skip option), then the Bettbox MiliHomeShell.
+/// Opens SetupWizard on first launch (with Skip option), then the Bettbox LookHomeShell.
 class _Root extends StatelessWidget {
   const _Root();
 
@@ -90,7 +90,7 @@ class _Root extends StatelessWidget {
       duration: const Duration(milliseconds: 260),
       child: needsSetup
           ? const SetupWizard(key: ValueKey('setup'))
-          : const MiliHomeShell(key: ValueKey('home')),
+          : const LookHomeShell(key: ValueKey('home')),
     );
   }
 }

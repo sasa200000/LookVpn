@@ -8,7 +8,7 @@ import '../services/net_errors.dart';
 import '../services/vpn_channel.dart';
 import '../state/app_state.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 import 'prefs.dart';
 import 'setup_wizard.dart';
 
@@ -21,11 +21,11 @@ class CfAccountsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = AppScope.of(context);
     return ValueListenableBuilder<String>(
-      valueListenable: MiliLocale.code,
+      valueListenable: LookLocale.code,
       builder: (context, _, __) => Scaffold(
         appBar: ExpressiveSubpageHeader(
-          title: MiliLocale.t('حساب‌های کلادفلر', 'Cloudflare accounts'),
-          subtitle: MiliLocale.t(
+          title: LookLocale.t('حساب‌های کلادفلر', 'Cloudflare accounts'),
+          subtitle: LookLocale.t(
             'مدیریت اتصال، ورکرها و Pages',
             'Manage accounts, Workers and Pages',
           ),
@@ -37,7 +37,7 @@ class CfAccountsPage extends StatelessWidget {
             ),
           ),
           icon: const Icon(Symbols.add_rounded),
-          label: Text(MiliLocale.t('افزودن حساب', 'Add account')),
+          label: Text(LookLocale.t('افزودن حساب', 'Add account')),
         ),
         // One settings card of accounts, like the Settings page.
         body: ListView(
@@ -79,7 +79,7 @@ class _AccountTileState extends State<_AccountTile> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: Text(MiliLocale.t('انصراف', 'Cancel')),
+              child: Text(LookLocale.t('انصراف', 'Cancel')),
             ),
             FilledButton(
               onPressed: () => Navigator.of(context).pop(true),
@@ -96,13 +96,13 @@ class _AccountTileState extends State<_AccountTile> {
     final state = AppScope.read(context);
     final messenger = ScaffoldMessenger.of(context);
     if (!await _confirm(
-      MiliLocale.t('حساب حذف شود؟', 'Remove account?'),
-      MiliLocale.t(
+      LookLocale.t('حساب حذف شود؟', 'Remove account?'),
+      LookLocale.t(
         'دامنه‌های سفارشی و workerها از حساب کلادفلر ${account.label} حذف می‌شوند و سپس خود حساب از برنامه حذف می‌شود.',
         'Custom domains and workers will be removed from the Cloudflare account ${account.label}, '
             'and then the account itself will be removed from the app.',
       ),
-      MiliLocale.t('حذف', 'Remove'),
+      LookLocale.t('حذف', 'Remove'),
     )) {
       return;
     }
@@ -111,26 +111,26 @@ class _AccountTileState extends State<_AccountTile> {
       await state.removeCfAccount(account);
       messenger.showSnackBar(
         SnackBar(
-          content: Text(MiliLocale.t('حساب حذف شد', 'Account removed')),
+          content: Text(LookLocale.t('حساب حذف شد', 'Account removed')),
         ),
       );
     } catch (e) {
       if (!mounted) return;
       setState(() => _removing = false);
       final why = isNetworkError(e)
-          ? MiliLocale.t('کلادفلر در دسترس نیست.', "Can't reach Cloudflare.")
+          ? LookLocale.t('کلادفلر در دسترس نیست.', "Can't reach Cloudflare.")
           : (e is StateError ? e.message : '$e');
       if (await _confirm(
-        MiliLocale.t(
+        LookLocale.t(
           'پاک‌سازی کلادفلر انجام نشد',
           "Couldn't clean up Cloudflare",
         ),
-        MiliLocale.t(
+        LookLocale.t(
           '$why\n\nحساب به‌هرحال از برنامه حذف شود؟ workerها و دامنه‌های سفارشی در حساب کلادفلر می‌مانند؛ آن‌ها را از داشبورد کلادفلر حذف کنید.',
           '$why\n\nRemove the account from the app anyway? Its workers and custom domains stay in '
               'the Cloudflare account; delete them in the Cloudflare dashboard.',
         ),
-        MiliLocale.t('حذف به‌هرحال', 'Remove anyway'),
+        LookLocale.t('حذف به‌هرحال', 'Remove anyway'),
       )) {
         await state.removeCfAccount(account, cleanUp: false);
       }
@@ -160,7 +160,7 @@ class _AccountTileState extends State<_AccountTile> {
       subtitle: outdated.isEmpty
           ? null
           : Text(
-              MiliLocale.t('بروزرسانی worker موجود است', 'Worker update available'),
+              LookLocale.t('بروزرسانی worker موجود است', 'Worker update available'),
               style: TextStyle(color: scheme.primary),
             ),
       trailing: Row(
@@ -182,10 +182,10 @@ class _AccountTileState extends State<_AccountTile> {
                   state.redeploy(account, d.type);
                 }
               },
-              child: Text(MiliLocale.t('بروزرسانی', 'Update')),
+              child: Text(LookLocale.t('بروزرسانی', 'Update')),
             ),
           IconButton(
-            tooltip: MiliLocale.t('حذف حساب', 'Remove account'),
+            tooltip: LookLocale.t('حذف حساب', 'Remove account'),
             icon: Icon(Symbols.delete_outline_rounded, color: scheme.error),
             onPressed: busy ? null : _remove,
           ),
@@ -204,7 +204,7 @@ Future<void> openTokenPage(BuildContext context) async {
     messenger.showSnackBar(
       SnackBar(
         content: Text(
-          MiliLocale.t(
+          LookLocale.t(
             'لینک کپی شد. آن را در مرورگر باز کنید.',
             'Link copied. Open it in your browser.',
           ),

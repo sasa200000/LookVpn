@@ -6,12 +6,12 @@ import '../services/vpn_channel.dart';
 import '../state/app_state.dart';
 import 'expressive.dart';
 import 'license_page.dart';
-import 'mili_i18n.dart';
-import 'mili_logo.dart';
+import 'look_i18n.dart';
+import 'look_logo.dart';
 import 'update_sheet.dart';
 
-const miliSourceUrl = 'https://github.com/miladjahani/Milinovpn';
-const miliCommunityUrl = 'https://t.me/miliconfig';
+const lookSourceUrl = 'https://github.com/sasa200000/LookVpn';
+const lookCommunityUrl = 'https://t.me/lookvpn';
 
 /// The one place for app identity, updates, source code, community and license.
 /// Keeping these rows out of both the settings hub and the toolbox prevents the
@@ -71,7 +71,7 @@ class _AboutPageState extends State<AboutPage> {
     if (await VpnChannel.openUrl(url)) return;
     await Clipboard.setData(ClipboardData(text: url));
     messenger.showSnackBar(
-      SnackBar(content: Text(MiliLocale.t('لینک کپی شد', 'Link copied'))),
+      SnackBar(content: Text(LookLocale.t('لینک کپی شد', 'Link copied'))),
     );
   }
 
@@ -85,7 +85,7 @@ class _AboutPageState extends State<AboutPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              MiliLocale.t('شما آخرین نسخه را دارید', 'You are up to date'),
+              LookLocale.t('شما آخرین نسخه را دارید', 'You are up to date'),
             ),
           ),
         );
@@ -111,8 +111,8 @@ class _AboutPageState extends State<AboutPage> {
 
     return Scaffold(
       appBar: ExpressiveSubpageHeader(
-        title: MiliLocale.t('درباره و بروزرسانی', 'About & updates'),
-        subtitle: MiliLocale.t(
+        title: LookLocale.t('درباره و بروزرسانی', 'About & updates'),
+        subtitle: LookLocale.t(
           'نسخه، هسته‌ها، کد منبع و مجوز',
           'Version, cores, source and license',
         ),
@@ -126,14 +126,14 @@ class _AboutPageState extends State<AboutPage> {
               padding: const EdgeInsets.all(18),
               child: Row(
                 children: [
-                  const MiliShieldLogo(size: 58),
+                  const LookLogo(size: 58),
                   const SizedBox(width: 15),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'MiliConfig VPN',
+                          'LookVPN',
                           style: theme.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.w900,
                             letterSpacing: -0.4,
@@ -141,7 +141,7 @@ class _AboutPageState extends State<AboutPage> {
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          MiliLocale.t(
+                          LookLocale.t(
                             'کلاینت چندپروتکلی و کنترل کلادفلر',
                             'Multi-protocol VPN & Cloudflare control',
                           ),
@@ -192,7 +192,7 @@ class _AboutPageState extends State<AboutPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              MiliLocale.t(
+                              LookLocale.t(
                                 'بروزرسانی برنامه',
                                 'App updates',
                               ),
@@ -202,7 +202,7 @@ class _AboutPageState extends State<AboutPage> {
                               ),
                             ),
                             Text(
-                              MiliLocale.t(
+                              LookLocale.t(
                                 'بررسی و نصب امن نسخه جدید با همان امضای برنامه',
                                 'Check and install a signed release in place',
                               ),
@@ -231,8 +231,8 @@ class _AboutPageState extends State<AboutPage> {
                           : const Icon(Symbols.refresh_rounded, size: 18),
                       label: Text(
                         _checking
-                            ? MiliLocale.t('در حال بررسی…', 'Checking…')
-                            : MiliLocale.t(
+                            ? LookLocale.t('در حال بررسی…', 'Checking…')
+                            : LookLocale.t(
                                 'بررسی بروزرسانی',
                                 'Check for updates',
                               ),
@@ -249,21 +249,21 @@ class _AboutPageState extends State<AboutPage> {
                 children: [
                   _AboutRow(
                     icon: Symbols.code_rounded,
-                    title: MiliLocale.t('کد منبع', 'Source code'),
-                    subtitle: miliSourceUrl,
-                    onTap: () => _open(miliSourceUrl),
+                    title: LookLocale.t('کد منبع', 'Source code'),
+                    subtitle: lookSourceUrl,
+                    onTap: () => _open(lookSourceUrl),
                   ),
                   _divider(scheme),
                   _AboutRow(
                     icon: Symbols.support_agent_rounded,
-                    title: MiliLocale.t('پشتیبانی و جامعه', 'Community & support'),
-                    subtitle: '@miliconfig',
-                    onTap: () => _open(miliCommunityUrl),
+                    title: LookLocale.t('پشتیبانی و جامعه', 'Community & support'),
+                    subtitle: '@lookvpn',
+                    onTap: () => _open(lookCommunityUrl),
                   ),
                   _divider(scheme),
                   _AboutRow(
                     icon: Symbols.copyright_rounded,
-                    title: MiliLocale.t('مجوز متن‌باز', 'Open-source license'),
+                    title: LookLocale.t('مجوز متن‌باز', 'Open-source license'),
                     subtitle: 'GNU GPL v3.0',
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const LicensePageView()),
@@ -287,7 +287,7 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        MiliLocale.t('هسته‌های نصب‌شده', 'Installed cores'),
+                        LookLocale.t('هسته‌های نصب‌شده', 'Installed cores'),
                         style: const TextStyle(
                           fontSize: 12.5,
                           fontWeight: FontWeight.w800,
@@ -300,24 +300,24 @@ class _AboutPageState extends State<AboutPage> {
                     name: 'Xray',
                     value: _xray.isEmpty
                         ? (_loading
-                              ? MiliLocale.t('در حال خواندن…', 'Reading…')
-                              : MiliLocale.t('در دسترس نیست', 'Unavailable'))
+                              ? LookLocale.t('در حال خواندن…', 'Reading…')
+                              : LookLocale.t('در دسترس نیست', 'Unavailable'))
                         : _xray,
                   ),
                   _CoreLine(
                     name: 'Psiphon',
                     value: _psiphon.isEmpty
                         ? (_loading
-                              ? MiliLocale.t('در حال خواندن…', 'Reading…')
-                              : MiliLocale.t('در دسترس نیست', 'Unavailable'))
+                              ? LookLocale.t('در حال خواندن…', 'Reading…')
+                              : LookLocale.t('در دسترس نیست', 'Unavailable'))
                         : _psiphon,
                   ),
                   _CoreLine(
                     name: 'Tor',
                     value: _tor.isEmpty
                         ? (_loading
-                              ? MiliLocale.t('در حال خواندن…', 'Reading…')
-                              : MiliLocale.t('در دسترس نیست', 'Unavailable'))
+                              ? LookLocale.t('در حال خواندن…', 'Reading…')
+                              : LookLocale.t('در دسترس نیست', 'Unavailable'))
                         : _tor,
                   ),
                 ],
@@ -325,9 +325,9 @@ class _AboutPageState extends State<AboutPage> {
             ),
             const SizedBox(height: 14),
             Text(
-              MiliLocale.t(
-                'MiliConfig با احترام به حریم خصوصی، بدون تبلیغات و بدون جمع‌آوری داده ساخته شده است.',
-                'MiliConfig is built with respect for privacy, without ads or data collection.',
+              LookLocale.t(
+                'LookVPN با احترام به حریم خصوصی، بدون تبلیغات و بدون جمع‌آوری داده ساخته شده است.',
+                'LookVPN is built with respect for privacy, without ads or data collection.',
               ),
               textAlign: TextAlign.center,
               style: TextStyle(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mili_vpn/services/exit_location_service.dart';
+import 'package:look_vpn/services/exit_location_service.dart';
 
 void main() {
   test('Proton catalog keeps unique WireGuard servers with locations', () {

@@ -10,7 +10,7 @@ import '../services/vpn_channel.dart';
 import '../state/app_state.dart';
 import 'dns_server_dialog.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 import 'prefs.dart';
 import 'theme.dart';
 
@@ -488,8 +488,8 @@ class _DnsPageState extends State<DnsPage> {
     if (_isLoading) {
       return Scaffold(
         appBar: ExpressiveSubpageHeader(
-          title: MiliLocale.t('سرورهای DNS', 'DNS servers'),
-          subtitle: MiliLocale.t(
+          title: LookLocale.t('سرورهای DNS', 'DNS servers'),
+          subtitle: LookLocale.t(
             'DoH، DoQ، TCP و DNS محلی',
             'DoH, DoQ, TCP and local DNS',
           ),
@@ -500,8 +500,8 @@ class _DnsPageState extends State<DnsPage> {
 
     return Scaffold(
       appBar: ExpressiveSubpageHeader(
-        title: MiliLocale.t('سرورهای DNS', 'DNS servers'),
-        subtitle: MiliLocale.t(
+        title: LookLocale.t('سرورهای DNS', 'DNS servers'),
+        subtitle: LookLocale.t(
           'انتخاب، تست و مدیریت سرورهای امن',
           'Choose, test and manage encrypted resolvers',
         ),

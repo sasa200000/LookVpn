@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:mili_vpn/models/cf_account.dart';
-import 'package:mili_vpn/models/settings.dart';
-import 'package:mili_vpn/state/app_state.dart';
-import 'package:mili_vpn/ui/prefs.dart';
-import 'package:mili_vpn/ui/settings_page.dart';
+import 'package:look_vpn/models/cf_account.dart';
+import 'package:look_vpn/models/settings.dart';
+import 'package:look_vpn/state/app_state.dart';
+import 'package:look_vpn/ui/prefs.dart';
+import 'package:look_vpn/ui/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -44,12 +44,12 @@ void main() {
     FlutterSecureStorage.setMockInitialValues({});
     final messenger = tester.binding.defaultBinaryMessenger;
     messenger.setMockMethodCallHandler(
-      const MethodChannel('miliconfig/state'),
+      const MethodChannel('lookvpn/state'),
       (_) async => null,
     );
     addTearDown(
       () => messenger.setMockMethodCallHandler(
-        const MethodChannel('miliconfig/state'),
+        const MethodChannel('lookvpn/state'),
         null,
       ),
     );

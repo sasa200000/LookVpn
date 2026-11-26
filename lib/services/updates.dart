@@ -28,9 +28,9 @@ class UpdateException implements Exception {
 
 /// Checks the repository's latest release (drafts and pre-releases aren't "latest") against
 /// the installed version. Releases are tagged vX.Y.Z and carry one APK per ABI, named
-/// `miliconfig-X.Y.Z-<abi>.apk` (see .github/workflows/release.yml).
+/// `lookvpn-X.Y.Z-<abi>.apk` (see .github/workflows/release.yml).
 class UpdateChecker {
-  static const repository = 'miladjahani/Milinovpn';
+  static const repository = 'sasa200000/LookVpn';
   static const _latest = 'https://api.github.com/repos/$repository/releases/latest';
 
   final http.Client client;
@@ -46,7 +46,7 @@ class UpdateChecker {
             Uri.parse(_latest),
             headers: {
               'Accept': 'application/vnd.github+json',
-              'User-Agent': 'MiliConfig',
+              'User-Agent': 'LookVPN',
             },
           )
           .timeout(const Duration(seconds: 20));

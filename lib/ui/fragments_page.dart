@@ -5,7 +5,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import '../models/settings.dart';
 import '../state/app_state.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 import 'theme.dart';
 
 const _pad = 24.0;
@@ -129,7 +129,7 @@ class _FragmentsPageState extends State<FragmentsPage> {
           actions: [
             TextButton(
               onPressed: _dirty ? _save : null,
-              child: Text(MiliLocale.t('ذخیره', 'Save')),
+              child: Text(LookLocale.t('ذخیره', 'Save')),
             ),
           ],
         ),

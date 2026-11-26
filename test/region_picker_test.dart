@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mili_vpn/ui/region_picker.dart';
+import 'package:look_vpn/ui/region_picker.dart';
 
 void main() {
   test('labels the automatic choice and a country', () {

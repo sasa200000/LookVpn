@@ -28,8 +28,8 @@ class InstalledApp {
 
 /// Bridge to the Android VPN service and Xray core (see MainActivity.kt).
 class VpnChannel {
-  static const _methods = MethodChannel('miliconfig/core');
-  static const _events = EventChannel('miliconfig/state');
+  static const _methods = MethodChannel('lookvpn/core');
+  static const _events = EventChannel('lookvpn/state');
   static Future<bool>? _supportsAppendHttpProxy;
 
   static Future<bool> get supportsAppendHttpProxy {
@@ -189,12 +189,12 @@ class VpnChannel {
     }
   }
 
-  /// Domain Fronting's CA files (miliconfig-cert.crt / .key) are in the app's storage.
+  /// Domain Fronting's CA files (lookvpn-cert.crt / .key) are in the app's storage.
   static Future<bool> mitmCaExists() async => await _methods.invokeMethod<bool>('mitmCaExists') ?? false;
 
   static Future<void> saveMitmCa(MitmCa ca) => _methods.invokeMethod('saveMitmCa', {'cert': ca.cert, 'key': ca.key});
 
-  /// Opens Android's CA install; on Android 11+ after saving miliconfig-cert.crt to Downloads,
+  /// Opens Android's CA install; on Android 11+ after saving lookvpn-cert.crt to Downloads,
   /// whose path it returns.
   static Future<String?> installMitmCa() => _methods.invokeMethod<String>('installMitmCa');
 

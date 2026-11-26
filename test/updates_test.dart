@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mili_vpn/services/updates.dart';
+import 'package:look_vpn/services/updates.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -9,12 +9,12 @@ http.Response release(String tag) => http.Response(
   jsonEncode({
     'tag_name': tag,
     'body': 'Fixes',
-    'html_url': 'https://github.com/miladjahani/Milinovpn/releases/tag/$tag',
+    'html_url': 'https://github.com/sasa200000/LookVpn/releases/tag/$tag',
     'assets': [
       for (final abi in ['arm64-v8a', 'armeabi-v7a', 'x86_64'])
         {
-          'name': 'miliconfig-${tag.substring(1)}-$abi.apk',
-          'browser_download_url': 'https://github.com/x/releases/download/$tag/miliconfig-${tag.substring(1)}-$abi.apk',
+          'name': 'lookvpn-${tag.substring(1)}-$abi.apk',
+          'browser_download_url': 'https://github.com/x/releases/download/$tag/lookvpn-${tag.substring(1)}-$abi.apk',
         },
       {'name': 'SHA256SUMS', 'browser_download_url': 'https://github.com/x/SHA256SUMS'},
     ],
@@ -32,13 +32,13 @@ void main() {
 
   test('a newer release: its notes, and the APK for the first ABI it has', () async {
     final client = MockClient((req) async {
-      expect(req.url.toString(), 'https://api.github.com/repos/miladjahani/Milinovpn/releases/latest');
+      expect(req.url.toString(), 'https://api.github.com/repos/sasa200000/LookVpn/releases/latest');
       return release('v1.1.0');
     });
     final update = await UpdateChecker(client).check(installed: '1.0.0', abis: ['riscv64', 'armeabi-v7a']);
     expect(update!.version, '1.1.0');
     expect(update.notes, 'Fixes');
-    expect(update.apkUrl, endsWith('/miliconfig-1.1.0-armeabi-v7a.apk'));
+    expect(update.apkUrl, endsWith('/lookvpn-1.1.0-armeabi-v7a.apk'));
   });
 
   test('no update when the latest is this version (or older)', () async {

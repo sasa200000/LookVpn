@@ -59,7 +59,7 @@ val keystoreProperties = Properties().apply {
 }
 
 android {
-    namespace = "com.miliconfig.vpn"
+    namespace = "com.lookvpn.app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -69,7 +69,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.miliconfig.vpn"
+        applicationId = "com.lookvpn.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 24
@@ -80,7 +80,7 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        manifestPlaceholders["applicationLabel"] = "MiliConfig"
+        manifestPlaceholders["applicationLabel"] = "LookVPN"
     }
 
     signingConfigs {
@@ -105,7 +105,7 @@ android {
         debug {
             if (project.findProperty("dev") == "true") {
                 applicationIdSuffix = ".dev"
-                manifestPlaceholders["applicationLabel"] = "MiliConfig Dev"
+                manifestPlaceholders["applicationLabel"] = "LookVPN Dev"
             }
         }
         release {

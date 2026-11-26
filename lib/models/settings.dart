@@ -42,6 +42,9 @@ List<int> _intList(Object? v, List<int> def) =>
 Map<String, dynamic> _map(Object? v) =>
     v is Map ? Map<String, dynamic>.from(v) : const {};
 
+/// `#RRGGBB`, the only shape accepted for custom light-dance colours.
+final _hexColor = RegExp(r'^#[0-9a-fA-F]{6}$');
+
 /// Reads [path] ("vless.ech.enabled") from nested maps.
 Object? readPath(Map<String, dynamic> json, String path) {
   Object? node = json;
@@ -281,7 +284,7 @@ enum FragmentPackets {
   final String xray;
   const FragmentPackets(this.json, this.xray);
 
-  /// Shown as Xray's value, as in MiliConfig's panel.
+  /// Shown as Xray's value, as in LookVPN's panel.
   String get label => xray;
 
   static FragmentPackets parse(Object? v) =>
@@ -1192,6 +1195,14 @@ class DeviceSettings {
   /// the dashboard's edit mode.
   final List<String> dashboardCards;
 
+  /// Canary yellow, cyan, magenta, lime — a bright set that reads well on any surface.
+  static const defaultLightDanceColors = [
+    '#FFE100',
+    '#00E5FF',
+    '#FF3DDC',
+    '#7CFF3D',
+  ];
+
   /// Bento footprint for each dashboard card: `1x1`, `2x1` or `2x2`.
   final Map<String, String> dashboardSizes;
 
@@ -1206,6 +1217,28 @@ class DeviceSettings {
 
   /// Draws the Bento mesh backdrop. Turning it off leaves a flat surface for slower phones.
   final bool meshBackground;
+
+  /// The light-dance effect: rings of colour travelling around the connect button,
+  /// the download/upload metres, the protocol chip and the live chart.
+  final bool lightDance;
+
+  /// Which shape the dance draws (`LightDanceStyle` name).
+  final String lightDanceStyle;
+
+  /// Which colours it cycles (`LightDancePalette` name).
+  final String lightDancePalette;
+
+  /// Steps the colour once per this many seconds (1 = a new colour every second).
+  final double lightDanceColorStep;
+
+  /// Seconds for one full trip around a ring.
+  final double lightDanceSpeed;
+
+  /// Freezes the colour instead of cycling it (battery saver inside the dance).
+  final bool lightDanceColorCycle;
+
+  /// Hex colours (`#RRGGBB`) used by the Custom palette.
+  final List<String> lightDanceColors;
 
   /// Every widget that can be placed on the dashboard. The first block is
   /// live/connection data; the second maps one-to-one to the settings and tool
@@ -1320,6 +1353,13 @@ class DeviceSettings {
     this.pageTransition = 'fade',
     this.tabTransition = 'slide',
     this.meshBackground = true,
+    this.lightDance = true,
+    this.lightDanceStyle = 'orbit',
+    this.lightDancePalette = 'spectrum',
+    this.lightDanceColorStep = 1.0,
+    this.lightDanceSpeed = 1.6,
+    this.lightDanceColorCycle = true,
+    this.lightDanceColors = defaultLightDanceColors,
     this.deployment = '',
     this.scanners = const {},
     this.setupDone = false,
@@ -1333,6 +1373,7 @@ class DeviceSettings {
     final exit = _map(j['exit']);
     final theme = _map(j['theme']);
     final ui = _map(j['ui']);
+    final dance = _map(j['dance']);
     final dashboard = _map(j['dashboard']);
     final dashboardSizes = _map(dashboard['sizes']);
     final region = _str(exit['region'], d.exitRegion);
@@ -1422,6 +1463,30 @@ class DeviceSettings {
         d.tabTransition,
       ),
       meshBackground: _bool(ui['mesh'], d.meshBackground),
+      lightDance: _bool(dance['enabled'], d.lightDance),
+      lightDanceStyle: _choice(
+        dance['style'],
+        const {'orbit', 'comet', 'chase', 'pulse', 'marquee', 'cross', 'ripple'},
+        d.lightDanceStyle,
+      ),
+      lightDancePalette: _choice(
+        dance['palette'],
+        const {'spectrum', 'brand', 'canary', 'custom'},
+        d.lightDancePalette,
+      ),
+      lightDanceColorStep: _double(
+        dance['colorStep'],
+        d.lightDanceColorStep,
+      ).clamp(0.4, 4.0).toDouble(),
+      lightDanceSpeed: _double(
+        dance['speed'],
+        d.lightDanceSpeed,
+      ).clamp(0.6, 6.0).toDouble(),
+      lightDanceColorCycle: _bool(dance['colorCycle'], d.lightDanceColorCycle),
+      lightDanceColors: _strList(
+        dance['colors'],
+        d.lightDanceColors,
+      ).where(_hexColor.hasMatch).toList(),
       deployment: _str(j['deployment'], d.deployment),
       scanners: {
         for (final e in _map(j['scanners']).entries)
@@ -1475,6 +1540,15 @@ class DeviceSettings {
       'pageTransition': pageTransition,
       'tabTransition': tabTransition,
       'mesh': meshBackground,
+    },
+    'dance': {
+      'enabled': lightDance,
+      'style': lightDanceStyle,
+      'palette': lightDancePalette,
+      'colorStep': lightDanceColorStep,
+      'speed': lightDanceSpeed,
+      'colorCycle': lightDanceColorCycle,
+      'colors': lightDanceColors,
     },
     'deployment': deployment,
     'scanners': scanners,

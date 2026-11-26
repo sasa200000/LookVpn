@@ -8,7 +8,7 @@ import '../services/vpn_channel.dart';
 import '../state/app_state.dart';
 import 'chip_menu.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 
 /// The logs of the current (or last) connection, refreshed live: Xray's (VPN), and Tor's /
 /// Psiphon's when they ran, each as its program wrote it. Also the Xray log level.
@@ -133,19 +133,19 @@ class _LogPageState extends State<LogPage> {
 
     return Scaffold(
       appBar: ExpressiveSubpageHeader(
-        title: MiliLocale.t('لاگ زنده', 'Live logs'),
-        subtitle: MiliLocale.t(
+        title: LookLocale.t('لاگ زنده', 'Live logs'),
+        subtitle: LookLocale.t(
           'خروجی هسته با فیلتر و کپی',
           'Core output with filters and copy',
         ),
         actions: [
           IconButton(
-            tooltip: MiliLocale.t('کپی', 'Copy'),
+            tooltip: LookLocale.t('کپی', 'Copy'),
             onPressed: _lines.isEmpty ? null : _copy,
             icon: const Icon(Symbols.content_copy_rounded),
           ),
           IconButton(
-            tooltip: MiliLocale.t('پاک‌سازی', 'Clear'),
+            tooltip: LookLocale.t('پاک‌سازی', 'Clear'),
             onPressed: _lines.isEmpty ? null : _clear,
             icon: const Icon(Symbols.delete_rounded),
           ),

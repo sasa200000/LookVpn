@@ -7,7 +7,7 @@ import '../services/scanner_channel.dart';
 import '../services/xray_config.dart';
 import '../state/app_state.dart';
 import 'expressive.dart';
-import 'mili_i18n.dart';
+import 'look_i18n.dart';
 import 'prefs.dart';
 import 'theme.dart';
 
@@ -441,11 +441,11 @@ class _CloudflareScannerPageState extends State<CloudflareScannerPage> {
     final supported = ScannerChannel.isSupported;
     return Scaffold(
       appBar: ExpressiveSubpageHeader(
-        title: MiliLocale.t(
+        title: LookLocale.t(
           'اسکن عمیق ${_protocol.label}',
           '${_protocol.label} deep scan',
         ),
-        subtitle: MiliLocale.t(
+        subtitle: LookLocale.t(
           'تونل واقعی و اندازه‌گیری تأخیر هر آی‌پی',
           'Real tunnel latency for every candidate IP',
         ),
@@ -482,7 +482,7 @@ class _CloudflareScannerPageState extends State<CloudflareScannerPage> {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        MiliLocale.t(
+                        LookLocale.t(
                           'تأخیر واقعی را از طریق تونل ${_protocol.isMasque ? "MASQUE" : _protocol == ScanProtocol.warp ? "WARP" : "VLESS"} اندازه‌گیری می‌کند. شروع اسکن، VPN فعلی را قطع می‌کند.',
                           'Measures real latency through a ${_protocol.isMasque ? "MASQUE" : _protocol == ScanProtocol.warp ? "WARP" : "VLESS"} tunnel. Starting a scan disconnects the current VPN.',
                         ),
@@ -502,7 +502,7 @@ class _CloudflareScannerPageState extends State<CloudflareScannerPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
               child: Text(
-                MiliLocale.t(
+                LookLocale.t(
                   'اسکن در این دستگاه پشتیبانی نمی‌شود.',
                   'Scanning is currently available on Android.',
                 ),
@@ -510,7 +510,7 @@ class _CloudflareScannerPageState extends State<CloudflareScannerPage> {
               ),
             ),
           BentoSectionLabel(
-            MiliLocale.t('تنظیمات اسکن', 'Scan settings'),
+            LookLocale.t('تنظیمات اسکن', 'Scan settings'),
             icon: Symbols.tune_rounded,
           ),
           Card(

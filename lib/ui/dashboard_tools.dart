@@ -24,8 +24,8 @@ import 'format.dart';
 import 'fragments_page.dart';
 import 'interface_settings_page.dart';
 import 'log_page.dart';
-import 'mili_hub_page.dart';
-import 'mili_i18n.dart';
+import 'look_hub_page.dart';
+import 'look_i18n.dart';
 import 'noises_page.dart';
 import 'per_app_page.dart';
 import 'routing_page.dart';
@@ -273,7 +273,7 @@ class _SpeedTestSheetState extends State<_SpeedTestSheet> {
     final messenger = ScaffoldMessenger.of(context);
     setState(() {
       _running = true;
-      _stage = MiliLocale.t('اندازه‌گیری تأخیر…', 'Measuring latency…');
+      _stage = LookLocale.t('اندازه‌گیری تأخیر…', 'Measuring latency…');
       _down = 0;
       _up = 0;
       _ping = null;
@@ -327,7 +327,7 @@ class _SpeedTestSheetState extends State<_SpeedTestSheet> {
       }
       if (!mounted) return;
 
-      setState(() => _stage = MiliLocale.t('تست دانلود…', 'Testing download…'));
+      setState(() => _stage = LookLocale.t('تست دانلود…', 'Testing download…'));
       final downloadStopwatch = Stopwatch()..start();
       final request = http.Request('GET', Uri.parse(_servers[_server].downloadUrl))
         ..headers['Cache-Control'] = 'no-store';
@@ -361,7 +361,7 @@ class _SpeedTestSheetState extends State<_SpeedTestSheet> {
 
       if (_servers[_server].supportsUpload) {
         if (!mounted) return;
-        setState(() => _stage = MiliLocale.t('تست آپلود…', 'Testing upload…'));
+        setState(() => _stage = LookLocale.t('تست آپلود…', 'Testing upload…'));
         final payload = Uint8List(4 * 1024 * 1024);
         final uploadStopwatch = Stopwatch()..start();
         final upload = await client
@@ -417,15 +417,15 @@ class _SpeedTestSheetState extends State<_SpeedTestSheet> {
     return Column(
       children: [
         _SheetHeader(
-          title: MiliLocale.t('تست سرعت شبکه', 'Network speed test'),
-          subtitle: MiliLocale.t(
+          title: LookLocale.t('تست سرعت شبکه', 'Network speed test'),
+          subtitle: LookLocale.t(
             'دانلود، آپلود، پینگ، جیتر و پکت‌لاس واقعی',
             'Real download, upload, ping, jitter and packet loss',
           ),
           icon: Symbols.speed_rounded,
           actions: [
             IconButton(
-              tooltip: MiliLocale.t('تست دوباره', 'Run again'),
+              tooltip: LookLocale.t('تست دوباره', 'Run again'),
               onPressed: _running ? null : _run,
               icon: const Icon(Symbols.refresh_rounded),
             ),
@@ -447,7 +447,7 @@ class _SpeedTestSheetState extends State<_SpeedTestSheet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                MiliLocale.t('سرور تست', 'Test server'),
+                                LookLocale.t('سرور تست', 'Test server'),
                                 style: TextStyle(
                                   fontSize: 10,
                                   color: scheme.onSurfaceVariant,
@@ -594,7 +594,7 @@ class _SpeedTestSheetState extends State<_SpeedTestSheet> {
                         Expanded(
                           child: _Metric(
                             icon: Symbols.arrow_upward_rounded,
-                            label: MiliLocale.t('آپلود', 'Upload'),
+                            label: LookLocale.t('آپلود', 'Upload'),
                             value: '${_up.toStringAsFixed(1)} Mbps',
                             color: scheme.tertiary,
                           ),
@@ -640,8 +640,8 @@ class _SpeedTestSheetState extends State<_SpeedTestSheet> {
                             : const Icon(Symbols.play_arrow_rounded),
                         label: Text(
                           _running
-                              ? MiliLocale.t('در حال تست…', 'Testing…')
-                              : MiliLocale.t('شروع تست سرعت', 'Start speed test'),
+                              ? LookLocale.t('در حال تست…', 'Testing…')
+                              : LookLocale.t('شروع تست سرعت', 'Start speed test'),
                         ),
                       ),
                     ),
@@ -650,7 +650,7 @@ class _SpeedTestSheetState extends State<_SpeedTestSheet> {
               ),
               const SizedBox(height: 14),
               BentoSectionLabel(
-                MiliLocale.t('تاریخچه تست‌ها', 'Test history'),
+                LookLocale.t('تاریخچه تست‌ها', 'Test history'),
                 icon: Symbols.history_rounded,
               ),
               if (_history.isEmpty)
@@ -664,7 +664,7 @@ class _SpeedTestSheetState extends State<_SpeedTestSheet> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          MiliLocale.t(
+                          LookLocale.t(
                             'هنوز تستی ثبت نشده است. اولین تست را اجرا کنید.',
                             'No test recorded yet. Run your first test.',
                           ),
@@ -887,7 +887,7 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              MiliLocale.t('لاگ‌ها و کش موقت پاک شد', 'Logs and temporary cache cleared'),
+              LookLocale.t('لاگ‌ها و کش موقت پاک شد', 'Logs and temporary cache cleared'),
             ),
           ),
         );
@@ -905,7 +905,7 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
 
   Future<void> _copyStatus(AppState state) async {
     final text = [
-      'MiliConfig core status',
+      'LookVPN core status',
       'state: ${state.status.name}',
       'mode: ${state.mode.name}',
       'exit: ${state.exitNode.name}',
@@ -918,7 +918,7 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
     await Clipboard.setData(ClipboardData(text: text));
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(MiliLocale.t('وضعیت کپی شد', 'Status copied'))),
+        SnackBar(content: Text(LookLocale.t('وضعیت کپی شد', 'Status copied'))),
       );
     }
   }
@@ -947,15 +947,15 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
     return Column(
       children: [
         _SheetHeader(
-          title: MiliLocale.t('وضعیت هسته', 'Core status'),
-          subtitle: MiliLocale.t(
+          title: LookLocale.t('وضعیت هسته', 'Core status'),
+          subtitle: LookLocale.t(
             'نسخه، منابع، آپتایم و کنترل زنده',
             'Version, resources, uptime and live control',
           ),
           icon: Symbols.memory_rounded,
           actions: [
             IconButton(
-              tooltip: MiliLocale.t('کپی وضعیت', 'Copy status'),
+              tooltip: LookLocale.t('کپی وضعیت', 'Copy status'),
               onPressed: () => _copyStatus(state),
               icon: const Icon(Symbols.content_copy_rounded, size: 19),
             ),
@@ -986,8 +986,8 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
                             children: [
                               Text(
                                 connected
-                                    ? MiliLocale.t('هسته فعال است', 'Core is running')
-                                    : MiliLocale.t('هسته متوقف است', 'Core is stopped'),
+                                    ? LookLocale.t('هسته فعال است', 'Core is running')
+                                    : LookLocale.t('هسته متوقف است', 'Core is stopped'),
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w900,
@@ -999,7 +999,7 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
                                 connected
                                     ? _uptime(state)
                                     : (state.error ??
-                                          MiliLocale.t(
+                                          LookLocale.t(
                                             'برای شروع، اتصال را روشن کنید',
                                             'Start a connection to launch the core',
                                           )),
@@ -1064,7 +1064,7 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
               ),
               const SizedBox(height: 14),
               BentoSectionLabel(
-                MiliLocale.t('کنترل و نگهداری', 'Control & maintenance'),
+                LookLocale.t('کنترل و نگهداری', 'Control & maintenance'),
                 icon: Symbols.tune_rounded,
               ),
               BentoSurface(
@@ -1073,8 +1073,8 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
                   children: [
                     _CoreAction(
                       icon: Symbols.restart_alt_rounded,
-                      title: MiliLocale.t('راه‌اندازی مجدد هسته', 'Restart core'),
-                      subtitle: MiliLocale.t(
+                      title: LookLocale.t('راه‌اندازی مجدد هسته', 'Restart core'),
+                      subtitle: LookLocale.t(
                         'قطع و اتصال دوباره با همان تنظیمات',
                         'Reconnect with the same configuration',
                       ),
@@ -1086,7 +1086,7 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      MiliLocale.t(
+                                      LookLocale.t(
                                         'هسته دوباره راه‌اندازی شد',
                                         'Core restarted',
                                       ),
@@ -1099,8 +1099,8 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
                     _Divider(),
                     _CoreAction(
                       icon: Symbols.delete_sweep_rounded,
-                      title: MiliLocale.t('پاک‌سازی لاگ و کش', 'Clear logs & cache'),
-                      subtitle: MiliLocale.t(
+                      title: LookLocale.t('پاک‌سازی لاگ و کش', 'Clear logs & cache'),
+                      subtitle: LookLocale.t(
                         'آزادسازی فایل‌های موقت بدون قطع اتصال',
                         'Release temporary files without disconnecting',
                       ),
@@ -1116,8 +1116,8 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
                     _Divider(),
                     _CoreAction(
                       icon: Symbols.terminal_rounded,
-                      title: MiliLocale.t('لاگ زنده', 'Live logs'),
-                      subtitle: MiliLocale.t(
+                      title: LookLocale.t('لاگ زنده', 'Live logs'),
+                      subtitle: LookLocale.t(
                         'فیلتر منبع، کپی و پاک‌سازی خطوط',
                         'Source filters, copy and clear lines',
                       ),
@@ -1129,8 +1129,8 @@ class _CoreStatusSheetState extends State<_CoreStatusSheet> {
                       _Divider(),
                       _CoreAction(
                         icon: Symbols.hub_rounded,
-                        title: MiliLocale.t('مدیریت نودها', 'Manage nodes'),
-                        subtitle: MiliLocale.t(
+                        title: LookLocale.t('مدیریت نودها', 'Manage nodes'),
+                        subtitle: LookLocale.t(
                           'انتخاب، تست پینگ و تغییر نود فعال',
                           'Select, ping-test and switch the active node',
                         ),
@@ -1327,7 +1327,7 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
     await Clipboard.setData(ClipboardData(text: text));
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(MiliLocale.t('اطلاعات کپی شد', 'Details copied'))),
+        SnackBar(content: Text(LookLocale.t('اطلاعات کپی شد', 'Details copied'))),
       );
     }
   }
@@ -1359,20 +1359,20 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
     return Column(
       children: [
         _SheetHeader(
-          title: MiliLocale.t('آی‌پی و DNS', 'IP & DNS inspector'),
-          subtitle: MiliLocale.t(
+          title: LookLocale.t('آی‌پی و DNS', 'IP & DNS inspector'),
+          subtitle: LookLocale.t(
             'خروجی تونل، موقعیت، ISP و سلامت DNS',
             'Tunnel exit, location, ISP and DNS health',
           ),
           icon: Symbols.public_rounded,
           actions: [
             IconButton(
-              tooltip: MiliLocale.t('کپی', 'Copy'),
+              tooltip: LookLocale.t('کپی', 'Copy'),
               onPressed: _info == null ? null : _copy,
               icon: const Icon(Symbols.content_copy_rounded, size: 19),
             ),
             IconButton(
-              tooltip: MiliLocale.t('بروزرسانی', 'Refresh'),
+              tooltip: LookLocale.t('بروزرسانی', 'Refresh'),
               onPressed: _loading ? null : _refresh,
               icon: _loading
                   ? const SizedBox(
@@ -1402,7 +1402,7 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
                             children: [
                               Text(
                                 country.isEmpty
-                                    ? MiliLocale.t('آی‌پی خروج', 'Exit IP')
+                                    ? LookLocale.t('آی‌پی خروج', 'Exit IP')
                                     : '${countryFlag(country)} ${country.toUpperCase()}',
                                 style: const TextStyle(
                                   fontSize: 12,
@@ -1427,8 +1427,8 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
                         ),
                         BentoTag(
                           state.isConnected
-                              ? MiliLocale.t('از تونل', 'Via tunnel')
-                              : MiliLocale.t('مستقیم', 'Direct'),
+                              ? LookLocale.t('از تونل', 'Via tunnel')
+                              : LookLocale.t('مستقیم', 'Direct'),
                           icon: state.isConnected
                               ? Symbols.vpn_lock_rounded
                               : Symbols.language_rounded,
@@ -1439,7 +1439,7 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
                     const SizedBox(height: 15),
                     _InfoRow(
                       icon: Symbols.location_city_rounded,
-                      label: MiliLocale.t('شهر / منطقه', 'City / region'),
+                      label: LookLocale.t('شهر / منطقه', 'City / region'),
                       value:
                           '${info['city'] ?? '—'}${info['region'] != null ? ' · ${info['region']}' : ''}',
                     ),
@@ -1451,7 +1451,7 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
                     _InfoRow(
                       icon: Symbols.counter_6_rounded,
                       label: 'IPv6',
-                      value: _ipv6 ?? MiliLocale.t('در دسترس نیست', 'Not available'),
+                      value: _ipv6 ?? LookLocale.t('در دسترس نیست', 'Not available'),
                     ),
                     if (_error != null) ...[
                       const SizedBox(height: 8),
@@ -1465,7 +1465,7 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
               ),
               const SizedBox(height: 14),
               BentoSectionLabel(
-                MiliLocale.t('سرورهای DNS فعال', 'Active DNS servers'),
+                LookLocale.t('سرورهای DNS فعال', 'Active DNS servers'),
                 icon: Symbols.dns_rounded,
                 trailing: BentoTag(dnsType),
               ),
@@ -1532,7 +1532,7 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                MiliLocale.t('بررسی پیکربندی DNS', 'DNS configuration check'),
+                                LookLocale.t('بررسی پیکربندی DNS', 'DNS configuration check'),
                                 style: const TextStyle(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w800,
@@ -1540,11 +1540,11 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
                               ),
                               Text(
                                 leakSafe
-                                    ? MiliLocale.t(
+                                    ? LookLocale.t(
                                         'DNS رمزنگاری‌شده و Fake DNS فعال است',
                                         'Encrypted DNS and Fake DNS are active',
                                       )
-                                    : MiliLocale.t(
+                                    : LookLocale.t(
                                         'برای محافظت بیشتر، DNS رمزنگاری‌شده و Fake DNS را فعال کنید',
                                         'Enable encrypted DNS and Fake DNS for stronger protection',
                                       ),
@@ -1558,8 +1558,8 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
                         ),
                         BentoTag(
                           leakSafe
-                              ? MiliLocale.t('سالم', 'Healthy')
-                              : MiliLocale.t('بررسی', 'Review'),
+                              ? LookLocale.t('سالم', 'Healthy')
+                              : LookLocale.t('بررسی', 'Review'),
                           icon: leakSafe
                               ? Symbols.check_circle_rounded
                               : Symbols.warning_rounded,
@@ -1572,7 +1572,7 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
               ),
               const SizedBox(height: 14),
               BentoSectionLabel(
-                MiliLocale.t('پینگ DNS', 'DNS latency'),
+                LookLocale.t('پینگ DNS', 'DNS latency'),
                 icon: Symbols.network_ping_rounded,
               ),
               Row(
@@ -1630,7 +1630,7 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
                         MaterialPageRoute(builder: (_) => const DnsPage()),
                       ),
                       icon: const Icon(Symbols.dns_rounded, size: 17),
-                      label: Text(MiliLocale.t('مدیریت DNS', 'Manage DNS')),
+                      label: Text(LookLocale.t('مدیریت DNS', 'Manage DNS')),
                     ),
                   ),
                   const SizedBox(width: 9),
@@ -1638,7 +1638,7 @@ class _IpDnsSheetState extends State<_IpDnsSheet> {
                     child: FilledButton.icon(
                       onPressed: _loading ? null : _refresh,
                       icon: const Icon(Symbols.refresh_rounded, size: 17),
-                      label: Text(MiliLocale.t('بروزرسانی', 'Refresh')),
+                      label: Text(LookLocale.t('بروزرسانی', 'Refresh')),
                     ),
                   ),
                 ],
@@ -1714,23 +1714,23 @@ class QuickSettingAction {
   });
 
   String get localizedTitle => switch (id) {
-    'dpi' => MiliLocale.t(title, 'Anti-DPI'),
+    'dpi' => LookLocale.t(title, 'Anti-DPI'),
     'ipv6' => 'IPv6',
-    'fakedns' => MiliLocale.t(title, 'Fake DNS'),
-    'mode' => MiliLocale.t(title, 'Tunnel mode'),
-    'routing' => MiliLocale.t(title, 'Routing'),
+    'fakedns' => LookLocale.t(title, 'Fake DNS'),
+    'mode' => LookLocale.t(title, 'Tunnel mode'),
+    'routing' => LookLocale.t(title, 'Routing'),
     'dns' => 'DNS',
-    'fragment' => MiliLocale.t(title, 'Fragment'),
-    'noise' => MiliLocale.t(title, 'UDP noise'),
+    'fragment' => LookLocale.t(title, 'Fragment'),
+    'noise' => LookLocale.t(title, 'UDP noise'),
     'perapp' => 'Per-App',
     'worker' => 'Worker',
-    'lan' => MiliLocale.t(title, 'LAN sharing'),
-    'chain' => MiliLocale.t(title, 'Chain proxies'),
-    'cloudflare' => MiliLocale.t(title, 'Cloudflare'),
-    'tor' => MiliLocale.t(title, 'Tor bridges'),
-    'hub' => 'Mili Hub',
-    'logs' => MiliLocale.t(title, 'Live logs'),
-    'appearance' => MiliLocale.t(title, 'Appearance'),
+    'lan' => LookLocale.t(title, 'LAN sharing'),
+    'chain' => LookLocale.t(title, 'Chain proxies'),
+    'cloudflare' => LookLocale.t(title, 'Cloudflare'),
+    'tor' => LookLocale.t(title, 'Tor bridges'),
+    'hub' => 'Look Hub',
+    'logs' => LookLocale.t(title, 'Live logs'),
+    'appearance' => LookLocale.t(title, 'Appearance'),
     _ => title,
   };
 }
@@ -1835,7 +1835,7 @@ class QuickSettingsStore {
     QuickSettingAction(
       id: 'hub',
       icon: Symbols.hub_rounded,
-      title: 'Mili Hub',
+      title: 'Look Hub',
       subtitle: 'آی‌پی و پریست',
     ),
     QuickSettingAction(
@@ -1910,8 +1910,8 @@ class _QuickSettingsSheetState extends State<_QuickSettingsSheet> {
         return Column(
           children: [
             _SheetHeader(
-              title: MiliLocale.t('تنظیمات سریع', 'Quick settings'),
-              subtitle: MiliLocale.t(
+              title: LookLocale.t('تنظیمات سریع', 'Quick settings'),
+              subtitle: LookLocale.t(
                 'انتخاب، حذف و مرتب‌سازی کنترل‌های داشبورد',
                 'Choose, remove and reorder dashboard controls',
               ),
@@ -1933,7 +1933,7 @@ class _QuickSettingsSheetState extends State<_QuickSettingsSheet> {
                         const SizedBox(width: 11),
                         Expanded(
                           child: Text(
-                            MiliLocale.t(
+                            LookLocale.t(
                               'کارت «تنظیمات سریع» داشبورد همین موارد را نشان می‌دهد. برای مرتب‌سازی، دسته را بکشید.',
                               'The dashboard quick-settings card mirrors this list. Drag a row to reorder.',
                             ),
@@ -1949,14 +1949,14 @@ class _QuickSettingsSheetState extends State<_QuickSettingsSheet> {
                   ),
                   const SizedBox(height: 12),
                   BentoSectionLabel(
-                    MiliLocale.t('انتخاب‌شده‌ها', 'Selected'),
+                    LookLocale.t('انتخاب‌شده‌ها', 'Selected'),
                     icon: Symbols.checklist_rounded,
                     trailing: BentoTag('${selected.length}'),
                   ),
                   if (selected.isEmpty)
                     BentoSurface(
                       child: Text(
-                        MiliLocale.t(
+                        LookLocale.t(
                           'هنوز گزینه‌ای انتخاب نشده است.',
                           'Nothing selected yet.',
                         ),
@@ -2044,7 +2044,7 @@ class _QuickSettingsSheetState extends State<_QuickSettingsSheet> {
                                   ),
                                 IconButton(
                                   visualDensity: VisualDensity.compact,
-                                  tooltip: MiliLocale.t('حذف', 'Remove'),
+                                  tooltip: LookLocale.t('حذف', 'Remove'),
                                   onPressed: () {
                                     final next = List<String>.of(selected)
                                       ..remove(action.id);
@@ -2063,13 +2063,13 @@ class _QuickSettingsSheetState extends State<_QuickSettingsSheet> {
                     ),
                   const SizedBox(height: 4),
                   BentoSectionLabel(
-                    MiliLocale.t('افزودن گزینه', 'Add a control'),
+                    LookLocale.t('افزودن گزینه', 'Add a control'),
                     icon: Symbols.add_circle_rounded,
                   ),
                   if (available.isEmpty)
                     BentoSurface(
                       child: Text(
-                        MiliLocale.t(
+                        LookLocale.t(
                           'همه گزینه‌ها به داشبورد اضافه شده‌اند.',
                           'Every control is already on the dashboard.',
                         ),
@@ -2139,7 +2139,7 @@ class _QuickSettingsSheetState extends State<_QuickSettingsSheet> {
                     },
                     icon: const Icon(Symbols.restart_alt_rounded, size: 18),
                     label: Text(
-                      MiliLocale.t('بازگردانی پیش‌فرض', 'Restore defaults'),
+                      LookLocale.t('بازگردانی پیش‌فرض', 'Restore defaults'),
                     ),
                   ),
                 ],
@@ -2270,7 +2270,7 @@ Future<void> runQuickSetting(
       break;
     case 'hub':
       await Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const MiliHubPage()),
+        MaterialPageRoute(builder: (_) => const LookHubPage()),
       );
       break;
     case 'logs':

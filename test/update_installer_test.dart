@@ -4,14 +4,14 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:mili_vpn/services/update_installer.dart';
-import 'package:mili_vpn/services/updates.dart';
+import 'package:look_vpn/services/update_installer.dart';
+import 'package:look_vpn/services/updates.dart';
 
 void main() {
   late Directory cache;
 
   setUp(() async {
-    cache = await Directory.systemTemp.createTemp('mili-update-test');
+    cache = await Directory.systemTemp.createTemp('look-update-test');
   });
 
   tearDown(() async {
@@ -21,8 +21,8 @@ void main() {
   const update = AppUpdate(
     version: '2.2.0',
     notes: '',
-    pageUrl: 'https://github.com/miladjahani/Milinovpn/releases/tag/v2.2.0',
-    apkUrl: 'https://github.com/x/releases/download/v2.2.0/miliconfig-2.2.0-arm64-v8a.apk',
+    pageUrl: 'https://github.com/sasa200000/LookVpn/releases/tag/v2.2.0',
+    apkUrl: 'https://github.com/x/releases/download/v2.2.0/lookvpn-2.2.0-arm64-v8a.apk',
   );
 
   test('downloads a valid APK and reports progress', () async {
@@ -43,7 +43,7 @@ void main() {
 
     expect(await file.length(), bytes.length);
     expect(last, 1.0);
-    expect(file.path, endsWith('MiliConfig-2.2.0.apk'));
+    expect(file.path, endsWith('LookVPN-2.2.0.apk'));
   });
 
   test('rejects a non-APK response', () async {

@@ -76,7 +76,7 @@ class SavedCfAccount {
   final String name;
   final String token;
 
-  /// Email of the token's user (like MiliConfig-Wizard); empty if unknown.
+  /// Email of the token's user (like LookVPN-Wizard); empty if unknown.
   final String email;
 
   /// The VLESS UUID, shared by the account's deployments.

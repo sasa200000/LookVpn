@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:mili_vpn/models/settings.dart';
-import 'package:mili_vpn/services/scanner_channel.dart';
-import 'package:mili_vpn/services/warp.dart';
-import 'package:mili_vpn/state/app_state.dart';
-import 'package:mili_vpn/ui/cloudflare_scanner_page.dart';
-import 'package:mili_vpn/ui/prefs.dart';
+import 'package:look_vpn/models/settings.dart';
+import 'package:look_vpn/services/scanner_channel.dart';
+import 'package:look_vpn/services/warp.dart';
+import 'package:look_vpn/state/app_state.dart';
+import 'package:look_vpn/ui/cloudflare_scanner_page.dart';
+import 'package:look_vpn/ui/prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -33,8 +33,8 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
-    const methods = MethodChannel('miliconfig/core');
-    const events = MethodChannel('milivpn/scanner');
+    const methods = MethodChannel('lookvpn/core');
+    const events = MethodChannel('lookvpn/scanner');
     final messenger = tester.binding.defaultBinaryMessenger;
     messenger.setMockMethodCallHandler(methods, (call) async => null);
     messenger.setMockMethodCallHandler(events, (call) async => null);
@@ -102,7 +102,7 @@ void main() {
     await tester.pump();
     expect(find.byType(AlertDialog), findsNothing);
     await messenger.handlePlatformMessage(
-      'milivpn/scanner',
+      'lookvpn/scanner',
       const StandardMethodCodec().encodeSuccessEnvelope(
         jsonEncode({'type': 'done'}),
       ),
@@ -130,8 +130,8 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
     final messenger = tester.binding.defaultBinaryMessenger;
-    const methods = MethodChannel('miliconfig/core');
-    const events = MethodChannel('milivpn/scanner');
+    const methods = MethodChannel('lookvpn/core');
+    const events = MethodChannel('lookvpn/scanner');
     Map<String, dynamic>? sentOptions;
     messenger.setMockMethodCallHandler(methods, (call) async {
       if (call.method == 'scannerStart') {
@@ -185,7 +185,7 @@ void main() {
     expect(sentOptions!.keys, isNot(contains('ipIntervalMs')));
     expect(sentOptions!.keys, isNot(contains('trialIntervalMs')));
     await messenger.handlePlatformMessage(
-      'milivpn/scanner',
+      'lookvpn/scanner',
       const StandardMethodCodec().encodeSuccessEnvelope(
         jsonEncode({
           'type': 'done',

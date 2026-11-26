@@ -9,7 +9,7 @@ import 'local_proxy.dart';
 /// An exit IP and its two-letter country code (if known).
 typedef IpInfo = ({String ip, String? country});
 
-/// The two exit IPs the MiliConfig panel shows: one for sites behind Cloudflare
+/// The two exit IPs the LookVPN panel shows: one for sites behind Cloudflare
 /// (reached through the worker's proxy IP) and one for all other sites.
 class MyIps {
   final IpInfo? cloudflare;

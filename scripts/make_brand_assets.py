@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""MiliConfig's metallic neon M emblem, drawn for every launcher, splash and status-bar size.
+"""LookVPN's metallic neon M emblem, drawn for every launcher, splash and status-bar size.
 
 The mark is an angular, dark-metal M with a green neon rim, inside a thin green ring and
 a tilted orbital ring. Everything is drawn once at high resolution and downsampled, so the
