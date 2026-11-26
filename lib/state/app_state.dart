@@ -14,6 +14,7 @@ import '../models/mihomo_profile.dart';
 import '../models/settings.dart';
 import '../models/theme_color.dart';
 import '../services/anti_filter.dart';
+import '../services/endpoint_refresh.dart';
 import '../services/cloudflare_api.dart';
 import '../services/geo_assets.dart';
 import '../services/local_proxy.dart';
@@ -799,6 +800,7 @@ class AppState extends ChangeNotifier {
   Future<void> _applyAntiFilterRoute(AntiFilterRoute route) async {
     antiFilterSwitching = true;
     _antiFilterRoute = route;
+    _endpointsRefreshed = false;
     antiFilterFailures = 0;
     notifyListeners();
     try {
@@ -853,6 +855,12 @@ class AppState extends ChangeNotifier {
       unawaited(_applyAntiFilterRoute(current));
       return;
     }
+    // Before abandoning a Cloudflare route, check whether the configured edge addresses are
+    // simply stale. That recovers the fastest route instead of falling all the way to Tor.
+    if (current.usesCleanIps && await _refreshEndpointsIfStale()) {
+      unawaited(_applyAntiFilterRoute(current));
+      return;
+    }
     final next = AntiFilterLadder.after(current, antiFilterUsable);
     if (next == null) {
       error =
@@ -863,12 +871,61 @@ class AppState extends ChangeNotifier {
     await _applyAntiFilterRoute(next);
   }
 
+  /// Whether endpoints were refreshed for the current run, so a refresh storm cannot happen.
+  bool _endpointsRefreshed = false;
+
+  /// The last refresh's report, for the Anti-filter page.
+  EndpointRefresh? lastEndpointRefresh;
+
+  bool get refreshingEndpoints => _refreshingEndpoints;
+  bool _refreshingEndpoints = false;
+
+  /// Probes the bundled pool and swaps in the addresses that answer from this network.
+  ///
+  /// Returns true when it found something and changed the settings, which means the caller
+  /// should retry the same route rather than escalating. Only runs once per failure streak:
+  /// probing costs a few seconds of waiting, and a second probe on the same network finds the
+  /// same nothing.
+  Future<bool> _refreshEndpointsIfStale() async {
+    if (_endpointsRefreshed || _refreshingEndpoints) return false;
+    final s = selected;
+    if (s == null) return false;
+    _refreshingEndpoints = true;
+    lastEndpointRefresh = null;
+    notifyListeners();
+    try {
+      final refresh = await EndpointRefresher().refreshOffThread(
+        ports: [443, 8443, 2053],
+        sample: 24,
+        keep: 8,
+      );
+      lastEndpointRefresh = refresh;
+      _endpointsRefreshed = true;
+      if (!refresh.foundAnything) return false;
+      // Only replace the list when it actually differs, otherwise the deployment would be
+      // marked dirty and redeployed for nothing.
+      final current = vless.cleanIps;
+      if (refresh.ips.length == current.length &&
+          refresh.ips.every(current.contains)) {
+        return false;
+      }
+      write('vless.cleanIps', refresh.ips);
+      return true;
+    } catch (_) {
+      return false;
+    } finally {
+      _refreshingEndpoints = false;
+      notifyListeners();
+    }
+  }
+
   /// Marks the current rung as working, which is where the ladder should stay.
   void _recordAntiFilterSuccess() {
     if (!antiFilterEnabled || antiFilterSwitching) return;
     final current = antiFilterRoute;
     if (current == null) return;
     antiFilterFailures = 0;
+    _endpointsRefreshed = false;
     _stallWatchdog.reset();
     _antiFilterSteps = [
       for (final step in antiFilterSteps)

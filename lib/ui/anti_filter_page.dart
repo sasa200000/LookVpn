@@ -90,6 +90,42 @@ class AntiFilterPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                if (state.refreshingEndpoints || state.lastEndpointRefresh != null)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+                    child: BentoSurface(
+                      padding: const EdgeInsets.all(14),
+                      child: Row(
+                        children: [
+                          if (state.refreshingEndpoints)
+                            const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          else
+                            BentoIcon(Symbols.dns_rounded, filled: true),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              state.refreshingEndpoints
+                                  ? LookLocale.t(
+                                      'در حال پیدا کردن آی‌پی‌های تازه…',
+                                      'Looking for fresh edge addresses…',
+                                    )
+                                  : LookLocale.t(
+                                      'آخرین تازه‌سازی: '
+                                      '${state.lastEndpointRefresh!.summary}',
+                                      'Last refresh: '
+                                      '${state.lastEndpointRefresh!.summary}',
+                                    ),
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 SectionHeader(
                   LookLocale.t('مسیرها به ترتیب', 'Routes in order'),
                   icon: Symbols.route_rounded,

@@ -47,6 +47,13 @@ enum AntiFilterRoute {
     tor => ConnectionMode.tor,
   };
 
+  /// Whether this route reaches Cloudflare through the configured clean IPs, and so can be
+  /// recovered by refreshing them when they go stale.
+  bool get usesCleanIps =>
+      this == workerNormal ||
+      this == workerFragment ||
+      this == serverlessPacket;
+
   /// The Worker / WARP variant this rung needs, if any.
   ConnectionVariant? get variant => switch (this) {
     workerNormal => ConnectionVariant.normal,
