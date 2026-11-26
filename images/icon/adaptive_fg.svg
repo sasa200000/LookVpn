@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <radialGradient id="halo" cx="50%" cy="50%" r="52%">
+      <stop offset="0" stop-color="#2BFF62" stop-opacity="0.18"/>
+      <stop offset="0.66" stop-color="#0A3A1A" stop-opacity="0.09"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2E6446"/>
+      <stop offset="0.45" stop-color="#0B1B12"/>
+      <stop offset="1" stop-color="#040C07"/>
+    </linearGradient>
+    <linearGradient id="metalL" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#397A55"/>
+      <stop offset="1" stop-color="#07130C"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3.2"/>
+    </filter>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.1"/>
+    </filter>
+  </defs>
+
+  <!-- 108dp adaptive layer: keep the whole emblem inside the 66dp safe circle. -->
+  <g transform="translate(23.04 23.04) scale(0.64)">
+  <circle cx="64" cy="64" r="56" fill="url(#halo)"/>
+
+  <!-- Outer neon ring -->
+  <circle cx="64" cy="62" r="44.5" fill="none" stroke="#39FF5A" stroke-width="3.2"
+          opacity="0.7" filter="url(#glow)"/>
+  <circle cx="64" cy="62" r="44.5" fill="none" stroke="#8CFF9E" stroke-width="0.9"/>
+
+  <!-- Orbital band -->
+  <g transform="rotate(-18 64 62.5)">
+    <ellipse cx="64" cy="62.5" rx="49" ry="19.75" fill="none" stroke="#39FF5A"
+             stroke-width="2.8" opacity="0.72" filter="url(#glow)"/>
+    <ellipse cx="64" cy="62.5" rx="49" ry="19.75" fill="none" stroke="#5BFF78"
+             stroke-width="1.7"/>
+    <ellipse cx="64" cy="62.5" rx="49" ry="19.75" fill="none" stroke="#D8FFDE"
+             stroke-width="0.35" opacity="0.7"/>
+  </g>
+
+  <!-- The angular M: two chiselled blades and a wide central V -->
+  <g filter="url(#glow)" opacity="0.6" stroke="#39FF5A" fill="none">
+    <path d="M29.75 25.6 21 96.25 41.75 76.25 37.5 37.5Z" stroke-width="2.4"/>
+    <path d="M98.25 25.6 107 96.25 86.25 76.25 90.5 37.5Z" stroke-width="2.4"/>
+    <path d="M29.75 25.6 64 91.25 98.25 25.6" stroke-width="17.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <path d="M58.75 85.6 64 100.6 69.25 85.6Z" fill="#07130C" stroke="#39FF5A"
+        stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M29.75 25.6 64 91.25 98.25 25.6" fill="none" stroke="#39FF5A"
+        stroke-width="17.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M29.75 25.6 64 91.25 98.25 25.6" fill="none" stroke="url(#metal)"
+        stroke-width="14.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M29.75 25.6 64 91.25 98.25 25.6" fill="none" stroke="#E8FFEC"
+        stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+
+  <path d="M29.75 25.6 21 96.25 41.75 76.25 37.5 37.5Z" fill="url(#metalL)"
+        stroke="#39FF5A" stroke-width="0.95" stroke-linejoin="round"/>
+  <path d="M98.25 25.6 107 96.25 86.25 76.25 90.5 37.5Z" fill="url(#metal)"
+        stroke="#39FF5A" stroke-width="0.95" stroke-linejoin="round"/>
+  <path d="M37.5 37.5 41.75 76.25" fill="none" stroke="#D8FFE0" stroke-width="0.35"
+        opacity="0.55"/>
+  <path d="M90.5 37.5 86.25 76.25" fill="none" stroke="#D8FFE0" stroke-width="0.35"
+        opacity="0.45"/>
+
+  <g fill="#E8FFEC">
+    <circle cx="29.75" cy="26.25" r="0.9" filter="url(#soft)"/>
+    <circle cx="98.25" cy="26.25" r="0.9" filter="url(#soft)"/>
+  </g>
+  </g>
+</svg>

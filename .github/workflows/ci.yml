@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.47.7
+          channel: stable
+          cache: true
+
+      - run: flutter pub get --enforce-lockfile
+
+      # The release pipeline generates these before building; tests only need the
+      # asset bundle to exist. An empty Tor directory keeps the embedded-bridge
+      # test correctly skipped instead of pretending the build has bridges.
+      - name: Prepare generated assets for tests
+        run: |
+          mkdir -p assets/tor
+          touch worker/worker.min.js
+
+      - name: Routing data for tests
+        run: bash scripts/fetch_geo.sh
+
+      - name: Analyze (errors only)
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - run: flutter test --no-pub

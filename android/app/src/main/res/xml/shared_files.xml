@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Files the app hands to other apps through the share sheet (FileProvider). -->
+<paths>
+    <cache-path name="shared" path="shared/" />
+    <!-- The downloaded update APK, handed to Android's package installer. -->
+    <cache-path name="updates" path="updates/" />
+</paths>
