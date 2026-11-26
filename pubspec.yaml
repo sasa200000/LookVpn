@@ -2,7 +2,7 @@ name: look_vpn
 description: "LookVPN — Multi-protocol VPN & Cloudflare Control Client."
 publish_to: "none"
 
-version: 2.4.9+24
+version: 2.5.0+25
 
 environment:
   sdk: ^3.13.5
