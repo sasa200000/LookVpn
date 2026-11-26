@@ -461,17 +461,17 @@ class _RingPainter extends CustomPainter {
         case LightDanceStyle.orbit:
           _sweep(canvas, rrect, size, paint, blur);
         case LightDanceStyle.comet:
-          _comet(paint, center, circleRadius, blur, pass);
+          _comet(canvas, paint, center, circleRadius, blur, pass);
         case LightDanceStyle.chase:
-          _chase(paint, center, circleRadius, blur, pass);
+          _chase(canvas, paint, center, circleRadius, blur, pass);
         case LightDanceStyle.pulse:
-          _pulse(paint, center, circleRadius, blur, pass);
+          _pulse(canvas, paint, center, circleRadius, blur, pass);
         case LightDanceStyle.marquee:
-          _marquee(paint, rrect, size, blur, pass);
+          _marquee(canvas, paint, rrect, size, blur, pass);
         case LightDanceStyle.cross:
-          _cross(paint, center, circleRadius, blur, pass);
+          _cross(canvas, paint, center, circleRadius, blur, pass);
         case LightDanceStyle.ripple:
-          _ripple(paint, rrect, size, blur, pass);
+          _ripple(canvas, paint, rrect, size, blur, pass);
       }
     }
   }
@@ -501,7 +501,7 @@ class _RingPainter extends CustomPainter {
   }
 
   /// A short arc with a fading tail running around the ring.
-  void _comet(Paint paint, Offset c, double r, double blur, int pass) {
+  void _comet(Canvas canvas, Paint paint, Offset c, double r, double blur, int pass) {
     final head = phase * math.pi * 2;
     const segments = 26;
     const span = math.pi * 0.85;
@@ -526,7 +526,7 @@ class _RingPainter extends CustomPainter {
   }
 
   /// Three evenly spaced arcs chasing each other.
-  void _chase(Paint paint, Offset c, double r, double blur, int pass) {
+  void _chase(Canvas canvas, Paint paint, Offset c, double r, double blur, int pass) {
     const arc = math.pi * 0.42;
     for (var i = 0; i < 3; i++) {
       final start = phase * math.pi * 2 + i * math.pi * 2 / 3;
@@ -541,7 +541,7 @@ class _RingPainter extends CustomPainter {
   }
 
   /// A breathing double ring.
-  void _pulse(Paint paint, Offset c, double r, double blur, int pass) {
+  void _pulse(Canvas canvas, Paint paint, Offset c, double r, double blur, int pass) {
     final breathe = 0.5 + 0.5 * math.sin(phase * math.pi * 2);
     final alpha = pass == 0 ? 0.30 : 0.35 + 0.65 * breathe;
     paint
@@ -556,7 +556,7 @@ class _RingPainter extends CustomPainter {
   }
 
   /// A dashed ring whose dashes brighten in sequence.
-  void _marquee(Paint paint, RRect rrect, Size size, double blur, int pass) {
+  void _marquee(Canvas canvas, Paint paint, RRect rrect, Size size, double blur, int pass) {
     const dash = 9.0;
     const gapCount = 26;
     final metrics = (Path()..addRRect(rrect)).computeMetrics().first;
@@ -577,7 +577,7 @@ class _RingPainter extends CustomPainter {
   }
 
   /// Two counter-rotating arcs.
-  void _cross(Paint paint, Offset c, double r, double blur, int pass) {
+  void _cross(Canvas canvas, Paint paint, Offset c, double r, double blur, int pass) {
     const arc = math.pi * 0.5;
     final rect = Rect.fromCircle(center: c, radius: r);
     paint
@@ -590,7 +590,7 @@ class _RingPainter extends CustomPainter {
   }
 
   /// A brightness wave travelling around the ring.
-  void _ripple(Paint paint, RRect rrect, Size size, double blur, int pass) {
+  void _ripple(Canvas canvas, Paint paint, RRect rrect, Size size, double blur, int pass) {
     const segments = 48;
     final metrics = (Path()..addRRect(rrect)).computeMetrics().first;
     for (var i = 0; i < segments; i++) {

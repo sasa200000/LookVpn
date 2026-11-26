@@ -8,6 +8,7 @@ import '../state/app_state.dart';
 import 'expressive.dart';
 import 'look_i18n.dart';
 import 'look_light_dance.dart';
+import 'prefs.dart';
 import 'theme.dart';
 
 /// The light-dance control room: pick the shape, the colour journey, how fast it

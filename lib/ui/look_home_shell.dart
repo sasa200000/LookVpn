@@ -169,7 +169,7 @@ class _LookHomeShellState extends State<LookHomeShell>
       if (!mounted) return;
       final state = AppScope.read(context);
       LookLightDance.instance
-        ..setActive(state.lightDance)
+        ..setActive(state.lightDance.value.enabled)
         ..syncFromTheme(state.themeColor.value);
       unawaited(state.checkForUpdate(silent: true));
     });
