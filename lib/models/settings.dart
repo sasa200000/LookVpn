@@ -1240,6 +1240,16 @@ class DeviceSettings {
   /// Hex colours (`#RRGGBB`) used by the Custom palette.
   final List<String> lightDanceColors;
 
+  /// The anti-filter ladder: when the chosen route stops passing traffic, move down the
+  /// ladder to a route that fails differently (see `AntiFilterLadder`).
+  final bool antiFilter;
+
+  /// Let the ladder move on its own. When off, the ladder only reports and waits for a tap.
+  final bool antiFilterEscalate;
+
+  /// The rung the ladder last settled on, as an `AntiFilterRoute` name; empty until it runs.
+  final String antiFilterRoute;
+
   /// Every widget that can be placed on the dashboard. The first block is
   /// live/connection data; the second maps one-to-one to the settings and tool
   /// destinations. Nothing here is a fixed six-card limit.
@@ -1360,6 +1370,9 @@ class DeviceSettings {
     this.lightDanceSpeed = 1.6,
     this.lightDanceColorCycle = true,
     this.lightDanceColors = defaultLightDanceColors,
+    this.antiFilter = true,
+    this.antiFilterEscalate = true,
+    this.antiFilterRoute = '',
     this.deployment = '',
     this.scanners = const {},
     this.setupDone = false,
@@ -1374,6 +1387,7 @@ class DeviceSettings {
     final theme = _map(j['theme']);
     final ui = _map(j['ui']);
     final dance = _map(j['dance']);
+    final antiFilter = _map(j['antiFilter']);
     final dashboard = _map(j['dashboard']);
     final dashboardSizes = _map(dashboard['sizes']);
     final region = _str(exit['region'], d.exitRegion);
@@ -1487,6 +1501,9 @@ class DeviceSettings {
         dance['colors'],
         d.lightDanceColors,
       ).where(_hexColor.hasMatch).toList(),
+      antiFilter: _bool(antiFilter['enabled'], d.antiFilter),
+      antiFilterEscalate: _bool(antiFilter['escalate'], d.antiFilterEscalate),
+      antiFilterRoute: _str(antiFilter['route'], d.antiFilterRoute),
       deployment: _str(j['deployment'], d.deployment),
       scanners: {
         for (final e in _map(j['scanners']).entries)
@@ -1540,6 +1557,11 @@ class DeviceSettings {
       'pageTransition': pageTransition,
       'tabTransition': tabTransition,
       'mesh': meshBackground,
+    },
+    'antiFilter': {
+      'enabled': antiFilter,
+      'escalate': antiFilterEscalate,
+      'route': antiFilterRoute,
     },
     'dance': {
       'enabled': lightDance,

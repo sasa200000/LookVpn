@@ -13,6 +13,7 @@ import '../models/cf_account.dart';
 import '../models/mihomo_profile.dart';
 import '../models/settings.dart';
 import '../models/theme_color.dart';
+import '../services/anti_filter.dart';
 import '../services/cloudflare_api.dart';
 import '../services/geo_assets.dart';
 import '../services/local_proxy.dart';
@@ -666,6 +667,10 @@ class AppState extends ChangeNotifier {
     );
     lightDance.value = dance;
     LookLightDance.instance.apply(dance);
+    if (device.antiFilter && antiFilterSteps.isEmpty) {
+      antiFilterSteps = AntiFilterLadder.fresh(availableModes);
+      antiFilterRoute = AntiFilterLadder.best(antiFilterSteps);
+    }
   }
 
   /// Defaults everywhere except the private parts and the configured clean IPs and endpoints.
@@ -721,6 +726,169 @@ class AppState extends ChangeNotifier {
 
   // endregion
 
+  // region anti-filter
+
+  /// The ladder's live state: one step per usable rung, with results so far.
+  List<AntiFilterStep> antiFilterSteps = const [];
+
+  /// The rung being used, or the one that will be tried next.
+  AntiFilterRoute? antiFilterRoute;
+
+  /// How many connections in a row have failed on the current rung.
+  int antiFilterFailures = 0;
+
+  /// Set while the ladder is switching rungs, so its own reconnects do not look like user
+  /// action.
+  bool antiFilterSwitching = false;
+
+  /// The stalled-tunnel watchdog for the current session.
+  final _stallWatchdog = StallWatchdog();
+
+  /// Seconds a stalled tunnel must be silent before the ladder moves on. Surfaced in the UI.
+  Duration get antiFilterQuiet => _stallWatchdog.quiet;
+
+  bool get antiFilterEnabled => device.antiFilter;
+
+  /// The rungs this install can use right now.
+  List<AntiFilterRoute> get antiFilterUsable =>
+      AntiFilterLadder.usable(availableModes);
+
+  /// Turns the ladder on or off. Turning it on rebuilds the ladder from the current state.
+  void setAntiFilter(bool value) {
+    write('device.antiFilter.enabled', value);
+    if (value) {
+      resetAntiFilter();
+    } else {
+      antiFilterSteps = const [];
+      antiFilterRoute = null;
+      antiFilterFailures = 0;
+      notifyListeners();
+    }
+  }
+
+  void setAntiFilterEscalate(bool value) =>
+      write('device.antiFilter.escalate', value);
+
+  /// Clears every rung back to untried, so a fresh run starts at the top of the ladder.
+  void resetAntiFilter() {
+    antiFilterSteps = AntiFilterLadder.fresh(availableModes);
+    antiFilterRoute = antiFilterSteps.firstOrNull?.route;
+    antiFilterFailures = 0;
+    _stallWatchdog.reset();
+    notifyListeners();
+  }
+
+  /// Switches the connection to [route]'s type and variant, then reconnects. Used by the
+  /// ladder itself and by the Settings page when the user taps a route.
+  Future<void> applyAntiFilterRoute(AntiFilterRoute route) =>
+      _applyAntiFilterRoute(route);
+
+  /// Switches the connection to [route]'s type and variant, then reconnects.
+  ///
+  /// Writes through the same settings paths the UI uses, so nothing here can put the app in a
+  /// state the settings screens disagree with.
+  Future<void> _applyAntiFilterRoute(AntiFilterRoute route) async {
+    antiFilterSwitching = true;
+    antiFilterRoute = route;
+    antiFilterFailures = 0;
+    notifyListeners();
+    try {
+      final wasConnected = status != VpnStatus.disconnected;
+      if (wasConnected) {
+        await disconnect();
+        // The service needs a moment to tear the tunnel down before a new one is built.
+        await Future<void>.delayed(const Duration(milliseconds: 350));
+      }
+      write('device.connection.type', route.mode.name);
+      final variant = route.variant;
+      if (variant != null) {
+        write('device.connection.${route.mode.name}Variant', variant.name);
+      }
+      final masque = route.masqueVariant;
+      if (masque != null) write('device.connection.masqueVariant', masque.name);
+      final serverless = route.serverlessMode;
+      if (serverless != null) {
+        write('device.connection.serverlessMode', serverless.name);
+      }
+      write('device.antiFilter.route', route.name);
+      await connect();
+    } finally {
+      antiFilterSwitching = false;
+      notifyListeners();
+    }
+  }
+
+  /// Records the current rung's outcome and, when it keeps failing, moves to the next rung.
+  ///
+  /// Called from the connection state handler: a "disconnected after trying" is a failure, and
+  /// so is a tunnel that came up but never passed a byte (see [_stallWatchdog]).
+  Future<void> _recordAntiFilterFailure(String? detail) async {
+    if (!antiFilterEnabled || antiFilterSwitching) return;
+    if (isMihomo) return;
+    final current = antiFilterRoute;
+    if (current == null) {
+      if (antiFilterSteps.isEmpty) resetAntiFilter();
+      return;
+    }
+    antiFilterFailures++;
+    antiFilterSteps = [
+      for (final step in antiFilterSteps)
+        step.route == current
+            ? step.withResult(AntiFilterResult.failed, detail: detail)
+            : step,
+    ];
+    notifyListeners();
+    if (!device.antiFilterEscalate) return;
+    if (!AntiFilterLadder.shouldEscalate(antiFilterFailures)) {
+      // One failure is not proof: retry the same rung once before changing anything.
+      unawaited(_applyAntiFilterRoute(current));
+      return;
+    }
+    final next = AntiFilterLadder.after(current, antiFilterUsable);
+    if (next == null) {
+      error =
+          'Every route in the anti-filter ladder was blocked. Turn on Tor or try another network.';
+      notifyListeners();
+      return;
+    }
+    await _applyAntiFilterRoute(next);
+  }
+
+  /// Marks the current rung as working, which is where the ladder should stay.
+  void _recordAntiFilterSuccess() {
+    if (!antiFilterEnabled || antiFilterSwitching) return;
+    final current = antiFilterRoute;
+    if (current == null) return;
+    antiFilterFailures = 0;
+    _stallWatchdog.reset();
+    antiFilterSteps = [
+      for (final step in antiFilterSteps)
+        step.route == current
+            ? step.withResult(AntiFilterResult.worked)
+            : step,
+    ];
+    notifyListeners();
+  }
+
+  /// Feeds the watchdog; returns the traffic counters it needs. Called by the 2 s traffic timer.
+  void _checkAntiFilterStall(int totalBytes, Duration elapsed) {
+    if (!antiFilterEnabled || !isConnected || antiFilterSwitching) return;
+    if (_stallWatchdog.sample(totalBytes: totalBytes, elapsed: elapsed)) {
+      antiFilterSteps = [
+        for (final step in antiFilterSteps)
+          step.route == antiFilterRoute
+              ? step.withResult(
+                  AntiFilterResult.stalled,
+                  detail: 'no traffic for ${_stallWatchdog.quiet.inSeconds}s',
+                )
+              : step,
+      ];
+      unawaited(_recordAntiFilterFailure('tunnel up but silent'));
+    }
+  }
+
+  // endregion
+
   // region VPN
 
   void _onVpnState(VpnStateEvent event) {
@@ -772,6 +940,7 @@ class AppState extends ChangeNotifier {
         unawaited(refreshUsage());
         _redeployDue(); // The API may only be reachable through the tunnel.
       }
+      _recordAntiFilterSuccess();
     } else {
       _trafficTimer?.cancel();
       upSpeed = downSpeed = 0;
@@ -779,6 +948,12 @@ class AppState extends ChangeNotifier {
         pingMs = null;
         myIps = null;
         needsReconnect = false;
+        // A disconnect with an error is a failed attempt (the service reports one when the
+        // core dies or the handshake is rejected). A plain user disconnect carries no error,
+        // and a failed connect never reaches "connected", so neither moves the ladder.
+        if (error != null) {
+          unawaited(_recordAntiFilterFailure(error));
+        }
       }
     }
     notifyListeners();
@@ -807,6 +982,10 @@ class AppState extends ChangeNotifier {
           downSpeed = t.down;
           totalUp = t.totalUp;
           totalDown = t.totalDown;
+          _checkAntiFilterStall(
+            t.totalUp + t.totalDown,
+            const Duration(seconds: 2),
+          );
         }
         // The dashboard has its own 2s ticker. Avoid rebuilding the whole app (all tabs and
         // the shell) just to update two labels.
@@ -861,6 +1040,8 @@ class AppState extends ChangeNotifier {
       status = VpnStatus.disconnected;
       error = e is StateError ? e.message : '$e';
       notifyListeners();
+      // A connect that throws never reaches the state handler, so escalate from here too.
+      unawaited(_recordAntiFilterFailure(error));
     }
   }
 

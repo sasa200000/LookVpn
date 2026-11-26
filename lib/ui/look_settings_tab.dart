@@ -15,6 +15,7 @@ import 'exit_locations_page.dart';
 import 'expressive.dart';
 import 'fragments_page.dart';
 import 'config_view_page.dart';
+import 'anti_filter_page.dart';
 import 'interface_settings_page.dart';
 import 'license_page.dart';
 import 'log_page.dart';
@@ -173,6 +174,17 @@ class _LookSettingsTabState extends State<LookSettingsTab> {
       ),
       keywords: 'look hub ip pool presets panel sync clean cloudflare پنل آی پی',
       onTap: (context) => _push(context, const LookHubPage()),
+    ),
+    _SettingsDestination(
+      icon: Symbols.shield_rounded,
+      title: LookLocale.t('دور زدن فیلتر', 'Anti-filter'),
+      subtitle: LookLocale.t(
+        'نردبان مسیرها، جابه‌جایی خودکار و وضعیت هر مسیر',
+        'Route ladder, automatic escalation and each route\'s state',
+      ),
+      keywords: 'anti filter censorship dpi block bypass ladder tor psiphon '
+          'فیلتر دور زدن سانسور',
+      onTap: (context) => _push(context, const AntiFilterPage()),
     ),
     _SettingsDestination(
       icon: Symbols.palette_rounded,
